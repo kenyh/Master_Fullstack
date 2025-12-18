@@ -1,0 +1,23 @@
+services:
+  web:
+    image: miphp
+    build: .
+    container_name: php
+    ports:
+      - "8080:80"
+    environment:
+      - PGHOST=db
+    volumes:
+      - ./src:/var/www/html
+    restart: unless-stopped
+  db:
+    image: postgres:17-alpine
+    container_name: db
+    environment:
+      POSTGRES_USER: actividad1
+      POSTGRES_PASSWORD: actividad1
+      POSTGRES_DB: actividad1
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
