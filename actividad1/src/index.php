@@ -23,10 +23,10 @@
   <header>
     <H1>Biblioteca de Series</H1>
   </header>
-  <main class="container flex-fill">
-    <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-4 col-log-3 col-xl-2 col-xxl-1">
-        <div class="card border-primary">
+  <main class="container-fluid flex-fill">
+    <div class="row border">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">
+        <div class="card border-primary border-3 shadow">
           <div class="card-body">
             <h5 class="card-title">Plataformas</h5>
             <p class="card-text">Una exaustiva lista de plataformas de streaming disponibles actualmente para ver todas tus series favoritas.</p>
@@ -34,8 +34,8 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-log-3 col-xl-2 col-xxl-1">
-        <div class="card">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">
+        <div class="card border-primary border-3 shadow">
           <div class="card-body">
             <h5 class="card-title">Idiomas</h5>
             <p class="card-text">Lista de idiomas disponibles en las series.</p>
@@ -43,14 +43,32 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-log-3 col-xl-2 col-xxl-1">
-        Directores
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">
+        <div class="card border-primary border-3 shadow">
+          <div class="card-body">
+            <h5 class="card-title">Directores</h5>
+            <p class="card-text">Lista de directores.</p>
+            <a href="/views/directors/list.php" class="btn btn-primary">Ir al listado</a>
+          </div>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-log-3 col-xl-2 col-xxl-1">
-        Actores y actrices
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">
+        <div class="card border-primary border-3 shadow">
+          <div class="card-body">
+            <h5 class="card-title">Actores y actrices</h5>
+            <p class="card-text">Lista de actores y actrices.</p>
+            <a href="/views/actors/list.php" class="btn btn-primary">Ir al listado</a>
+          </div>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-log-3 col-xl-2 col-xxl-1">
-        Series
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">
+        <div class="card border-primary border-3 shadow">
+          <div class="card-body">
+            <h5 class="card-title">Series</h5>
+            <p class="card-text">Lista de series disponibles.</p>
+            <a href="/views/series/list.php" class="btn btn-primary">Ir al listado</a>
+          </div>
+        </div>
       </div>
     </div>
     </div>
