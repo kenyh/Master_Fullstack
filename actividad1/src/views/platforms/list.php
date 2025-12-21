@@ -12,9 +12,16 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-    <header class="bg-dark text-center text-white p-2">
-        <h1>Plataformas</h1>
-    </header>
+    <nav class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="/views/platforms/list.php" class="nav-link active">Plataformas</a></li>
+            <li class="nav-item"><a href="/views/languages/list.php" class="nav-link">Idiomas</a></li>
+            <li class="nav-item"><a href="/views/directors/list.php" class="nav-link">Directores</a></li>
+            <li class="nav-item"><a href="/views/actors/list.php" class="nav-link">Actores</a></li>
+            <li class="nav-item"><a href="/views/series/list.php" class="nav-link">Series</a></li>
+        </ul>
+    </nav>
     <main class="container flex-fill">
         <div class="d-flex justify-content-center p-2"><a href="create.php" class="btn btn-primary">Crear</a></div>
         <div class="d-flex justify-content-center">
@@ -22,8 +29,7 @@
             $controller = new PlatformController();
             $platforms = $controller->getAll();
             if (count($platforms) > 0) {
-            ?>
-                <table class="table table-bordered w-auto">
+            ?> <table class="table table-bordered w-auto">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
