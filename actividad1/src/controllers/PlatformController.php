@@ -2,7 +2,8 @@
 require_once __DIR__ . '/../models/Database.php';
 require_once __DIR__ . '/../models/Platform.php';
 
-class PlatformController {
+class PlatformController
+{
 
     private ?PDO $connection = null;
 
@@ -23,13 +24,11 @@ class PlatformController {
         $platforms = [];
 
         foreach ($filas as $fila) {
-            
-            $platform = new Platform($fila['platformId'],$fila['name']);
-            array_push($platforms,$platform);
+
+            $platform = new Platform($fila['platformId'], $fila['name']);
+            array_push($platforms, $platform);
         }
-        
+
         return $platforms;
     }
 }
-
-?>
