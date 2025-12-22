@@ -30,8 +30,7 @@
         <div class="d-flex justify-content-center p-2"><a href="create.php" class="btn btn-primary">Crear</a></div>
         <div class="d-flex justify-content-center">
             <?php
-            $controller = PlatformController::getInstance();
-            $platforms = $controller->getAll();
+            $platforms = listPlatforms();   //listaPlatforms y los demás métodos según ejemplo visto en clase están en el scope global
             if (count($platforms) > 0) {
             ?> <table class="table table-bordered w-auto">
                     <thead>

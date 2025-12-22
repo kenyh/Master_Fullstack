@@ -1,44 +1,9 @@
 <?php
-require_once __DIR__ . '/../models/Database.php';
-require_once __DIR__ . '/../models/Platform.php';
+require_once __DIR__ . '/../models/PlatformRepository.php';
 
-class PlatformController
+function listPlatforms()
 {
-
-    private ?PDO $connection = null;
-    private static ?PlatformController $instance = null;
-
-    private function __construct()
-    {
-        $this->connection = Database::getConnection();
-    }
-
-    public static function getInstance(): PlatformController
-    {
-        if (self::$instance === null) {
-            self::$instance = new PlatformController();
-        }
-
-        return self::$instance;
-    }
-
-    public function getAll(): array
-    {
-        $query = 'SELECT * FROM platform ORDER BY "name" ';
-
-        $stmt = $this->connection->prepare($query); //Acá podría pasar parámetros.
-        $stmt->execute();
-
-        $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $platforms = [];
-
-        foreach ($filas as $fila) {
-
-            $platform = new Platform($fila['platformId'], $fila['name']);
-            array_push($platforms, $platform);
-        }
-
-        return $platforms;
-    }
-}
+    $platformRepository = new PlatformRepository();
+    $platforms = $platformRepository->getAll();
+    return $platforms;  
+}   
