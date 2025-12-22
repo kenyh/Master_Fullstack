@@ -1,4 +1,4 @@
-CREATE TABLE platform (
+CREATE TABLE platforms (
     "platformId" SERIAL PRIMARY KEY,
     "name" TEXT NOT NULL UNIQUE
 );
@@ -33,7 +33,7 @@ CREATE TABLE series (
     title TEXT NOT NULL,
     "platformId" INTEGER NOT NULL,
     "directorId" INTEGER NOT NULL,
-    CONSTRAINT "series_platformId_fk" FOREIGN KEY ("platformId") REFERENCES platform("platformId"),
+    CONSTRAINT "series_platformId_fk" FOREIGN KEY ("platformId") REFERENCES platforms("platformId"),
     CONSTRAINT "series_directorId_fk" FOREIGN KEY ("directorId") REFERENCES directors("directorId")
 );
 

@@ -1,3 +1,5 @@
+<?php require_once __DIR__ . '/../../controllers/LanguageController.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +26,46 @@
         <H1>Listado de Idiomas</H1>
     </header>
     <main class="container flex-fill">
-        <h1>NO IMPLEMENTADO!!</h1>
+        <div class="d-flex justify-content-center p-2"><a href="create.php" class="btn btn-primary">Crear</a></div>
+        <div class="d-flex justify-content-center">
+            <?php
+            $listado = listLanguages();   //listLanguages y los demás métodos según ejemplo visto en clase están en el scope global
+            if (count($listado) > 0) {
+            ?> <table class="table table-bordered w-auto">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">ISO Code</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($listado as $fila):
+                        ?>
+                            <tr>
+                                <th scope="row"><?php echo $fila->getPlatformId() ?></th>
+                                <td><?php echo $fila->getName() ?></td>
+                                <td><?php echo $fila->getIsoCode() ?></td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <a href="edit.php?filaId=<?php echo $fila->getPlatformId() ?>" class="btn btn-success">Editar</a>
+                                        <a href="delete.php?filaId=<?php echo $fila->getPlatformId() ?>" class="btn btn-danger">Borrar</a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        <?php
+                        endforeach;
+                        ?>
+                    </tbody>
+                </table>
+            <?php } else { ?>
+                <div class="alert alert-warning">Aún no hay plataformas</div>
+            <?php } ?>
+        </div>
+
     </main>
     <footer class="bg-light text-center py-2">
         <small>Backend - Grupo 11 - Actividad 1</small>

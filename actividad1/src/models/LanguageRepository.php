@@ -2,13 +2,13 @@
 
 require_once __DIR__ . '/BaseRepository.php';
 require_once __DIR__ . '/Database.php';
-require_once __DIR__ . '/Platform.php';
-class PlatformRepository extends BaseRepository
+require_once __DIR__ . '/Language.php';
+class LanguageRepository extends BaseRepository
 {
 
     public function getAll(): array
     {
-        $query = 'SELECT * FROM platforms ORDER BY "name" ';
+        $query = 'SELECT * FROM languages ORDER BY "name" ';
 
         /** @var PDO $connection */
         $connection = Database::getConnection();
@@ -17,14 +17,14 @@ class PlatformRepository extends BaseRepository
 
         $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $platforms = [];
+        $languages = [];
 
         foreach ($filas as $fila) {
-            $platform = new Platform($fila['platformId'], $fila['name']);
-            array_push($platforms, $platform);
+            $language = new Language($fila['languageId'], $fila['name'], $fila['iso_code']);
+            array_push($languages, $language);
         }
 
-        return $platforms;
+        return $languages;
     }
 
     public function getByIds(array $ids): array

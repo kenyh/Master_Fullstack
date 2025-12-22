@@ -15,7 +15,7 @@
     <nav class="d-flex justify-content-center py-3">
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="/views/platforms/list.php" class="nav-link active">Plataformas</a></li>
+            <li class="nav-item"><a href="/views/listado/list.php" class="nav-link active">Plataformas</a></li>
             <li class="nav-item"><a href="/views/languages/list.php" class="nav-link">Idiomas</a></li>
             <li class="nav-item"><a href="/views/directors/list.php" class="nav-link">Directores</a></li>
             <li class="nav-item"><a href="/views/actors/list.php" class="nav-link">Actores</a></li>
@@ -30,8 +30,8 @@
         <div class="d-flex justify-content-center p-2"><a href="create.php" class="btn btn-primary">Crear</a></div>
         <div class="d-flex justify-content-center">
             <?php
-            $platforms = listPlatforms();   //listaPlatforms y los demás métodos según ejemplo visto en clase están en el scope global
-            if (count($platforms) > 0) {
+            $listado = listPlatforms();   //listaPlatforms y los demás métodos según ejemplo visto en clase están en el scope global
+            if (count($listado) > 0) {
             ?> <table class="table table-bordered w-auto">
                     <thead>
                         <tr>
@@ -42,15 +42,15 @@
                     </thead>
                     <tbody>
                         <?php
-                        foreach ($platforms as $platform):
+                        foreach ($listado as $fila):
                         ?>
                             <tr>
-                                <th scope="row"><?php echo $platform->getPlatformId() ?></th>
-                                <td><?php echo $platform->getName() ?></td>
+                                <th scope="row"><?php echo $fila->getPlatformId() ?></th>
+                                <td><?php echo $fila->getName() ?></td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="edit.php?platformId=<?php echo $platform->getPlatformId() ?>" class="btn btn-success">Editar</a>
-                                        <a href="delete.php?platformId=<?php echo $platform->getPlatformId() ?>" class="btn btn-danger">Borrar</a>
+                                        <a href="edit.php?platformId=<?php echo $fila->getPlatformId() ?>" class="btn btn-success">Editar</a>
+                                        <a href="delete.php?platformId=<?php echo $fila->getPlatformId() ?>" class="btn btn-danger">Borrar</a>
                                     </div>
 
                                 </td>

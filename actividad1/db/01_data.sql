@@ -1,4 +1,4 @@
-INSERT INTO platform (name) VALUES
+INSERT INTO platforms (name) VALUES
 ('Netflix'),
 ('HBO Max'),
 ('Amazon Prime Video'),
