@@ -22,6 +22,10 @@
             <li class="nav-item"><a href="/views/series/list.php" class="nav-link">Series</a></li>
         </ul>
     </nav>
+
+    <header>
+        <H1>Listado de plataformas</H1>
+    </header>
     <main class="container flex-fill">
         <div class="d-flex justify-content-center p-2"><a href="create.php" class="btn btn-primary">Crear</a></div>
         <div class="d-flex justify-content-center">
