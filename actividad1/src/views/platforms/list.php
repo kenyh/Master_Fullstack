@@ -30,7 +30,7 @@
         <div class="d-flex justify-content-center p-2"><a href="create.php" class="btn btn-primary">Crear</a></div>
         <div class="d-flex justify-content-center">
             <?php
-            $controller = new PlatformController();
+            $controller = PlatformController::getInstance();
             $platforms = $controller->getAll();
             if (count($platforms) > 0) {
             ?> <table class="table table-bordered w-auto">

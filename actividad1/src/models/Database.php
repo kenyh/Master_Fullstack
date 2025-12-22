@@ -1,8 +1,10 @@
 <?php
 
-class Database    //singleton.
+class Database
 {
     private static ?PDO $connection = null;
+
+    private function __construct() {} //private para que no se pueda instanciar y funcione como clase estática.
 
     public static function getConnection(): PDO
     {
@@ -23,5 +25,3 @@ class Database    //singleton.
         return self::$connection;
     }
 }
-
-?>

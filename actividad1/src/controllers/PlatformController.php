@@ -6,10 +6,20 @@ class PlatformController
 {
 
     private ?PDO $connection = null;
+    private static ?PlatformController $instance = null;
 
-    public function __construct()
+    private function __construct()
     {
         $this->connection = Database::getConnection();
+    }
+
+    public static function getInstance(): PlatformController
+    {
+        if (self::$instance === null) {
+            self::$instance = new PlatformController();
+        }
+
+        return self::$instance;
     }
 
     public function getAll(): array
