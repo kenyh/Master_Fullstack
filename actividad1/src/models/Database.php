@@ -9,12 +9,20 @@ class Database
     public static function getConnection(): PDO
     {
         if (self::$connection === null) {
-            $dsn = 'pgsql:host=' . getenv('PGHOST') . ';port=5432;dbname=actividad1';
+
+            $dbHost = getenv('DB_HOST');
+            $dbDatabase = getenv('DB_DATABASE');
+            $dbUser = getenv('DB_USER');
+            $dbPassword = getenv('DB_PASSWORD');
+            $dbPort = getenv('DB_PORT');
+            $dbDriver = getenv('DB_DRIVER');
+
+            $dsn = "$dbDriver:host=$dbHost;port=$dbPort;dbname=$dbDatabase";
 
             self::$connection = new PDO(
                 $dsn,
-                'actividad1',
-                'actividad1',
+                $dbUser,
+                $dbPassword,
                 [
                     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

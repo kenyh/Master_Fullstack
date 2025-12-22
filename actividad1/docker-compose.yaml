@@ -6,18 +6,41 @@ services:
     ports:
       - "8080:80"
     environment:
-      - PGHOST=db
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DRIVER: pgsql
     volumes:
       - ./src:/var/www/html
     restart: unless-stopped
+# db con postgres
   db:
     image: postgres:17-alpine
-    container_name: db
+    container_name: postgres
+    command: postgres -p ${DB_PORT}
     environment:
-      POSTGRES_USER: actividad1
-      POSTGRES_PASSWORD: actividad1
-      POSTGRES_DB: actividad1
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     ports:
-      - 5432:5432
+      - ${DB_PORT}:${DB_PORT}
     volumes:
       - ./db:/docker-entrypoint-initdb.d
+
+# db con mysql, no está probado y el init.sql sirve solo para postgres
+  # db:
+  #   image: mysql:8.0.44-debian
+  #   container_name: mysql
+  #   command: --port=${DB_PORT}
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+  #     MYSQL_DATABASE: ${DB_DATABASE}
+  #     MYSQL_USER: ${DB_USER}
+  #     MYSQL_PASSWORD: ${DB_PASSWORD}
+  #     DB_DRIVER: mysql
+  #   ports:
+  #     - ${DB_PORT}:${DB_PORT}
+  #   volumes:
+  #     - ./db:/docker-entrypoint-initdb.d
