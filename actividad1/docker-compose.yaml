@@ -13,7 +13,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DRIVER: pgsql
     volumes:
-      - ./src:/var/www/html
+      - ./webapp:/var/www/html
     restart: unless-stopped
 # db con postgres
   db:
