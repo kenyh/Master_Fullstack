@@ -78,7 +78,6 @@ INSERT INTO person (name, surname, birthday, nationality) VALUES
 
 INSERT INTO directors ("directorId") VALUES
 
-(1),  -- Desconocido
 (2),  -- Paul Scheuring
 (5),  -- Steven S. DeKnight
 (8),  -- Vince Gilligan
