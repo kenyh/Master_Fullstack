@@ -8,7 +8,13 @@ class SeriesRepository extends BaseRepository
 
     public function getAll(): array
     {
-        $query = 'SELECT * FROM series ORDER BY "title" ';
+        $query = '--sql
+            SELECT S.*, P.name as platform, PE.surname as director
+            FROM series S 
+            LEFT JOIN platforms P ON S."platformId" = P."platformId"
+            LEFT JOIN directors D ON S."directorId" = D."directorId"
+            JOIN person PE ON D."directorId" = PE."personId"
+        ';
 
         /** @var PDO $connection */
         $connection = Database::getConnection();
@@ -20,7 +26,7 @@ class SeriesRepository extends BaseRepository
         $series = [];
 
         foreach ($filas as $fila) {
-            $serie = new Serie($fila['serieId'], $fila['title']);
+            $serie = new Serie($fila['serieId'], $fila['title'], $fila['platformId'], $fila['directorId'], $fila["platform"], $fila["director"]);
             array_push($series, $serie);
         }
 

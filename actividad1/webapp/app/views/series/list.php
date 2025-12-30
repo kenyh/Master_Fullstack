@@ -10,6 +10,8 @@ require_once __DIR__ . '/../top.php';
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nombre</th>
+                    <th scope="col">Plataforma</th>
+                    <th scope="col">Director</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -20,6 +22,8 @@ require_once __DIR__ . '/../top.php';
                     <tr>
                         <th scope="row"><?php echo $fila->getSerieId() ?></th>
                         <td><?php echo $fila->getTitle() ?></td>
+                        <td><?php echo $fila->getPlatform() ?></td>
+                        <td><?php echo $fila->getDirector() ?></td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <a href="edit.php?serieId=<?php echo $fila->getSerieId() ?>" class="btn btn-success">Editar</a>
