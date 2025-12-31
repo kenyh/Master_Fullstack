@@ -1,6 +1,7 @@
 CREATE TABLE platforms (
     "platformId" SERIAL PRIMARY KEY,
-    "name" TEXT NOT NULL UNIQUE
+    "name" TEXT NOT NULL UNIQUE,
+    CONSTRAINT platforms_name_chk CHECK (CHAR_LENGTH("name") >= 2)
 );
 
 CREATE TABLE person (

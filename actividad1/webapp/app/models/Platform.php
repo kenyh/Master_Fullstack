@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/errors/ValidationException.php";
 
 class Platform
 {
@@ -7,6 +8,9 @@ class Platform
 
     public function __construct(?int $platformId, string $name)
     {
+        //En este punto $name nunca es null por el tipado
+        $name = trim($name);
+        if (strlen($name) < 2) throw new ValidationException("El largo del nombre debe tener como mínimo dos caracteres.");
         $this->platformId = $platformId;
         $this->name = $name;
     }
