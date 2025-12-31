@@ -5,7 +5,7 @@ require_once __DIR__ . '/Database.php';
 require_once __DIR__ . '/Platform.php';
 class PlatformsRepository extends BaseRepository
 {
-    private string $baseQuery = '
+    protected string $baseQuery = '
         WITH MyP AS (
             SELECT * FROM platforms ORDER BY "name" 
         )
