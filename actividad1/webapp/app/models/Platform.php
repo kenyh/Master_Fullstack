@@ -2,10 +2,10 @@
 
 class Platform
 {
-    private int $platformId;
+    private ?int $platformId;
     private string $name;
 
-    public function __construct(int $platformId, string $name)
+    public function __construct(?int $platformId, string $name)
     {
         $this->platformId = $platformId;
         $this->name = $name;

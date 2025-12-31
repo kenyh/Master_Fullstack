@@ -12,13 +12,22 @@ class PlatformsController extends AbstractController
     public function list()
     {
         $listado = $this->repository->getAll();
-        $controllerName = 'PlatformsController';
         require_once __DIR__ . '/../views/platforms/list.php';
     }
     public function create()
     {
-        $listado = $this->repository->getAll();
-        $controllerName = 'PlatformsController';
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $platform = new Platform(null, $_POST["name"]);
+                $this->repository->create($platform);
+                $_SESSION['message'] = ["type" => "success", "text" => "Plataforma " . $platform->getName() . " creada con éxito."];
+                header('Location: /platforms/list');
+                exit;   //Esto hace que no llegue a terminar de ejecutar index.php donde se borra el mensaje.
+            }
+        } catch (Exception $e) {
+            $_SESSION['message'] = ["type" => "danger", "text" => $e->getMessage()];
+        }
+        //Si llega aquí no es post o no salió bien..
         require_once __DIR__ . '/../views/platforms/create.php';
     }
     public function read()

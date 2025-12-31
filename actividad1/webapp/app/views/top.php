@@ -20,6 +20,15 @@
             <li class="nav-item"><a href="/series/list" class="nav-link <?php echo $controllerName === 'SeriesController' ? 'active' : ''; ?> ">Series</a></li>
         </ul>
     </nav>
+    <?php if (isset($_SESSION['message'])) { ?>
+        <div class="alert alert-<?php echo $_SESSION['message']["type"] ?> d-flex align-items-center" role="alert">
+            <div>
+                <?php echo $_SESSION['message']["text"] ?>
+            </div>
+        </div>
+    <?php } else { ?>
+        no hay mensajes
+    <?php } ?>
     <header>
         <H1>Biblioteca de Series</H1>
     </header>
