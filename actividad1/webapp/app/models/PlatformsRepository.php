@@ -34,21 +34,23 @@ class PlatformsRepository extends BaseRepository
 
     public function getByIds(array $ids): array
     {
-        return [];
+        throw new \Exception("No implementado");
     }
 
 
-    public function getById(int $id): Platform
+    public function getById(int $platformId): Platform
     {
-        $query = $this->baseQuery . ' AND "platformId"=$1';
+        $query = $this->baseQuery . ' AND "platformId" = :platformId';
         $connection = Database::getConnection();
-        $stmt = $connection->prepare($this->baseQuery); //Acá podría pasar parámetros.
-        $stmt->execute();
+        $stmt = $connection->prepare($query);
+        $stmt->execute(["platformId" => $platformId]);
 
-        $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $platform = new Platform($filas[0]['platformId'], $filas[0]['name']);
-
+        $filas = $stmt->fetchAll(PDO::FETCH_ASSOC); //Acá fetch all devuelve un array asociativo.
+        if (count($filas) === 0) {
+            throw new NotFoundException("No se encontró plataforma con platformId: " . $platformId);
+        }
+        $fila = $filas[0];
+        $platform = new Platform($fila['platformId'], $fila['name']);
         return $platform;
     }
 
@@ -69,7 +71,18 @@ class PlatformsRepository extends BaseRepository
 
     public function update(object $data): object
     {
-        throw new \Exception("No implementado");
+        $query = 'UPDATE platforms SET "name" = :name WHERE "platformId" = :platformId ';
+
+        $connection = Database::getConnection();
+        $stmt = $connection->prepare($query);
+        $stmt->execute([
+            'name' => $data->getName(),
+            'platformId' => $data->getPlatformId(),
+        ]);
+
+        //FIXME: Aquí podría comprobar que hay una plataforma...
+        // $filasAfectadas = $stmt->rowCount();
+        return $this->getById($data->getPlatformId());
     }
 
     public function delete(int $id): void

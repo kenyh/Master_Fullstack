@@ -28,7 +28,7 @@ require_once __DIR__ . '/../top.php';
                         <td><?php echo $fila->getNationality() ?></td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="edit.php?actorId=<?php echo $fila->getActorId() ?>" class="btn btn-success">Editar</a>
+                                <a href="update?actorId=<?php echo $fila->getActorId() ?>" class="btn btn-success">Editar</a>
                                 <a href="delete.php?actorId=<?php echo $fila->getActorId() ?>" class="btn btn-danger">Borrar</a>
                             </div>
 

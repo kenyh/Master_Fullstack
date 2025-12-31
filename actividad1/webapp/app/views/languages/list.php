@@ -24,7 +24,7 @@ require_once __DIR__ . '/../top.php';
                         <td><?php echo $fila->getIsoCode() ?></td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="edit.php?filaId=<?php echo $fila->getPlatformId() ?>" class="btn btn-success">Editar</a>
+                                <a href="update?filaId=<?php echo $fila->getPlatformId() ?>" class="btn btn-success">Editar</a>
                                 <a href="delete.php?filaId=<?php echo $fila->getPlatformId() ?>" class="btn btn-danger">Borrar</a>
                             </div>
 

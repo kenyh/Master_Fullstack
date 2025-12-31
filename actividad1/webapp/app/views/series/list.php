@@ -26,7 +26,7 @@ require_once __DIR__ . '/../top.php';
                         <td><?php echo $fila->getDirector() ?></td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="edit.php?serieId=<?php echo $fila->getSerieId() ?>" class="btn btn-success">Editar</a>
+                                <a href="update?serieId=<?php echo $fila->getSerieId() ?>" class="btn btn-success">Editar</a>
                                 <a href="delete.php?serieId=<?php echo $fila->getSerieId() ?>" class="btn btn-danger">Borrar</a>
                             </div>
 
