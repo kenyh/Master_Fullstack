@@ -12,12 +12,12 @@
 
     <nav class="d-flex justify-content-center py-3">
         <ul class="nav nav-pills">
-            <li class="nav-item"><a href="/" class="nav-link <?php echo $controllerName === 'HomeController' ? 'active' : ''; ?> "> Home</a></li>
-            <li class="nav-item"><a href="/platforms/list" class="nav-link <?php echo $controllerName === 'PlatformsController' ? 'active' : ''; ?> ">Plataformas</a></li>
-            <li class="nav-item"><a href="/languages/list" class="nav-link <?php echo $controllerName === 'LanguagesController' ? 'active' : ''; ?> ">Idiomas</a></li>
-            <li class="nav-item"><a href="/directors/list" class="nav-link <?php echo $controllerName === 'DirectorsController' ? 'active' : ''; ?> ">Directores</a></li>
-            <li class="nav-item"><a href="/actors/list" class="nav-link <?php echo $controllerName === 'ActorsController' ? 'active' : ''; ?> ">Actores</a></li>
-            <li class="nav-item"><a href="/series/list" class="nav-link <?php echo $controllerName === 'SeriesController' ? 'active' : ''; ?> ">Series</a></li>
+            <li class="nav-item"><a href="/" class="nav-link <?php echo Router::$controllerName === 'HomeController' ? 'active' : ''; ?> "> Home</a></li>
+            <li class="nav-item"><a href="/platforms/list" class="nav-link <?php echo Router::$controllerName === 'PlatformsController' ? 'active' : ''; ?> ">Plataformas</a></li>
+            <li class="nav-item"><a href="/languages/list" class="nav-link <?php echo Router::$controllerName === 'LanguagesController' ? 'active' : ''; ?> ">Idiomas</a></li>
+            <li class="nav-item"><a href="/directors/list" class="nav-link <?php echo Router::$controllerName === 'DirectorsController' ? 'active' : ''; ?> ">Directores</a></li>
+            <li class="nav-item"><a href="/actors/list" class="nav-link <?php echo Router::$controllerName === 'ActorsController' ? 'active' : ''; ?> ">Actores</a></li>
+            <li class="nav-item"><a href="/series/list" class="nav-link <?php echo Router::$controllerName === 'SeriesController' ? 'active' : ''; ?> ">Series</a></li>
         </ul>
     </nav>
     <?php if (isset($_SESSION['message'])) { ?>

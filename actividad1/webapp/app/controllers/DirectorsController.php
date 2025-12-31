@@ -12,7 +12,6 @@ class DirectorsController extends AbstractController
     public function list()
     {
         $listado = $this->repository->getAll();
-        $controllerName = 'DirectorsController';
         require_once __DIR__ . '/../views/directors/list.php';
     }
     public function create()

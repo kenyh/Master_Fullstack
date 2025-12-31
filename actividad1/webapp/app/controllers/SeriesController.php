@@ -12,7 +12,6 @@ class SeriesController extends AbstractController
     public function list()
     {
         $listado = $this->repository->getAll();
-        $controllerName = 'SeriesController';
         require_once __DIR__ . '/../views/series/list.php';
     }
     public function create()

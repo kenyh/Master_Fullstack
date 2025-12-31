@@ -12,7 +12,6 @@ class LanguagesController extends AbstractController
     public function list()
     {
         $listado = $this->repository->getAll();
-        $controllerName = 'LanguagesController';
         require_once __DIR__ . '/../views/languages/list.php';
     }
     public function create()

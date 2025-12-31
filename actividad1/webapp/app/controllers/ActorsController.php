@@ -12,7 +12,6 @@ class ActorsController extends AbstractController
     public function list()
     {
         $listado = $this->repository->getAll();
-        $controllerName = 'ActorsController';
         require_once __DIR__ . '/../views/actors/list.php';
     }
     public function create()
