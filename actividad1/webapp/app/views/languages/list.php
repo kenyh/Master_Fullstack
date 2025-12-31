@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../top.php';
 ?>
-<div class="d-flex justify-content-center p-2"><a href="create.php" class="btn btn-primary">Crear</a></div>
+<div class="d-flex justify-content-center p-2"><a href="create" class="btn btn-primary">Crear</a></div>
 <div class="d-flex justify-content-center">
     <?php
     if (count($listado) > 0) {

@@ -17,7 +17,9 @@ class PlatformsController extends AbstractController
     }
     public function create()
     {
-        throw new Exception("Not implemented yet");
+        $listado = $this->repository->getAll();
+        $controllerName = 'PlatformsController';
+        require_once __DIR__ . '/../views/platforms/create.php';
     }
     public function read()
     {

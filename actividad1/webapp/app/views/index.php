@@ -7,7 +7,7 @@ require_once __DIR__ . '/top.php';
       <div class="card-body">
         <h5 class="card-title">Plataformas</h5>
         <p class="card-text">Una exaustiva lista de plataformas de streaming disponibles actualmente para ver todas tus series favoritas.</p>
-        <a href="/platforms/list.php" class="btn btn-primary">Ir al listado</a>
+        <a href="/platforms/list" class="btn btn-primary">Ir al listado</a>
       </div>
     </div>
   </div>
@@ -16,7 +16,7 @@ require_once __DIR__ . '/top.php';
       <div class="card-body">
         <h5 class="card-title">Idiomas</h5>
         <p class="card-text">Lista de idiomas disponibles en las series.</p>
-        <a href="/languages/list.php" class="btn btn-primary">Ir al listado</a>
+        <a href="/languages/list" class="btn btn-primary">Ir al listado</a>
       </div>
     </div>
   </div>
@@ -25,7 +25,7 @@ require_once __DIR__ . '/top.php';
       <div class="card-body">
         <h5 class="card-title">Directores</h5>
         <p class="card-text">Lista de directores.</p>
-        <a href="/directors/list.php" class="btn btn-primary">Ir al listado</a>
+        <a href="/directors/list" class="btn btn-primary">Ir al listado</a>
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@ require_once __DIR__ . '/top.php';
       <div class="card-body">
         <h5 class="card-title">Actores y actrices</h5>
         <p class="card-text">Lista de actores y actrices.</p>
-        <a href="/actors/list.php" class="btn btn-primary">Ir al listado</a>
+        <a href="/actors/list" class="btn btn-primary">Ir al listado</a>
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@ require_once __DIR__ . '/top.php';
       <div class="card-body">
         <h5 class="card-title">Series</h5>
         <p class="card-text">Lista de series disponibles.</p>
-        <a href="/series/list.php" class="btn btn-primary">Ir al listado</a>
+        <a href="/series/list" class="btn btn-primary">Ir al listado</a>
       </div>
     </div>
   </div>
