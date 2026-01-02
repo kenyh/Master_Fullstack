@@ -85,8 +85,14 @@ class PlatformsRepository extends BaseRepository
         return $this->getById($data->getPlatformId());
     }
 
-    public function delete(int $id): void
+    public function delete(int $platformId): void
     {
-        throw new \Exception("No implementado");
+        $query = 'DELETE FROM platforms WHERE "platformId" = :platformId ';
+
+        $connection = Database::getConnection();
+        $stmt = $connection->prepare($query);
+        $stmt->execute([
+            'platformId' => $platformId,
+        ]);
     }
 }

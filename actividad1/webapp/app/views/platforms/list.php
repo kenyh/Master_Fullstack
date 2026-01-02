@@ -21,11 +21,11 @@ require_once __DIR__ . '/../top.php';
                         <th scope="row"><?php echo $fila->getPlatformId() ?></th>
                         <td><?php echo $fila->getName() ?></td>
                         <td>
-                            <div class="btn-group" role="group" aria-label="Basic example">
+                            <form action="/platforms/delete" method="POST" class="btn-group" role="group" onsubmit="return confirm('¿Estás seguro que deseas borrar la plataforma <?php echo $fila->getName() ?> ?')">
                                 <a href="update?platformId=<?php echo $fila->getPlatformId() ?>" class="btn btn-success">Editar</a>
-                                <a href="delete.php?platformId=<?php echo $fila->getPlatformId() ?>" class="btn btn-danger">Borrar</a>
-                            </div>
-
+                                <input type="hidden" name="platformId" value="<?php echo $fila->getPlatformId() ?>" />
+                                <input type="submit" value="Borrar" class="btn btn-danger" />
+                            </form>
                         </td>
                     </tr>
                 <?php
