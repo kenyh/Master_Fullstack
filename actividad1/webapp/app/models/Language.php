@@ -2,23 +2,23 @@
 
 class Language
 {
-    private int $languageId;
+    private ?int $languageId;
     private string $name;
     private string $isoCode;
 
-    public function __construct(int $languageId, string $name, string $code)
+    public function __construct(?int $languageId, string $name, string $code)
     {
         $this->languageId = $languageId;
         $this->name = $name;
         $this->isoCode = $code;
     }
 
-    public function getPlatformId(): ?int
+    public function getLanguageId(): ?int
     {
         return $this->languageId;
     }
 
-    public function setPlatformId(int $languageId)
+    public function setLanguageId(int $languageId)
     {
         $this->languageId = $languageId;
     }

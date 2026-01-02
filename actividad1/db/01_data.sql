@@ -224,7 +224,7 @@ INSERT INTO serie_actors ("serieId", "actorId") VALUES
 ;
 
 -- Languages
-INSERT INTO languages (name, iso_code) VALUES
+INSERT INTO languages (name, "isoCode") VALUES
 ('English', 'en'),
 ('Spanish', 'es'),
 ('Portuguese', 'pt'),

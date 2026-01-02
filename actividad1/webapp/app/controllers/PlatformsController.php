@@ -66,7 +66,7 @@ class PlatformsController extends AbstractController
             $_SESSION['message'] = ["type" => "danger", "text" => "ERROR: " . $e->getMessage()];
         }
         //Si llega aquí no es post o no salió bien..
-        require_once __DIR__ . '/../views/platforms/create.php';
+        require_once __DIR__ . '/../views/platforms/update.php';
     }
     public function delete()
     {

@@ -19,15 +19,15 @@ require_once __DIR__ . '/../top.php';
                 foreach ($listado as $fila):
                 ?>
                     <tr>
-                        <th scope="row"><?php echo $fila->getPlatformId() ?></th>
+                        <th scope="row"><?php echo $fila->getLanguageId() ?></th>
                         <td><?php echo $fila->getName() ?></td>
                         <td><?php echo $fila->getIsoCode() ?></td>
                         <td>
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="update?filaId=<?php echo $fila->getPlatformId() ?>" class="btn btn-success">Editar</a>
-                                <a href="delete.php?filaId=<?php echo $fila->getPlatformId() ?>" class="btn btn-danger">Borrar</a>
-                            </div>
-
+                            <form action="/languages/delete" method="POST" class="btn-group" role="group" onsubmit="return confirm('¿Estás seguro que deseas borrar el idioma <?php echo $fila->getName() ?> ?')">
+                                <a href="update?languageId=<?php echo $fila->getLanguageId() ?>" class="btn btn-success">Editar</a>
+                                <input type="hidden" name="languageId" value="<?php echo $fila->getLanguageId() ?>" />
+                                <input type="submit" value="Borrar" class="btn btn-danger" />
+                            </form>
                         </td>
                     </tr>
                 <?php

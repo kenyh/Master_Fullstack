@@ -28,7 +28,7 @@ class LanguageRepository extends BaseRepository
         $languages = [];
 
         foreach ($filas as $fila) {
-            $language = new Language($fila['languageId'], $fila['name'], $fila['iso_code']);
+            $language = new Language($fila['languageId'], $fila['name'], $fila['isoCode']);
             array_push($languages, $language);
         }
 
@@ -50,25 +50,54 @@ class LanguageRepository extends BaseRepository
 
         $filas = $stmt->fetchAll(PDO::FETCH_ASSOC); //Acá fetch all devuelve un array asociativo.
         if (count($filas) === 0) {
-            throw new NotFoundException("No se encontró plataforma con languageId: " . $languageId);
+            throw new NotFoundException("No se encontró idioma con languageId: " . $languageId);
         }
         $fila = $filas[0];
-        $language = new Language($fila['languageId'], $fila['name'], $fila['iso_code']);
+        $language = new Language($fila['languageId'], $fila['name'], $fila['isoCode']);
         return $language;
     }
 
     public function create(object $data): object
     {
-        throw new \Exception("No implementado");
+        $query = 'INSERT into languages(name, "isoCode") VALUES(:name,:isocode)';
+
+        $connection = Database::getConnection();
+        $stmt = $connection->prepare($query);
+        $stmt->execute([
+            'name' => $data->getName(),
+            'isocode' => $data->getIsoCode()
+        ]);
+
+        $id = (int) $connection->lastInsertId();
+
+        return $this->getById($id);
     }
 
     public function update(object $data): object
     {
-        throw new \Exception("No implementado");
+        $query = 'UPDATE languages SET "name" = :name, "isoCode"=:isocode WHERE "languageId" = :languageId ';
+
+        $connection = Database::getConnection();
+        $stmt = $connection->prepare($query);
+        $stmt->execute([
+            'name' => $data->getName(),
+            'isocode' => $data->getIsoCode(),
+            'languageId' => $data->getLanguageId(),
+        ]);
+
+        //FIXME: Aquí podría comprobar que hay un idioma...
+        // $filasAfectadas = $stmt->rowCount();
+        return $this->getById($data->getLanguageId());
     }
 
-    public function delete(int $id): void
+    public function delete(int $languageId): void
     {
-        throw new \Exception("No implementado");
+        $query = 'DELETE FROM languages WHERE "languageId" = :languageId ';
+
+        $connection = Database::getConnection();
+        $stmt = $connection->prepare($query);
+        $stmt->execute([
+            'languageId' => $languageId,
+        ]);
     }
 }

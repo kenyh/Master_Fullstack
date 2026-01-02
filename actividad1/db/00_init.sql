@@ -1,7 +1,8 @@
 CREATE TABLE platforms (
     "platformId" SERIAL PRIMARY KEY,
-    "name" TEXT NOT NULL UNIQUE,
-    CONSTRAINT platforms_name_chk CHECK (CHAR_LENGTH("name") >= 2)
+    "name" TEXT NOT NULL,
+    CONSTRAINT "platforms_name_uk" UNIQUE ("name"),
+    CONSTRAINT "platforms_name_chk" CHECK (CHAR_LENGTH("name") >= 2)
 );
 
 CREATE TABLE person (
@@ -55,9 +56,10 @@ CREATE TABLE serie_actors (
 -- 
 CREATE TABLE languages (
     "languageId" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name TEXT NOT NULL,
-    iso_code TEXT NOT NULL,
-    CONSTRAINT language_iso_code_uk UNIQUE (iso_code)
+    "name" TEXT NOT NULL,
+    "isoCode" TEXT NOT NULL,
+    CONSTRAINT "languages_name_uk" UNIQUE ("name"),
+    CONSTRAINT "languages_isoCode_uk" UNIQUE ("isoCode")
 );
 
 CREATE TABLE series_audio_languages (
