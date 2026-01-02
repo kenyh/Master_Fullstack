@@ -1,9 +1,9 @@
 <?php
 class Router
 {
-    static public $controllerName = "HomeController";
+    static public $controllerName = "HomeController"; //Si no hay nada despues de la primer / es el Home
     protected $controller = null;
-    protected $method = 'list';
+    protected $method = 'list'; //Por defecto llamamos al método list del controlador
     protected $params = [];
 
     public function __construct()
@@ -23,18 +23,20 @@ class Router
             $this->method = $url[1];
         }
 
-        if (!method_exists($this->controller, $this->method)) {
+        if (!method_exists($this->controller, $this->method)) { //Si no existe el método en el controlador
             throw new Exception("No existe el método " . $this->method . " en el controlador " . Router::$controllerName);
         }
 
-        call_user_func_array([$this->controller, $this->method], $this->params);
+        call_user_func_array([$this->controller, $this->method], $this->params);    //Invocamos el método del controlador de esta forma rara. 
     }
 
     private function parseUrl()
     {
+        //ej de $_GET['url'] : platforms/create
         if (!isset($_GET['url'])) { // Si no hay url retorno array vacío.
             return ["home"];
         }
-        return explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
+        $url = rtrim($_GET['url'], '/');    //Sin espacios y sin la barra final.
+        return explode('/', $url);          //Convierto los valores separados por / de la url en un array.
     }
 }
