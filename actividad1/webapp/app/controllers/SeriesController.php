@@ -29,9 +29,9 @@ class SeriesController extends AbstractController
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                if (!isset($_POST["title"]) || $_POST["title"] === "") throw new Exception("No se recibió el nombre de la serie en el formulario.");
-                if (!isset($_POST["platformId"]) || $_POST["platformId"] === "") throw new Exception("No se recibió la plataforma de la serie en el formulario.");
-                if (!isset($_POST["directorId"]) || $_POST["directorId"] === "") throw new Exception("No se recibió el director de la serie en el formulario.");
+                if (empty($_POST["title"])) throw new Exception("No se recibió el nombre de la serie en el formulario.");
+                if (empty($_POST["platformId"])) throw new Exception("No se recibió la plataforma de la serie en el formulario.");
+                if (empty($_POST["directorId"])) throw new Exception("No se recibió el director de la serie en el formulario.");
 
                 $serie = new Serie(null, $_POST["title"], $_POST["platformId"], $_POST["directorId"]);
                 $this->repository->create($serie);
@@ -64,9 +64,9 @@ class SeriesController extends AbstractController
             $platforms = $platfomsRepo->getAll();
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                if (!isset($_POST["title"]) || $_POST["title"] === "") throw new Exception("No se recibió el nombre de la serie en el formulario.");
-                if (!isset($_POST["platformId"]) || $_POST["platformId"] === "") throw new Exception("No se recibió la plataforma de la serie en el formulario.");
-                if (!isset($_POST["directorId"]) || $_POST["directorId"] === "") throw new Exception("No se recibió el director de la serie en el formulario.");
+                if (empty($_POST["title"])) throw new Exception("No se recibió el nombre de la serie en el formulario.");
+                if (empty($_POST["platformId"])) throw new Exception("No se recibió la plataforma de la serie en el formulario.");
+                if (empty($_POST["directorId"])) throw new Exception("No se recibió el director de la serie en el formulario.");
 
                 $serie->setTitle($_POST["title"]);
                 $serie->setPlatformId($_POST["platformId"]);

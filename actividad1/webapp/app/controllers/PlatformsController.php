@@ -21,6 +21,9 @@ class PlatformsController extends AbstractController
     {
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+                if (empty($_POST["name"])) throw new Exception("No se recibió el nombre de la plataforma en el formulario.");
+
                 $platform = new Platform(null, $_POST["name"]);
                 $this->repository->create($platform);
                 $_SESSION['message'] = ["type" => "success", "text" => "Plataforma " . $platform->getName() . " creada con éxito."];
@@ -44,12 +47,14 @@ class PlatformsController extends AbstractController
 
         try {
             //Si no se especificó el platformId:
-            if (!isset($_GET["platformId"])) throw new NotFoundException("Debes especificar la plataforma que quieres editar.");
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST["name"])) throw new Exception("No se recibió el nombre de la plataforma en el formulario.");
+            if (empty($_GET["platformId"])) throw new NotFoundException("Debes especificar la plataforma que quieres editar.");
 
             $platform = $this->repository->getById($_GET["platformId"]);
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+                if (empty($_POST["name"])) throw new Exception("No se recibió el nombre de la plataforma en el formulario.");
+
                 $platform->setName($_POST["name"]);                     //Cambio el nombre.
                 $this->repository->update($platform);
                 $_SESSION['message'] = ["type" => "success", "text" => "Plataforma " . $platform->getName() . " modificada con éxito."];
@@ -73,7 +78,7 @@ class PlatformsController extends AbstractController
         try {
             //Si el método no es POST
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') throw new MethodNotAllowedException('Para borrar debes usar el método POST, no "' . $_SERVER['REQUEST_METHOD'] . '"');
-            if (!isset($_POST["platformId"])) throw new NotFoundException("Debes especificar la plataforma que quieres Borrar.");
+            if (empty($_POST["platformId"])) throw new NotFoundException("Debes especificar la plataforma que quieres Borrar.");
             $platform = $this->repository->getById($_POST["platformId"]);
             $this->repository->delete($_POST["platformId"]);
             $_SESSION['message'] = ["type" => "success", "text" => "Se borró la plataforma " . $platform->getName()];

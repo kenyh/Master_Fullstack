@@ -35,12 +35,6 @@ class DirectorsRepository extends BaseRepository
         return $directors;
     }
 
-    public function getByIds(array $ids): array
-    {
-        return [];
-    }
-
-
     public function getById(int $directorId): Director
     {
         $query = $this->baseQuery . ' AND "directorId" = :directorId';

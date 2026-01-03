@@ -35,12 +35,6 @@ class LanguageRepository extends BaseRepository
         return $languages;
     }
 
-    public function getByIds(array $ids): array
-    {
-        return [];
-    }
-
-
     public function getById(int $languageId): Language
     {
         $query = $this->baseQuery . ' AND "languageId" = :languageId';

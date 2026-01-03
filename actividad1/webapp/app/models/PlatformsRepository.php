@@ -32,12 +32,6 @@ class PlatformsRepository extends BaseRepository
         return $platforms;
     }
 
-    public function getByIds(array $ids): array
-    {
-        throw new \Exception("No implementado");
-    }
-
-
     public function getById(int $platformId): Platform
     {
         $query = $this->baseQuery . ' AND "platformId" = :platformId';

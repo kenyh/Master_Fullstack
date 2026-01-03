@@ -18,6 +18,10 @@ class LanguagesController extends AbstractController
     {
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+                if (empty($_POST["name"])) throw new Exception("No se recibió el nombre del idioma en el formulario.");
+                if (empty($_POST["isoCode"])) throw new Exception("No se recibió el código iso del idioma en el formulario.");
+
                 $language = new Language(null, $_POST["name"], $_POST["isoCode"]);
                 $this->repository->create($language);
                 $_SESSION['message'] = ["type" => "success", "text" => "Idioma " . $language->getName() . " creado con éxito."];
@@ -41,12 +45,14 @@ class LanguagesController extends AbstractController
         try {
             //Si no se especificó el languageId:
             if (!isset($_GET["languageId"])) throw new NotFoundException("Debes especificar el idioma que quieres editar.");
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST["name"])) throw new Exception("No se recibió el nombre del idioma en el formulario.");
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST["isoCode"])) throw new Exception("No se recibió el código iso del idioma en el formulario.");
 
             $language = $this->repository->getById($_GET["languageId"]);
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+                if (empty($_POST["name"])) throw new Exception("No se recibió el nombre del idioma en el formulario.");
+                if (empty($_POST["isoCode"])) throw new Exception("No se recibió el código iso del idioma en el formulario.");
+
                 $language->setName($_POST["name"]);                     //Cambio el nombre.
                 $language->setIsoCode($_POST["isoCode"]);               //Cambio el isoCode
                 $this->repository->update($language);

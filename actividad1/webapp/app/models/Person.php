@@ -2,14 +2,14 @@
 
 class Person
 {
-    private int $personId;
+    private ?int $personId;
     private string $name;
     private string $surname;
     private string $birthday;   //FIXME: debería ser Date??
     private string $nationality;
 
     public function __construct(
-        int $personId,
+        ?int $personId,
         string $name,
         string $surname,
         string $birthday,

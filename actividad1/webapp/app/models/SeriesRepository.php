@@ -39,12 +39,6 @@ class SeriesRepository extends BaseRepository
         return $series;
     }
 
-    public function getByIds(array $ids): array
-    {
-        return [];
-    }
-
-
     public function getById(int $serieId): Serie
     {
         $query = $this->baseQuery . ' AND "serieId" = :serieId';

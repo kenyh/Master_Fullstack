@@ -32,11 +32,6 @@ class ActorsRepository extends BaseRepository
         return $actors;
     }
 
-    public function getByIds(array $ids): array
-    {
-        return [];
-    }
-
     public function getById(int $actorId): Actor
     {
         $query = $this->baseQuery . ' AND "actorId" = :actorId';
