@@ -8,15 +8,34 @@ class Serie
     private int $directorId;
     private ?string $platform; //No merece la pena crear un objeto Platform
     private ?string $director;
+    private array $audioLanguageNames = [];
+    private array $subtitleLanguageNames = [];
+    private array $audioLanguageIds = [];
+    private array $subtitleLanguageIds = [];
 
-    public function __construct(?int $serieId, string $title, int $platformId, int $directorId, ?string $platform = null, ?string $director = null)
-    {
+    public function __construct(
+        ?int $serieId,
+        string $title,
+        int $platformId,
+        int $directorId,
+        array $audioLanguageIds,
+        array $subtitleLanguageIds,
+        array $audioLanguageNames = [],
+        array $subtitleLanguageNames = [],
+        ?string $platform = null,
+        ?string $director = null
+    ) {
         $this->serieId = $serieId;
         $this->title = $title;
         $this->platformId = $platformId;
         $this->directorId = $directorId;
         $this->platform = $platform;
         $this->director = $director;
+
+        $this->audioLanguageIds = $audioLanguageIds;
+        $this->subtitleLanguageIds = $subtitleLanguageIds;
+        $this->audioLanguageNames = $audioLanguageNames;
+        $this->subtitleLanguageNames = $subtitleLanguageNames;
     }
 
     public function getSerieId(): ?int
@@ -77,5 +96,38 @@ class Serie
     public function setDirector(?string $director)
     {
         $this->director = $director;
+    }
+
+    public function getAudioLanguageIds(): array
+    {
+        return $this->audioLanguageIds;
+    }
+    public function setAudioLanguageIds(array $audioLanguageIds)
+    {
+        $this->audioLanguageIds = $audioLanguageIds;
+    }
+    public function getSubtitleLanguageIds(): array
+    {
+        return $this->subtitleLanguageIds;
+    }
+    public function setSubtitleLanguageIds(array $subtitleLanguageIds)
+    {
+        $this->subtitleLanguageIds = $subtitleLanguageIds;
+    }
+    public function getAudioLanguageNames(): array
+    {
+        return $this->audioLanguageNames;
+    }
+    public function setAudioLanguageNames(array $audioLanguageNames)
+    {
+        $this->audioLanguageNames = $audioLanguageNames;
+    }
+    public function getSubtitleLanguageNames(): array
+    {
+        return $this->subtitleLanguageNames;
+    }
+    public function setSubtitleLanguageNames(array $subtitleLanguageNames)
+    {
+        $this->subtitleLanguageNames = $subtitleLanguageNames;
     }
 }

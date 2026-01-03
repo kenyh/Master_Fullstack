@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../models/SeriesRepository.php';
 require_once __DIR__ . '/../models/DirectorsRepository.php';
 require_once __DIR__ . '/../models/PlatformsRepository.php';
+require_once __DIR__ . '/../models/LanguageRepository.php';
 
 require_once 'AbstractController.php';
 
@@ -24,17 +25,18 @@ class SeriesController extends AbstractController
 
             $directorsRepo = new DirectorsRepository();
             $platfomsRepo = new PlatformsRepository();
+            $languagesRepo = new LanguageRepository();
             $directors = $directorsRepo->getAll();
             $platforms = $platfomsRepo->getAll();
+            $languages = $languagesRepo->getAll();
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                if (empty($_POST["title"])) throw new Exception("No se recibió el nombre de la serie en el formulario.");
-                if (empty($_POST["platformId"])) throw new Exception("No se recibió la plataforma de la serie en el formulario.");
-                if (empty($_POST["directorId"])) throw new Exception("No se recibió el director de la serie en el formulario.");
+                $form = $this->validateForm();
+                $serie = new Serie(null, $form["title"], $form["platformId"], $form["directorId"], $form["audioLanguageIds"], $form["subtitleLanguageIds"]);
 
-                $serie = new Serie(null, $_POST["title"], $_POST["platformId"], $_POST["directorId"]);
                 $this->repository->create($serie);
+
                 $_SESSION['message'] = ["type" => "success", "text" => "Serie " . $serie->getTitle() . " creado con éxito."];
                 header('Location: /series/list');
                 exit;   //Esto hace que no llegue a terminar de ejecutar index.php donde se borra el mensaje de la sesión.
@@ -60,17 +62,20 @@ class SeriesController extends AbstractController
             $serie = $this->repository->getById($_GET["serieId"]);
             $directorsRepo = new DirectorsRepository();
             $platfomsRepo = new PlatformsRepository();
+            $languagesRepo = new LanguageRepository();
             $directors = $directorsRepo->getAll();
             $platforms = $platfomsRepo->getAll();
+            $languages = $languagesRepo->getAll();
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                if (empty($_POST["title"])) throw new Exception("No se recibió el nombre de la serie en el formulario.");
-                if (empty($_POST["platformId"])) throw new Exception("No se recibió la plataforma de la serie en el formulario.");
-                if (empty($_POST["directorId"])) throw new Exception("No se recibió el director de la serie en el formulario.");
+                $form = $this->validateForm();
 
-                $serie->setTitle($_POST["title"]);
-                $serie->setPlatformId($_POST["platformId"]);
-                $serie->setDirectorId($_POST["directorId"]);
+                $serie->setTitle($form["title"]);
+                $serie->setPlatformId($form["platformId"]);
+                $serie->setDirectorId($form["directorId"]);
+                $serie->setAudioLanguageIds($form["audioLanguageIds"]);
+                $serie->setSubtitleLanguageIds($form["subtitleLanguageIds"]);
+
                 $this->repository->update($serie);
                 $_SESSION['message'] = ["type" => "success", "text" => "Serie " . $serie->getTitle() . " modificada con éxito."];
                 header('Location: /series/list');
@@ -111,5 +116,22 @@ class SeriesController extends AbstractController
         //Si llega aquí no es post o no salió bien..
         header('Location: /series/list');
         exit;   //Esto hace que no llegue a terminar de ejecutar index.php donde se borra el mensaje de la sesión.
+    }
+
+    private function validateForm()
+    {
+        if (empty($_POST["title"])) throw new Exception("No se recibió el nombre de la serie en el formulario.");
+        if (empty($_POST["platformId"])) throw new Exception("No se recibió la plataforma de la serie en el formulario.");
+        if (empty($_POST["directorId"])) throw new Exception("No se recibió el director de la serie en el formulario.");
+        if (empty($_POST["audioLanguageIds"])) throw new Exception("No se recibieron los idiomas de audio de la serie en el formulario.");
+        if (empty($_POST["subtitleLanguageIds"])) throw new Exception("No se recibieron los idiomas de subtítulos de la serie en el formulario.");
+
+        return [
+            "title" => $_POST["title"],
+            "platformId" => $_POST["platformId"],
+            "directorId" => $_POST["directorId"],
+            "audioLanguageIds" => array_values($_POST["audioLanguageIds"]),
+            "subtitleLanguageIds" => array_values($_POST["subtitleLanguageIds"])
+        ];
     }
 }
