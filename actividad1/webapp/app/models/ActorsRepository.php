@@ -1,65 +1,33 @@
 <?php
 
 require_once __DIR__ . '/BaseRepository.php';
+require_once __DIR__ . '/PeopleRepository.php';
 require_once __DIR__ . '/Database.php';
 require_once __DIR__ . '/Actor.php';
-class ActorsRepository extends BaseRepository
+class ActorsRepository extends PeopleRepository
 {
-    protected string $baseQuery = '
-        WITH myactors AS (
-            SELECT * FROM actors JOIN people P ON P."personId" = actors."actorId" ORDER BY "name" 
-        )
-        SELECT * FROM myactors
-        WHERE TRUE
-    ';
-
     public function getAll(): array
     {
-        $query = $this->baseQuery;
-        $connection = Database::getConnection();
-        $stmt = $connection->prepare($query);
-        $stmt->execute();
-
-        $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $actors = [];
-
-        foreach ($filas as $fila) {
-            $actor = new Actor($fila['actorId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality']);
-            array_push($actors, $actor);
-        }
-
-        return $actors;
+        return parent::getBy(["isActor" => true]);   //Delego al repositorio de persona
     }
 
-    public function getById(int $actorId): Actor
+    public function getById(int $personId): Person
     {
-        $query = $this->baseQuery . ' AND "actorId" = :actorId';
-        $connection = Database::getConnection();
-        $stmt = $connection->prepare($query);
-        $stmt->execute(["actorId" => $actorId]);
-
-        $filas = $stmt->fetchAll(PDO::FETCH_ASSOC); //Acá fetch all devuelve un array asociativo.
-        if (count($filas) === 0) {
-            throw new NotFoundException("No se encontró plataforma con actorId: " . $actorId);
-        }
-        $fila = $filas[0];
-        $actor = new Actor($fila['actorId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality']);
-        return $actor;
+        return parent::getById($personId);
     }
 
     public function create(object $data): object
     {
-        throw new \Exception("No implementado");
+        return parent::create($data);   //Delego al repositorio de persona.
     }
 
     public function update(object $data): object
     {
-        throw new \Exception("No implementado");
+        return parent::update($data);   //Delego al repositorio de persona.
     }
 
-    public function delete(int $id): void
+    public function delete(int $actorId): void
     {
-        throw new \Exception("No implementado");
+        parent::delete($actorId);
     }
 }

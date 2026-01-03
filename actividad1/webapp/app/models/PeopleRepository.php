@@ -33,7 +33,7 @@ class PeopleRepository extends BaseRepository
         $people = [];
 
         foreach ($filas as $fila) {
-            $director = new Person($fila['directorId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['isActor'], $fila['isDirector']);
+            $person = new Person($fila['personId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['isActor'], $fila['isDirector']);
             array_push($people, $person);
         }
 
@@ -60,14 +60,14 @@ class PeopleRepository extends BaseRepository
 
         $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $directors = [];
+        $people = [];
 
         foreach ($filas as $fila) {
-            $director = new Person($fila['directorId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['isActor'], $fila['isDirector']);
-            array_push($directors, $director);
+            $person = new Person($fila['personId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['isActor'], $fila['isDirector']);
+            array_push($people, $person);
         }
 
-        return $directors;
+        return $people;
     }
 
     public function getById(int $personId): Person
@@ -83,7 +83,7 @@ class PeopleRepository extends BaseRepository
             throw new NotFoundException("No se encontró plataforma con personId: " . $personId);
         }
         $fila = $filas[0];
-        $person = new Person($fila['directorId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['isActor'], $fila['isDirector']);
+        $person = new Person($fila['personId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['isActor'], $fila['isDirector']);
         return $person;
     }
 
