@@ -72,8 +72,9 @@ class PeopleRepository extends BaseRepository
 
     public function getById(int $personId): Person
     {
-        $query = $this->baseQuery . ' AND "personId" = :personId';
         $connection = Database::getConnection();
+
+        $query = $this->baseQuery . ' AND "personId" = :personId';
         $stmt = $connection->prepare($query);
         $stmt->execute(["personId" => $personId]);
 
@@ -91,8 +92,8 @@ class PeopleRepository extends BaseRepository
 
         $connection = Database::getConnection();
         try {
-            $query = 'INSERT into people(name, surname, birthday,nationality) VALUES(:name,:surname,:birthday, :nationality)';
             $connection->beginTransaction();       //Transacción ya que son dos inserts separados.
+            $query = 'INSERT into people(name, surname, birthday,nationality) VALUES(:name,:surname,:birthday, :nationality)';
             $stmt = $connection->prepare($query);
             $stmt->execute([
                 'name' => $data->getName(),
@@ -134,29 +135,59 @@ class PeopleRepository extends BaseRepository
 
     public function update(object $data): object
     {
-        $query = 'UPDATE directors SET "name" = :name, "isoCode"=:isocode WHERE "languageId" = :languageId ';
-
         $connection = Database::getConnection();
-        $stmt = $connection->prepare($query);
-        $stmt->execute([
-            'name' => $data->getName(),
-            'isocode' => $data->getIsoCode(),
-            'languageId' => $data->getLanguageId(),
-        ]);
+        $connection->beginTransaction();       //Transacción ya que son dos inserts separados.
+        try {
+            $person = $this->getById($data->getPersonId());
+            $query = 'UPDATE people SET "name" = :name, "surname"=:surname, "birthday"=:birthday , "nationality"=:nationality  WHERE "personId" = :personId ';
+            $stmt = $connection->prepare($query);
+            $stmt->execute([
+                'personId' => $data->getPersonId(),
+                'name' => $data->getName(),
+                'surname' => $data->getSurname(),
+                'birthday' => $data->getBirthday(),
+                'nationality' => $data->getNationality(),
+            ]);
 
-        //FIXME: Aquí podría comprobar que hay un idioma...
-        // $filasAfectadas = $stmt->rowCount();
-        return $this->getById($data->getLanguageId());
+            if ($person->isDirector() !== $data->isDirector()) { //Si cambió el director:
+                $query = 'INSERT INTO directors ("directorId") VALUES (:directorId)';   //Por defecto asumo que no era director y ahora lo es.
+                if ($person->isDirector()) { //Si actualmente es director, hay que hacer delete, xq cambió.
+                    $query = 'DELETE FROM directors WHERE "directorId" = :directorId';
+                }
+                $stmt = $connection->prepare($query);
+                $stmt->execute([
+                    'directorId' => $person->getPersonId(),
+                ]);
+            }
+
+            if ($person->isActor() !== $data->isActor()) { //Si cambió el actor:
+                $query = 'INSERT INTO actors ("actorId") VALUES (:actorId)';   //Por defecto asumo que no era actor y ahora lo es.
+                if ($person->isActor()) { //Si actualmente es actor, hay que hacer delete, xq cambió.
+                    $query = 'DELETE FROM actors WHERE "actorId" = :actorId';
+                }
+                $stmt = $connection->prepare($query);
+                $stmt->execute([
+                    'actorId' => $person->getPersonId(),
+                ]);
+            }
+
+            //FIXME: Aquí podría comprobar que hay un idioma...
+            // $filasAfectadas = $stmt->rowCount();
+            $connection->commit();
+            return $this->getById($data->getPersonId());
+        } catch (Throwable $e) {
+            $connection->rollBack();
+            throw $e;
+        }
     }
 
-    public function delete(int $languageId): void
+    public function delete(int $personId): void
     {
-        $query = 'DELETE FROM directors WHERE "languageId" = :languageId ';
-
         $connection = Database::getConnection();
+        $query = 'DELETE FROM people WHERE "personId" = :personId ';   //Es suficiente con borrar people por el cascade.
         $stmt = $connection->prepare($query);
         $stmt->execute([
-            'languageId' => $languageId,
+            'personId' => $personId,
         ]);
     }
 }

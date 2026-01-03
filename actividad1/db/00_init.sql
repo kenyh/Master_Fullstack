@@ -19,6 +19,7 @@ CREATE TABLE directors (
         FOREIGN KEY ("directorId")
         REFERENCES people ("personId")
         ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE actors (

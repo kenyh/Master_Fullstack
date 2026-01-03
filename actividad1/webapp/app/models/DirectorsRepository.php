@@ -8,55 +8,26 @@ class DirectorsRepository extends PeopleRepository
 {
     public function getAll(): array
     {
-        return parent::getBy(["isDirector" => true]);
+        return parent::getBy(["isDirector" => true]);   //Delego al repositorio de persona
     }
 
-    public function getById(int $personId): Director
+    public function getById(int $personId): Person
     {
-        $query = $this->baseQuery . ' AND "personId" = :personId';
-        $connection = Database::getConnection();
-        $stmt = $connection->prepare($query);
-        $stmt->execute(["personId" => $personId]);
-
-        $filas = $stmt->fetchAll(PDO::FETCH_ASSOC); //Acá fetch all devuelve un array asociativo.
-        if (count($filas) === 0) {
-            throw new NotFoundException("No se encontró plataforma con personId: " . $personId);
-        }
-        $fila = $filas[0];
-        $director = new Director($fila['personId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['isActor'], $fila['isDirector']);
-        return $director;
+        return parent::getById($personId);
     }
 
     public function create(object $data): object
     {
-        return parent::create($data);
+        return parent::create($data);   //Delego al repositorio de persona.
     }
 
     public function update(object $data): object
     {
-        $query = 'UPDATE directors SET "name" = :name, "isoCode"=:isocode WHERE "languageId" = :languageId ';
-
-        $connection = Database::getConnection();
-        $stmt = $connection->prepare($query);
-        $stmt->execute([
-            'name' => $data->getName(),
-            'isocode' => $data->getIsoCode(),
-            'languageId' => $data->getLanguageId(),
-        ]);
-
-        //FIXME: Aquí podría comprobar que hay un idioma...
-        // $filasAfectadas = $stmt->rowCount();
-        return $this->getById($data->getLanguageId());
+        return parent::update($data);   //Delego al repositorio de persona.
     }
 
-    public function delete(int $languageId): void
+    public function delete(int $directorId): void
     {
-        $query = 'DELETE FROM directors WHERE "languageId" = :languageId ';
-
-        $connection = Database::getConnection();
-        $stmt = $connection->prepare($query);
-        $stmt->execute([
-            'languageId' => $languageId,
-        ]);
+        parent::delete($directorId);
     }
 }
