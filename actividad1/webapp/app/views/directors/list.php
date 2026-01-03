@@ -21,15 +21,15 @@ require_once __DIR__ . '/../top.php';
                 foreach ($listado as $fila):
                 ?>
                     <tr>
-                        <th scope="row"><?php echo $fila->getDirectorId() ?></th>
+                        <th scope="row"><?php echo $fila->getPersonId() ?></th>
                         <td><?php echo $fila->getName() ?></td>
                         <td><?php echo $fila->getSurname() ?></td>
                         <td><?php echo $fila->getBirthday() ?></td>
                         <td><?php echo $fila->getNationality() ?></td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="update?directorId=<?php echo $fila->getDirectorId() ?>" class="btn btn-success">Editar</a>
-                                <a href="delete.php?directorId=<?php echo $fila->getDirectorId() ?>" class="btn btn-danger">Borrar</a>
+                                <a href="update?directorId=<?php echo $fila->getPersonId() ?>" class="btn btn-success">Editar</a>
+                                <a href="delete.php?directorId=<?php echo $fila->getPersonId() ?>" class="btn btn-danger">Borrar</a>
                             </div>
 
                         </td>
