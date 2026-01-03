@@ -7,19 +7,27 @@ class Person
     private string $surname;
     private string $birthday;   //FIXME: debería ser Date??
     private string $nationality;
+    private bool $isActor;
+    private bool $isDirector;
 
     public function __construct(
         ?int $personId,
         string $name,
         string $surname,
         string $birthday,
-        string $nationality
+        string $nationality,
+        bool $isActor,
+        bool $isDirector
     ) {
+        if (!$isActor && !$isDirector) throw new Exception("La persona debe ser director y/o actor");
+
         $this->personId = $personId;
         $this->name = $name;
         $this->surname = $surname;
         $this->birthday = $birthday;
         $this->nationality = $nationality;
+        $this->isActor = $isActor;
+        $this->isDirector = $isDirector;
     }
 
     public function getPersonId(): int
@@ -43,6 +51,16 @@ class Person
         return $this->nationality;
     }
 
+    public function isActor(): bool
+    {
+        return $this->isActor;
+    }
+
+    public function isDirector(): bool
+    {
+        return $this->isDirector;
+    }
+
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -51,12 +69,21 @@ class Person
     {
         $this->surname = $surname;
     }
-    public function setBirthday(?string $birthday): void
+    public function setBirthday(string $birthday): void
     {
         $this->birthday = $birthday;
     }
-    public function setNationality(?string $nationality): void
+    public function setNationality(string $nationality): void
     {
         $this->nationality = $nationality;
+    }
+
+    public function setIsActor(bool $isActor)
+    {
+        $this->isActor = $isActor;
+    }
+    public function setIsDirector(bool $isDirector)
+    {
+        $this->isDirector = $isDirector;
     }
 }

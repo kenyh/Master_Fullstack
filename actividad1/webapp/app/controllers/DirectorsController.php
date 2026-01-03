@@ -19,12 +19,9 @@ class DirectorsController extends AbstractController
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                if (empty($_POST["name"])) throw new Exception("No se recibió el nombre del director en el formulario.");
-                if (empty($_POST["surname"])) throw new Exception("No se recibió el apellido del director en el formulario.");
-                if (empty($_POST["birthday"])) throw new Exception("No se recibió la fecha de nacimiento del director en el formulario.");
-                if (empty($_POST["nationality"])) throw new Exception("No se recibió la nacionalidad del director en el formulario.");
+                $form = $this->validateForm();
 
-                $director = new Director(null, $_POST["name"], $_POST["surname"], $_POST["birthday"], $_POST["nationality"]);
+                $director = new Director(null, $form["name"], $form["surname"], $form["birthday"], $form["nationality"], $form["isActor"], $form["isDirector"]);
                 $this->repository->create($director);
                 $_SESSION['message'] = ["type" => "success", "text" => "Director " . $director->getName() . " creada con éxito."];
                 header('Location: /directors/list');
@@ -44,7 +41,6 @@ class DirectorsController extends AbstractController
     }
     public function update()
     {
-
         try {
             //Si no se especificó el directorId:
             if (empty($_GET["directorId"])) throw new NotFoundException("Debes especificar el director que quieres editar.");
@@ -53,15 +49,14 @@ class DirectorsController extends AbstractController
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                if (empty($_POST["name"])) throw new Exception("No se recibió el nombre del director en el formulario.");
-                if (empty($_POST["surname"])) throw new Exception("No se recibió el apellido del director en el formulario.");
-                if (empty($_POST["birthday"])) throw new Exception("No se recibió la fecha de nacimiento del director en el formulario.");
-                if (empty($_POST["nationality"])) throw new Exception("No se recibió la nacionalidad del director en el formulario.");
+                $form = $this->validateForm();
 
-                $director->setName($_POST["name"]);
-                $director->setSurname($_POST["surname"]);
-                $director->setBirthday($_POST["birthday"]);
-                $director->setNationality($_POST["nationality"]);
+                $director->setName($form["name"]);
+                $director->setSurname($form["surname"]);
+                $director->setBirthday($form["birthday"]);
+                $director->setNationality($form["nationality"]);
+                $director->setIsActor($form["isActor"]);
+                $director->setIsDirector($form["isDirector"]);
 
                 $this->repository->update($director);
                 $_SESSION['message'] = ["type" => "success", "text" => "Director " . $director->getName() . " modificada con éxito."];
@@ -103,5 +98,27 @@ class DirectorsController extends AbstractController
         //Si llega aquí no es post o no salió bien..
         header('Location: /directors/list');
         exit;   //Esto hace que no llegue a terminar de ejecutar index.php donde se borra el mensaje de la sesión.
+    }
+    private function validateForm()
+    {
+        if (empty($_POST["name"])) throw new Exception("No se recibió el nombre del director en el formulario.");
+        if (empty($_POST["surname"])) throw new Exception("No se recibió el apellido del director en el formulario.");
+        if (empty($_POST["birthday"])) throw new Exception("No se recibió la fecha de nacimiento del director en el formulario.");
+        if (empty($_POST["nationality"])) throw new Exception("No se recibió la nacionalidad del director en el formulario.");
+
+        $isActor = false;
+        $isDirector = false;
+        if (isset($_POST["isActor"])) $isActor = $_POST["isActor"] === "1";
+        if (isset($_POST["isDirector"])) $isDirector = $_POST["isDirector"] === "1";
+        if (!$isActor && !$isDirector) throw new Exception("La persona tiene que ser director y/o actor.");
+
+        return [
+            "name" => $_POST["name"],
+            "surname" => $_POST["surname"],
+            "birthday" => $_POST["birthday"],
+            "nationality" => $_POST["nationality"],
+            "isActor" => $isActor,
+            "isDirector" => $isDirector,
+        ];
     }
 }

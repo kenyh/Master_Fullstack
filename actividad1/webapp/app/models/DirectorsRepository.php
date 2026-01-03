@@ -1,71 +1,35 @@
 <?php
 
 require_once __DIR__ . '/BaseRepository.php';
+require_once __DIR__ . '/PeopleRepository.php';
 require_once __DIR__ . '/Database.php';
 require_once __DIR__ . '/Director.php';
-class DirectorsRepository extends BaseRepository
+class DirectorsRepository extends PeopleRepository
 {
-
-    protected string $baseQuery = '
-        WITH mydirectors as (
-            SELECT * FROM directors D JOIN people P ON P."personId" = D."directorId" ORDER BY "name" 
-        )
-        SELECT * FROM mydirectors
-        WHERE TRUE
-    ';
-
     public function getAll(): array
     {
-        $query = $this->baseQuery;
-
-        /** @var PDO $connection */
-        $connection = Database::getConnection();
-        $stmt = $connection->prepare($query);
-        $stmt->execute();
-
-        $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $directors = [];
-
-        foreach ($filas as $fila) {
-            $director = new Director($fila['directorId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality']);
-            array_push($directors, $director);
-        }
-
-        return $directors;
+        return parent::getBy(["isDirector" => true]);
     }
 
-    public function getById(int $directorId): Director
+    public function getById(int $personId): Director
     {
-        $query = $this->baseQuery . ' AND "directorId" = :directorId';
+        $query = $this->baseQuery . ' AND "personId" = :personId';
         $connection = Database::getConnection();
         $stmt = $connection->prepare($query);
-        $stmt->execute(["directorId" => $directorId]);
+        $stmt->execute(["personId" => $personId]);
 
         $filas = $stmt->fetchAll(PDO::FETCH_ASSOC); //Acá fetch all devuelve un array asociativo.
         if (count($filas) === 0) {
-            throw new NotFoundException("No se encontró plataforma con directorId: " . $directorId);
+            throw new NotFoundException("No se encontró plataforma con personId: " . $personId);
         }
         $fila = $filas[0];
-        $director = new Director($fila['directorId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality']);
+        $director = new Director($fila['personId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['isActor'], $fila['isDirector']);
         return $director;
     }
 
     public function create(object $data): object
     {
-        //
-        $query = 'INSERT into directors(name, "isoCode") VALUES(:name,:isocode)';
-
-        $connection = Database::getConnection();
-        $stmt = $connection->prepare($query);
-        $stmt->execute([
-            'name' => $data->getName(),
-            'isocode' => $data->getIsoCode()
-        ]);
-
-        $id = (int) $connection->lastInsertId();
-
-        return $this->getById($id);
+        return parent::create($data);
     }
 
     public function update(object $data): object

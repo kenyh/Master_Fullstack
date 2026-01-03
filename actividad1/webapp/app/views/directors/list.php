@@ -13,6 +13,7 @@ require_once __DIR__ . '/../top.php';
                     <th scope="col">Apellido</th>
                     <th scope="col">Nacimiento</th>
                     <th scope="col">Nacionalidad</th>
+                    <th scope="col">Actor?</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -26,10 +27,11 @@ require_once __DIR__ . '/../top.php';
                         <td><?php echo $fila->getSurname() ?></td>
                         <td><?php echo $fila->getBirthday() ?></td>
                         <td><?php echo $fila->getNationality() ?></td>
+                        <td><?php echo $fila->isActor() ? "SI" : "NO" ?></td>
                         <td>
                             <form action="/directors/delete" method="POST" class="btn-group" role="group" onsubmit="return confirm('¿Estás seguro que deseas borrar la persona <?php echo $fila->getName() ?> ?')">
-                                <a href="/directors/update?personId=<?php echo $fila->getPersonId() ?>" class="btn btn-success">Editar</a>
-                                <input type="hidden" name="personId" value="<?php echo $fila->getPersonId() ?>" />
+                                <a href="/directors/update?directorId=<?php echo $fila->getPersonId() ?>" class="btn btn-success">Editar</a>
+                                <input type="hidden" name="directorId" value="<?php echo $fila->getPersonId() ?>" />
                                 <input type="submit" value="Borrar" class="btn btn-danger" />
                             </form>
                         </td>

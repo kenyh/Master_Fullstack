@@ -10,7 +10,7 @@ INSERT INTO platforms (name) VALUES
 
 INSERT INTO people (name, surname, birthday, nationality) VALUES
 -- Director genérico
-('Director', 'Desconocido', NULL, NULL),
+('Director', 'Desconocido', '1969-11-20', 'American'),
 -- Prison Break
 ('Paul', 'Scheuring', '1969-11-20', 'American'),
 ('Wentworth', 'Miller', '1972-06-02', 'American'),
@@ -77,7 +77,7 @@ INSERT INTO people (name, surname, birthday, nationality) VALUES
 
 
 INSERT INTO directors ("directorId") VALUES
-
+(1),  -- Desconocido
 (2),  -- Paul Scheuring
 (5),  -- Steven S. DeKnight
 (8),  -- Vince Gilligan
@@ -99,6 +99,7 @@ INSERT INTO directors ("directorId") VALUES
 (44); -- Aaron Korsh
 
 INSERT INTO actors ("actorId") VALUES
+(1),  -- Desconocido es director y actor
 -- Prison Break
 (3),(4),
 -- Spartacus
