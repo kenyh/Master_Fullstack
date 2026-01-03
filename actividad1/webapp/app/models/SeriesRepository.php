@@ -57,22 +57,53 @@ class SeriesRepository extends BaseRepository
             throw new NotFoundException("No se encontró plataforma con serieId: " . $serieId);
         }
         $fila = $filas[0];
-        $serie = new Serie($fila['serieId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality']);
+        $serie = new Serie($fila['serieId'], $fila['title'], $fila['platformId'], $fila['directorId'], $fila["platform"], $fila["director"]);
         return $serie;
     }
 
     public function create(object $data): object
     {
-        throw new \Exception("No implementado");
+        $query = 'INSERT into series(title, "platformId","directorId") VALUES(:title,:platformId, :directorId)';
+
+        $connection = Database::getConnection();
+        $stmt = $connection->prepare($query);
+        $stmt->execute([
+            'title' => $data->getTitle(),
+            'platformId' => $data->getPlatformId(),
+            'directorId' => $data->getDirectorId(),
+        ]);
+
+        $id = (int) $connection->lastInsertId();
+
+        return $this->getById($id);
     }
 
     public function update(object $data): object
     {
-        throw new \Exception("No implementado");
+        $query = 'UPDATE series SET "title" = :title, "platformId"=:platformId, "directorId"=:directorId WHERE "serieId" = :serieId ';
+
+        $connection = Database::getConnection();
+        $stmt = $connection->prepare($query);
+        $stmt->execute([
+            'serieId' => $data->getSerieId(),
+            'title' => $data->getTitle(),
+            'platformId' => $data->getPlatformId(),
+            'directorId' => $data->getDirectorId(),
+        ]);
+
+        //FIXME: Aquí podría comprobar que hay un idioma...
+        // $filasAfectadas = $stmt->rowCount();
+        return $this->getById($data->getSerieId());
     }
 
-    public function delete(int $id): void
+    public function delete(int $serieId): void
     {
-        throw new \Exception("No implementado");
+        $query = 'DELETE FROM series WHERE "serieId" = :serieId ';
+
+        $connection = Database::getConnection();
+        $stmt = $connection->prepare($query);
+        $stmt->execute([
+            'serieId' => $serieId,
+        ]);
     }
 }

@@ -2,14 +2,14 @@
 
 class Serie
 {
-    private int $serieId;
+    private ?int $serieId;
     private string $title;
     private int $platformId;
     private int $directorId;
-    private ?string $platform;
+    private ?string $platform; //No merece la pena crear un objeto Platform
     private ?string $director;
 
-    public function __construct(int $serieId, string $title, int $platformId, int $directorId, ?string $platform = null, ?string $director = null)
+    public function __construct(?int $serieId, string $title, int $platformId, int $directorId, ?string $platform = null, ?string $director = null)
     {
         $this->serieId = $serieId;
         $this->title = $title;

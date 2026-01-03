@@ -16,25 +16,21 @@ require_once __DIR__ . '/../top.php';
                 </tr>
             </thead>
             <tbody>
-                <?php
-                foreach ($listado as $fila):
-                ?>
+                <?php foreach ($listado as $fila): ?>
                     <tr>
                         <th scope="row"><?php echo $fila->getSerieId() ?></th>
                         <td><?php echo $fila->getTitle() ?></td>
                         <td><?php echo $fila->getPlatform() ?></td>
                         <td><?php echo $fila->getDirector() ?></td>
                         <td>
-                            <div class="btn-group" role="group" aria-label="Basic example">
+                            <form action="/series/delete" method="POST" class="btn-group" role="group" onsubmit="return confirm('¿Estás seguro que deseas borrar la serie <?php echo $fila->getTitle() ?> ?')">
                                 <a href="update?serieId=<?php echo $fila->getSerieId() ?>" class="btn btn-success">Editar</a>
-                                <a href="delete.php?serieId=<?php echo $fila->getSerieId() ?>" class="btn btn-danger">Borrar</a>
-                            </div>
-
+                                <input type="hidden" name="serieId" value="<?php echo $fila->getSerieId() ?>" />
+                                <input type="submit" value="Borrar" class="btn btn-danger" />
+                            </form>
                         </td>
                     </tr>
-                <?php
-                endforeach;
-                ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     <?php } else { ?>
