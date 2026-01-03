@@ -9,12 +9,12 @@ class PeopleRepository extends BaseRepository
     protected string $baseQuery = '
         WITH mypersons as (
             SELECT P.*, D.*,A.*
-            , D."directorId" IS NOT NULL as  "isDirector"
-            , A."actorId" IS NOT NULL as  "isActor"
+            , D.director_id IS NOT NULL as is_director
+            , A.actor_id IS NOT NULL as  is_actor
             FROM people P 
-            LEFT JOIN directors D ON P."personId" = D."directorId" 
-            LEFT JOIN actors A ON P."personId" = A."actorId" 
-            ORDER BY "surname" 
+            LEFT JOIN directors D ON P.person_id = D.director_id 
+            LEFT JOIN actors A ON P.person_id = A.actor_id 
+            ORDER BY surname
         )
         SELECT * FROM mypersons
         WHERE TRUE
@@ -33,7 +33,7 @@ class PeopleRepository extends BaseRepository
         $people = [];
 
         foreach ($filas as $fila) {
-            $person = new Person($fila['personId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['isActor'], $fila['isDirector']);
+            $person = new Person($fila['person_id'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['is_actor'], $fila['is_director']);
             array_push($people, $person);
         }
 
@@ -63,7 +63,7 @@ class PeopleRepository extends BaseRepository
         $people = [];
 
         foreach ($filas as $fila) {
-            $person = new Person($fila['personId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['isActor'], $fila['isDirector']);
+            $person = new Person($fila['person_id'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['is_actor'], $fila['is_director']);
             array_push($people, $person);
         }
 
@@ -74,7 +74,7 @@ class PeopleRepository extends BaseRepository
     {
         $connection = Database::getConnection();
 
-        $query = $this->baseQuery . ' AND "personId" = :personId';
+        $query = $this->baseQuery . ' AND person_id = :personId';
         $stmt = $connection->prepare($query);
         $stmt->execute(["personId" => $personId]);
 
@@ -83,7 +83,7 @@ class PeopleRepository extends BaseRepository
             throw new NotFoundException("No se encontró plataforma con personId: " . $personId);
         }
         $fila = $filas[0];
-        $person = new Person($fila['personId'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['isActor'], $fila['isDirector']);
+        $person = new Person($fila['person_id'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['is_actor'], $fila['is_director']);
         return $person;
     }
 
@@ -105,7 +105,7 @@ class PeopleRepository extends BaseRepository
             $personId = (int) $connection->lastInsertId();
             if ($data->isDirector()) {  //Si es director, insert en directors
                 $queryDirector = '
-                    INSERT INTO directors ("directorId")
+                    INSERT INTO directors (director_id)
                     VALUES (:directorId)
                 ';
 
@@ -116,7 +116,7 @@ class PeopleRepository extends BaseRepository
             }
             if ($data->isActor()) {     //Si es actor, insert en actors
                 $queryActor = '
-                    INSERT INTO actors ("actorId")
+                    INSERT INTO actors (actor_id)
                     VALUES (:actorId)
                 ';
 
@@ -139,7 +139,7 @@ class PeopleRepository extends BaseRepository
         $connection->beginTransaction();       //Transacción ya que son dos inserts separados.
         try {
             $person = $this->getById($data->getPersonId());
-            $query = 'UPDATE people SET "name" = :name, "surname"=:surname, "birthday"=:birthday , "nationality"=:nationality  WHERE "personId" = :personId ';
+            $query = 'UPDATE people SET name = :name, surname=:surname, birthday=:birthday , nationality=:nationality  WHERE person_id = :personId ';
             $stmt = $connection->prepare($query);
             $stmt->execute([
                 'personId' => $data->getPersonId(),
@@ -150,9 +150,9 @@ class PeopleRepository extends BaseRepository
             ]);
 
             if ($person->isDirector() !== $data->isDirector()) { //Si cambió el director:
-                $query = 'INSERT INTO directors ("directorId") VALUES (:directorId)';   //Por defecto asumo que no era director y ahora lo es.
+                $query = 'INSERT INTO directors (director_id) VALUES (:directorId)';   //Por defecto asumo que no era director y ahora lo es.
                 if ($person->isDirector()) { //Si actualmente es director, hay que hacer delete, xq cambió.
-                    $query = 'DELETE FROM directors WHERE "directorId" = :directorId';
+                    $query = 'DELETE FROM directors WHERE director_id = :directorId';
                 }
                 $stmt = $connection->prepare($query);
                 $stmt->execute([
@@ -161,9 +161,9 @@ class PeopleRepository extends BaseRepository
             }
 
             if ($person->isActor() !== $data->isActor()) { //Si cambió el actor:
-                $query = 'INSERT INTO actors ("actorId") VALUES (:actorId)';   //Por defecto asumo que no era actor y ahora lo es.
+                $query = 'INSERT INTO actors (actor_id) VALUES (:actorId)';   //Por defecto asumo que no era actor y ahora lo es.
                 if ($person->isActor()) { //Si actualmente es actor, hay que hacer delete, xq cambió.
-                    $query = 'DELETE FROM actors WHERE "actorId" = :actorId';
+                    $query = 'DELETE FROM actors WHERE actor_id = :actorId';
                 }
                 $stmt = $connection->prepare($query);
                 $stmt->execute([
@@ -184,7 +184,7 @@ class PeopleRepository extends BaseRepository
     public function delete(int $personId): void
     {
         $connection = Database::getConnection();
-        $query = 'DELETE FROM people WHERE "personId" = :personId ';   //Es suficiente con borrar people por el cascade.
+        $query = 'DELETE FROM people WHERE person_id = :personId ';   //Es suficiente con borrar people por el cascade.
         $stmt = $connection->prepare($query);
         $stmt->execute([
             'personId' => $personId,

@@ -7,7 +7,7 @@ class PlatformsRepository extends BaseRepository
 {
     protected string $baseQuery = '
         WITH MyP AS (
-            SELECT * FROM platforms ORDER BY "name" 
+            SELECT * FROM platforms ORDER BY name 
         )
         SELECT * FROM MyP
         WHERE TRUE
@@ -25,7 +25,7 @@ class PlatformsRepository extends BaseRepository
         $platforms = [];
 
         foreach ($filas as $fila) {
-            $platform = new Platform($fila['platformId'], $fila['name']);
+            $platform = new Platform($fila['platform_id'], $fila['name']);
             array_push($platforms, $platform);
         }
 
@@ -34,7 +34,7 @@ class PlatformsRepository extends BaseRepository
 
     public function getById(int $platformId): Platform
     {
-        $query = $this->baseQuery . ' AND "platformId" = :platformId';
+        $query = $this->baseQuery . ' AND platform_id = :platformId';
         $connection = Database::getConnection();
         $stmt = $connection->prepare($query);
         $stmt->execute(["platformId" => $platformId]);
@@ -44,7 +44,7 @@ class PlatformsRepository extends BaseRepository
             throw new NotFoundException("No se encontró plataforma con platformId: " . $platformId);
         }
         $fila = $filas[0];
-        $platform = new Platform($fila['platformId'], $fila['name']);
+        $platform = new Platform($fila['platform_id'], $fila['name']);
         return $platform;
     }
 
@@ -65,7 +65,7 @@ class PlatformsRepository extends BaseRepository
 
     public function update(object $data): object
     {
-        $query = 'UPDATE platforms SET "name" = :name WHERE "platformId" = :platformId ';
+        $query = 'UPDATE platforms SET name = :name WHERE platform_id = :platformId ';
 
         $connection = Database::getConnection();
         $stmt = $connection->prepare($query);
@@ -81,7 +81,7 @@ class PlatformsRepository extends BaseRepository
 
     public function delete(int $platformId): void
     {
-        $query = 'DELETE FROM platforms WHERE "platformId" = :platformId ';
+        $query = 'DELETE FROM platforms WHERE platform_id = :platformId ';
 
         $connection = Database::getConnection();
         $stmt = $connection->prepare($query);

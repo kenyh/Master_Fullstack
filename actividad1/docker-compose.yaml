@@ -27,7 +27,7 @@ services:
     ports:
       - ${DB_PORT}:${DB_PORT}
     volumes:
-      - ./db:/docker-entrypoint-initdb.d
+      - ./db/pg:/docker-entrypoint-initdb.d
 
 # db con mysql, no está probado y el init.sql sirve solo para postgres
   # db:
@@ -43,4 +43,4 @@ services:
   #   ports:
   #     - ${DB_PORT}:${DB_PORT}
   #   volumes:
-  #     - ./db:/docker-entrypoint-initdb.d
+  #     - ./db/mysql:/docker-entrypoint-initdb.d

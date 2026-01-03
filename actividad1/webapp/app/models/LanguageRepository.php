@@ -28,7 +28,7 @@ class LanguageRepository extends BaseRepository
         $languages = [];
 
         foreach ($filas as $fila) {
-            $language = new Language($fila['languageId'], $fila['name'], $fila['isoCode']);
+            $language = new Language($fila['language_id'], $fila['name'], $fila['iso_code']);
             array_push($languages, $language);
         }
 
@@ -37,7 +37,7 @@ class LanguageRepository extends BaseRepository
 
     public function getById(int $languageId): Language
     {
-        $query = $this->baseQuery . ' AND "languageId" = :languageId';
+        $query = $this->baseQuery . ' AND language_id = :languageId';
         $connection = Database::getConnection();
         $stmt = $connection->prepare($query);
         $stmt->execute(["languageId" => $languageId]);
@@ -47,13 +47,13 @@ class LanguageRepository extends BaseRepository
             throw new NotFoundException("No se encontró idioma con languageId: " . $languageId);
         }
         $fila = $filas[0];
-        $language = new Language($fila['languageId'], $fila['name'], $fila['isoCode']);
+        $language = new Language($fila['language_id'], $fila['name'], $fila['iso_code']);
         return $language;
     }
 
     public function create(object $data): object
     {
-        $query = 'INSERT into languages(name, "isoCode") VALUES(:name,:isocode)';
+        $query = 'INSERT into languages(name, iso_code) VALUES(:name,:isocode)';
 
         $connection = Database::getConnection();
         $stmt = $connection->prepare($query);
@@ -69,7 +69,7 @@ class LanguageRepository extends BaseRepository
 
     public function update(object $data): object
     {
-        $query = 'UPDATE languages SET "name" = :name, "isoCode"=:isocode WHERE "languageId" = :languageId ';
+        $query = 'UPDATE languages SET name = :name, iso_code=:isocode WHERE language_id = :languageId ';
 
         $connection = Database::getConnection();
         $stmt = $connection->prepare($query);
@@ -86,7 +86,7 @@ class LanguageRepository extends BaseRepository
 
     public function delete(int $languageId): void
     {
-        $query = 'DELETE FROM languages WHERE "languageId" = :languageId ';
+        $query = 'DELETE FROM languages WHERE language_id = :languageId ';
 
         $connection = Database::getConnection();
         $stmt = $connection->prepare($query);

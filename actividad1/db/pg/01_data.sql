@@ -76,7 +76,7 @@ INSERT INTO people (name, surname, birthday, nationality) VALUES
 ;
 
 
-INSERT INTO directors ("directorId") VALUES
+INSERT INTO directors (director_id) VALUES
 (1),  -- Desconocido
 (2),  -- Paul Scheuring
 (5),  -- Steven S. DeKnight
@@ -98,7 +98,7 @@ INSERT INTO directors ("directorId") VALUES
 (42), -- Michael Hirst
 (44); -- Aaron Korsh
 
-INSERT INTO actors ("actorId") VALUES
+INSERT INTO actors (actor_id) VALUES
 (1),  -- Desconocido es director y actor
 -- Prison Break
 (3),(4),
@@ -136,7 +136,7 @@ INSERT INTO actors ("actorId") VALUES
 (45),(46)
 ;
 
-INSERT INTO series (title, "platformId", "directorId") VALUES
+INSERT INTO series (title, platform_id, director_id) VALUES
 ('Prison Break', 6, 2),        -- Paul Scheuring
 ('Spartacus', 3, 5),           -- Steven S. DeKnight
 ('Breaking Bad', 1, 8),        -- Vince Gilligan
@@ -158,7 +158,7 @@ INSERT INTO series (title, "platformId", "directorId") VALUES
 ('Suits', 1, 44)                -- Aaron Korsh
 ;
 
-INSERT INTO serie_actors ("serieId", "actorId") VALUES
+INSERT INTO serie_actors (serie_id, actor_id) VALUES
 -- Prison Break
 (1, 3),
 (1, 4),
@@ -225,7 +225,7 @@ INSERT INTO serie_actors ("serieId", "actorId") VALUES
 ;
 
 -- Languages
-INSERT INTO languages (name, "isoCode") VALUES
+INSERT INTO languages (name, iso_code) VALUES
 ('English', 'en'),
 ('Spanish', 'es'),
 ('Portuguese', 'pt'),
@@ -239,7 +239,7 @@ INSERT INTO languages (name, "isoCode") VALUES
 ;
 
 
-INSERT INTO series_audio_languages ("serieId", "languageId") VALUES
+INSERT INTO series_audio_languages (serie_id, language_id) VALUES
 -- Prison Break
 (1, 1), (1, 2), (1, 3),
 
@@ -299,7 +299,7 @@ INSERT INTO series_audio_languages ("serieId", "languageId") VALUES
 ;
 
 
-INSERT INTO series_subtitle_languages ("serieId", "languageId") VALUES
+INSERT INTO series_subtitle_languages (serie_id, language_id) VALUES
 -- Prison Break
 (1, 1), (1, 2), (1, 3), (1, 4),
 

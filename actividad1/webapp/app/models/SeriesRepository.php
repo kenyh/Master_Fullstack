@@ -10,9 +10,10 @@ class SeriesRepository extends BaseRepository
         WITH myseries AS (
             SELECT S.*, P.name as platform, PE.surname as director
             FROM series S 
-            LEFT JOIN platforms P ON S."platformId" = P."platformId"
-            LEFT JOIN directors D ON S."directorId" = D."directorId"
-            JOIN people PE ON D."directorId" = PE."personId"
+            LEFT JOIN platforms P ON S.platform_id = P.platform_id
+            LEFT JOIN directors D ON S.director_id = D.director_id
+            JOIN people PE ON D.director_id = PE.person_id
+            ORDER BY S.title 
         )
         SELECT * FROM myseries
         WHERE TRUE
@@ -32,7 +33,7 @@ class SeriesRepository extends BaseRepository
         $series = [];
 
         foreach ($filas as $fila) {
-            $serie = new Serie($fila['serieId'], $fila['title'], $fila['platformId'], $fila['directorId'], $fila["platform"], $fila["director"]);
+            $serie = new Serie($fila['serie_id'], $fila['title'], $fila['platform_id'], $fila['director_id'], $fila["platform"], $fila["director"]);
             array_push($series, $serie);
         }
 
@@ -41,7 +42,7 @@ class SeriesRepository extends BaseRepository
 
     public function getById(int $serieId): Serie
     {
-        $query = $this->baseQuery . ' AND "serieId" = :serieId';
+        $query = $this->baseQuery . ' AND serie_id = :serieId';
         $connection = Database::getConnection();
         $stmt = $connection->prepare($query);
         $stmt->execute(["serieId" => $serieId]);
@@ -51,13 +52,13 @@ class SeriesRepository extends BaseRepository
             throw new NotFoundException("No se encontró plataforma con serieId: " . $serieId);
         }
         $fila = $filas[0];
-        $serie = new Serie($fila['serieId'], $fila['title'], $fila['platformId'], $fila['directorId'], $fila["platform"], $fila["director"]);
+        $serie = new Serie($fila['serie_id'], $fila['title'], $fila['platform_id'], $fila['director_id'], $fila["platform"], $fila["director"]);
         return $serie;
     }
 
     public function create(object $data): object
     {
-        $query = 'INSERT into series(title, "platformId","directorId") VALUES(:title,:platformId, :directorId)';
+        $query = 'INSERT into series(title, platform_id,director_id) VALUES(:title,:platformId, :directorId)';
 
         $connection = Database::getConnection();
         $stmt = $connection->prepare($query);
@@ -74,7 +75,7 @@ class SeriesRepository extends BaseRepository
 
     public function update(object $data): object
     {
-        $query = 'UPDATE series SET "title" = :title, "platformId"=:platformId, "directorId"=:directorId WHERE "serieId" = :serieId ';
+        $query = 'UPDATE series SET "title" = :title, platform_id=:platformId, director_id=:directorId WHERE serie_id = :serieId ';
 
         $connection = Database::getConnection();
         $stmt = $connection->prepare($query);
@@ -84,15 +85,12 @@ class SeriesRepository extends BaseRepository
             'platformId' => $data->getPlatformId(),
             'directorId' => $data->getDirectorId(),
         ]);
-
-        //FIXME: Aquí podría comprobar que hay un idioma...
-        // $filasAfectadas = $stmt->rowCount();
         return $this->getById($data->getSerieId());
     }
 
     public function delete(int $serieId): void
     {
-        $query = 'DELETE FROM series WHERE "serieId" = :serieId ';
+        $query = 'DELETE FROM series WHERE serie_id = :serieId ';
 
         $connection = Database::getConnection();
         $stmt = $connection->prepare($query);

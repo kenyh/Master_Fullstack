@@ -8,7 +8,7 @@ class DirectorsRepository extends PeopleRepository
 {
     public function getAll(): array
     {
-        return parent::getBy(["isDirector" => true]);   //Delego al repositorio de persona
+        return parent::getBy(["is_director" => true]);   //Delego al repositorio de persona
     }
 
     public function getById(int $personId): Person
