@@ -12,8 +12,7 @@
                 <select class="form-select" name="platformId">
                     <option value="">Selecciona la plataforma</option>
                     <?php foreach ($platforms as $platform): ?>
-                        <option value="<?php echo $platform->getPlatformId() ?>"
-                            <?php echo $serie?->getPlatformId() === $platform->getPlatformId() ? 'selected' : '' ?>>
+                        <option value="<?php echo $platform->getPlatformId() ?>" <?php if (isset($serie) && $serie->getPlatformId() === $platform->getPlatformId()) echo 'selected' ?>>
                             <?php echo $platform->getName()  ?>
                         </option>
                     <?php endforeach; ?>
@@ -26,8 +25,8 @@
                 <select class="form-select" name="directorId">
                     <option value="">Selecciona el director</option>
                     <?php foreach ($directors as $director): ?>
-                        <option value="<?php echo $director->getDirectorId() ?>"
-                            <?php echo $serie?->getDirectorId() === $director->getDirectorId() ? 'selected' : '' ?>>
+                        <option value="<?php echo $director->getPersonId() ?>"
+                            <?php if (isset($serie) && $serie->getDirectorId() === $director->getPersonId()) echo 'selected' ?>>
                             <?php echo $director->getSurname() . ", " . $director->getName() ?>
                         </option>
                     <?php endforeach; ?>
