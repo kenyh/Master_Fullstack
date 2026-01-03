@@ -5,7 +5,7 @@ CREATE TABLE platforms (
     CONSTRAINT "platforms_name_chk" CHECK (CHAR_LENGTH("name") >= 2)
 );
 
-CREATE TABLE person (
+CREATE TABLE people (
     "personId" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name TEXT NOT NULL,
     surname TEXT NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE directors (
     "directorId" INTEGER PRIMARY KEY,
     CONSTRAINT "directors_personId_fk"
         FOREIGN KEY ("directorId")
-        REFERENCES person ("personId")
+        REFERENCES people ("personId")
         ON DELETE CASCADE
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE actors (
     "actorId" INTEGER PRIMARY KEY,
     CONSTRAINT "actors_personId_fk" 
         FOREIGN KEY ("actorId") 
-        REFERENCES person ("personId") 
+        REFERENCES people ("personId") 
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );

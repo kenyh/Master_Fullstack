@@ -3,12 +3,12 @@
 require_once __DIR__ . '/BaseRepository.php';
 require_once __DIR__ . '/Database.php';
 require_once __DIR__ . '/Director.php';
-class DirectorsRepository extends BaseRepository
+class PeopleRepository extends BaseRepository
 {
 
     protected string $baseQuery = '
-        WITH mydirectors as (
-            SELECT * FROM directors D JOIN people P ON P."personId" = D."directorId" ORDER BY "name" 
+        WITH mypersons as (
+            SELECT * FROM people D JOIN people P ON P."personId" = D."directorId" ORDER BY "name" 
         )
         SELECT * FROM mydirectors
         WHERE TRUE

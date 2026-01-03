@@ -12,7 +12,7 @@ class SeriesRepository extends BaseRepository
             FROM series S 
             LEFT JOIN platforms P ON S."platformId" = P."platformId"
             LEFT JOIN directors D ON S."directorId" = D."directorId"
-            JOIN person PE ON D."directorId" = PE."personId"
+            JOIN people PE ON D."directorId" = PE."personId"
         )
         SELECT * FROM myseries
         WHERE TRUE

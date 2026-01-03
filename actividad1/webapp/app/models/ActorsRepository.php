@@ -7,7 +7,7 @@ class ActorsRepository extends BaseRepository
 {
     protected string $baseQuery = '
         WITH myactors AS (
-            SELECT * FROM actors JOIN person P ON P."personId" = actors."actorId" ORDER BY "name" 
+            SELECT * FROM actors JOIN people P ON P."personId" = actors."actorId" ORDER BY "name" 
         )
         SELECT * FROM myactors
         WHERE TRUE

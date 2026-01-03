@@ -8,7 +8,7 @@ INSERT INTO platforms (name) VALUES
 ('CBS')
 ;
 
-INSERT INTO person (name, surname, birthday, nationality) VALUES
+INSERT INTO people (name, surname, birthday, nationality) VALUES
 -- Director genérico
 ('Director', 'Desconocido', NULL, NULL),
 -- Prison Break
