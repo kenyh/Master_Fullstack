@@ -136,27 +136,103 @@ INSERT INTO actors (actor_id) VALUES
 (45),(46)
 ;
 
-INSERT INTO series (title, platform_id, director_id) VALUES
-('Prison Break', 6, 2),        -- Paul Scheuring
-('Spartacus', 3, 5),           -- Steven S. DeKnight
-('Breaking Bad', 1, 8),        -- Vince Gilligan
-('Better Call Saul', 1, 8),    -- Vince Gilligan
-('Lie to Me', 6, 12),           -- Samuel Baum
-('The Wire', 2, 14),            -- David Simon
-('Sherlock', 2, 18),            -- Steven Moffat
-('Dexter', 2, 21),              -- James Manos Jr.
-('Peaky Blinders', 1, 23),      -- Steven Knight
-('Game of Thrones', 2, 25),     -- David Benioff / D. B. Weiss (uso Benioff)
-('Hawaii Five-0', 7, 29),       -- Peter Lenkov
-('Dr. House', 7, 31),           -- David Shore
-('Daredevil', 4, 33),           -- Drew Goddard
-('Arrow', 4, 35),               -- Greg Berlanti
-('Flash', 4, 35),               -- Greg Berlanti
-('Mindhunter', 1, 38),          -- Joe Penhall
-('The Crown', 1, 40),           -- Peter Morgan
-('Vikings', 3, 42),             -- Michael Hirst
-('Suits', 1, 44)                -- Aaron Korsh
-;
+INSERT INTO series (title, synopsis, platform_id, director_id) VALUES
+(
+  'Prison Break',
+  'Un ingeniero brillante se deja encarcelar deliberadamente para ayudar a su hermano, condenado a muerte injustamente. Dentro de la prisión, ejecuta un plan de escape complejo lleno de alianzas, traiciones y giros inesperados.',
+  6, 2
+),
+(
+  'Spartacus',
+  'Inspirada en hechos reales, sigue la vida de un gladiador tracio que lidera una rebelión de esclavos contra la República romana, combinando acción brutal, intrigas políticas y drama intenso.',
+  3, 5
+),
+(
+  'Breaking Bad',
+  'Un profesor de química diagnosticado con cáncer terminal comienza a fabricar metanfetamina para asegurar el futuro económico de su familia, transformándose gradualmente en un peligroso criminal.',
+  1, 8
+),
+(
+  'Better Call Saul',
+  'Precuela de Breaking Bad que narra la transformación de Jimmy McGill, un abogado con buenas intenciones, en Saul Goodman, mientras se hunde en el mundo del crimen y la corrupción legal.',
+  1, 8
+),
+(
+  'Lie to Me',
+  'Un experto en lenguaje corporal y microexpresiones colabora con agencias gubernamentales para descubrir mentiras en investigaciones criminales y casos de alto riesgo.',
+  6, 12
+),
+(
+  'The Wire',
+  'Un retrato crudo y realista de la ciudad de Baltimore, explorando el narcotráfico, la policía, la política, los medios y el sistema educativo desde múltiples perspectivas.',
+  2, 14
+),
+(
+  'Sherlock',
+  'Una versión moderna de Sherlock Holmes, un detective brillante y excéntrico que resuelve crímenes complejos en Londres con la ayuda de su leal amigo John Watson.',
+  2, 18
+),
+(
+  'Dexter',
+  'Dexter Morgan es un analista forense que lleva una doble vida como asesino en serie, siguiendo un estricto código moral para eliminar criminales impunes.',
+  2, 21
+),
+(
+  'Peaky Blinders',
+  'Ambientada en la Inglaterra de posguerra, sigue a la familia Shelby y su líder Tommy mientras expanden su imperio criminal entre violencia, política y ambición.',
+  1, 23
+),
+(
+  'Game of Thrones',
+  'Varias casas nobles luchan por el control del Trono de Hierro en un mundo fantástico lleno de traiciones, guerras, dragones y conspiraciones.',
+  2, 25
+),
+(
+  'Hawaii Five-0',
+  'Un equipo especial de élite investiga crímenes graves en Hawái, combinando acción, drama policial y paisajes paradisíacos.',
+  7, 29
+),
+(
+  'Dr. House',
+  'El doctor Gregory House, un médico brillante pero antisocial, lidera un equipo que diagnostica enfermedades raras usando métodos poco convencionales.',
+  7, 31
+),
+(
+  'Daredevil',
+  'Matt Murdock, un abogado ciego con sentidos extraordinarios, combate el crimen en Hell’s Kitchen tanto en los tribunales como en las calles.',
+  4, 33
+),
+(
+  'Arrow',
+  'Tras sobrevivir a un naufragio, un millonario regresa a su ciudad convertido en un justiciero encapuchado que combate el crimen y la corrupción.',
+  4, 35
+),
+(
+  'Flash',
+  'Barry Allen obtiene supervelocidad tras un accidente científico y la usa para proteger su ciudad de amenazas metahumanas.',
+  4, 35
+),
+(
+  'Mindhunter',
+  'Ambientada en los años 70, sigue a agentes del FBI que entrevistan asesinos seriales para comprender su psicología y mejorar la criminología moderna.',
+  1, 38
+),
+(
+  'The Crown',
+  'Drama histórico que narra el reinado de Isabel II, explorando los desafíos políticos y personales de la monarquía británica.',
+  1, 40
+),
+(
+  'Vikings',
+  'La serie sigue a Ragnar Lothbrok y sus descendientes en sus conquistas, exploraciones y conflictos en la era vikinga.',
+  3, 42
+),
+(
+  'Suits',
+  'Un joven brillante sin título universitario consigue trabajo en un prestigioso bufete de abogados, ocultando su secreto mientras enfrenta casos complejos.',
+  1, 44
+);
+
 
 INSERT INTO serie_actors (serie_id, actor_id) VALUES
 -- Prison Break

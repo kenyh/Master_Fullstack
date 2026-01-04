@@ -5,11 +5,12 @@ require_once __DIR__ . '/../top.php';
 <div class="d-flex justify-content-center">
     <?php
     if (count($listado) > 0) {
-    ?> <table class="table table-bordered w-auto">
+    ?> <table class="table table-sm table-bordered w-auto">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nombre</th>
+                    <th scope="col">Sinopsis</th>
                     <th scope="col">Plataforma</th>
                     <th scope="col">Director</th>
                     <th scope="col">Audios</th>
@@ -20,17 +21,18 @@ require_once __DIR__ . '/../top.php';
             <tbody>
                 <?php foreach ($listado as $fila): ?>
                     <tr>
-                        <th scope="row"><?php echo $fila->getSerieId() ?></th>
-                        <td><?php echo $fila->getTitle() ?></td>
-                        <td><?php echo $fila->getPlatform() ?></td>
-                        <td><?php echo $fila->getDirector() ?></td>
-                        <td><?php echo implode(', ', $fila->getAudioLanguageNames()) ?></td>
-                        <td><?php echo implode(', ', $fila->getSubtitleLanguageNames()) ?></td>
-                        <td>
+                        <th class="align-middle" scope="row"><?php echo $fila->getSerieId() ?></th>
+                        <td class="align-middle"><?php echo $fila->getTitle() ?></td>
+                        <td class="align-middle"><?php echo $fila->getSynopsis() ?></td>
+                        <td class="align-middle"><?php echo $fila->getPlatform() ?></td>
+                        <td class="align-middle"><?php echo $fila->getDirector() ?></td>
+                        <td class="align-middle"><?php echo implode(', ', $fila->getAudioLanguageNames()) ?></td>
+                        <td class="align-middle"><?php echo implode(', ', $fila->getSubtitleLanguageNames()) ?></td>
+                        <td class="align-middle">
                             <form action="/series/delete" method="POST" class="btn-group" role="group" onsubmit="return confirm('¿Estás seguro que deseas borrar la serie <?php echo $fila->getTitle() ?> ?')">
-                                <a href="update?serieId=<?php echo $fila->getSerieId() ?>" class="btn btn-success">Editar</a>
+                                <a title="Editar" href="update?serieId=<?php echo $fila->getSerieId() ?>" class="btn btn-success"><i class="bi bi-pencil"></i></a>
                                 <input type="hidden" name="serieId" value="<?php echo $fila->getSerieId() ?>" />
-                                <input type="submit" value="Borrar" class="btn btn-danger" />
+                                <button type="submit" title="Borrar " class="btn btn-danger"><i class="bi bi-trash"></i></button>
                             </form>
                         </td>
                     </tr>

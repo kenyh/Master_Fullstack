@@ -4,6 +4,7 @@ class Serie
 {
     private ?int $serieId;
     private string $title;
+    private string $synopsis;
     private int $platformId;
     private int $directorId;
     private ?string $platform; //No merece la pena crear un objeto Platform
@@ -16,6 +17,7 @@ class Serie
     public function __construct(
         ?int $serieId,
         string $title,
+        string $synopsis,
         int $platformId,
         int $directorId,
         array $audioLanguageIds,
@@ -27,6 +29,7 @@ class Serie
     ) {
         $this->serieId = $serieId;
         $this->title = $title;
+        $this->synopsis = $synopsis;
         $this->platformId = $platformId;
         $this->directorId = $directorId;
         $this->platform = $platform;
@@ -56,6 +59,16 @@ class Serie
     public function setTitle(string $title)
     {
         $this->title = $title;
+    }
+
+    public function getSynopsis(): string
+    {
+        return $this->synopsis;
+    }
+
+    public function setSynopsis(string $synopsis)
+    {
+        $this->synopsis = $synopsis;
     }
 
     public function getPlatformId(): int

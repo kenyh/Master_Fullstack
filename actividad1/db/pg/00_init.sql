@@ -34,6 +34,7 @@ CREATE TABLE actors (
 CREATE TABLE series (
     serie_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
+    synopsis VARCHAR(500) NOT NULL,
     platform_id INTEGER NOT NULL,
     director_id INTEGER NOT NULL,
     CONSTRAINT series_platform_id_fk FOREIGN KEY (platform_id) REFERENCES platforms(platform_id),

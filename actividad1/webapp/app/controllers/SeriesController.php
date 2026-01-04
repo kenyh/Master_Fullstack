@@ -33,7 +33,7 @@ class SeriesController extends AbstractController
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $form = $this->validateForm();
-                $serie = new Serie(null, $form["title"], $form["platformId"], $form["directorId"], $form["audioLanguageIds"], $form["subtitleLanguageIds"]);
+                $serie = new Serie(null, $form["title"], $form["synopsis"], $form["platformId"], $form["directorId"], $form["audioLanguageIds"], $form["subtitleLanguageIds"]);
 
                 $this->repository->create($serie);
 
@@ -71,6 +71,7 @@ class SeriesController extends AbstractController
                 $form = $this->validateForm();
 
                 $serie->setTitle($form["title"]);
+                $serie->setSynopsis($form["synopsis"]);
                 $serie->setPlatformId($form["platformId"]);
                 $serie->setDirectorId($form["directorId"]);
                 $serie->setAudioLanguageIds($form["audioLanguageIds"]);
@@ -121,6 +122,7 @@ class SeriesController extends AbstractController
     private function validateForm()
     {
         if (empty($_POST["title"])) throw new Exception("No se recibió el nombre de la serie en el formulario.");
+        if (empty($_POST["synopsis"])) throw new Exception("No se recibió la sinopsis de la serie en el formulario.");
         if (empty($_POST["platformId"])) throw new Exception("No se recibió la plataforma de la serie en el formulario.");
         if (empty($_POST["directorId"])) throw new Exception("No se recibió el director de la serie en el formulario.");
         if (empty($_POST["audioLanguageIds"])) throw new Exception("No se recibieron los idiomas de audio de la serie en el formulario.");
@@ -128,6 +130,7 @@ class SeriesController extends AbstractController
 
         return [
             "title" => $_POST["title"],
+            "synopsis" => $_POST["synopsis"],
             "platformId" => $_POST["platformId"],
             "directorId" => $_POST["directorId"],
             "audioLanguageIds" => array_values($_POST["audioLanguageIds"]),

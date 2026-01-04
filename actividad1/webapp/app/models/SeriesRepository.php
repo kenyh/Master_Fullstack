@@ -149,12 +149,13 @@ class SeriesRepository extends BaseRepository
                 'serieId' => $data->getSerieId()
             ]);
 
-            $query = 'UPDATE series SET title = :title, platform_id=:platformId, director_id=:directorId WHERE serie_id = :serieId ';
+            $query = 'UPDATE series SET title = :title, synopsis = :synopsis, platform_id=:platformId, director_id=:directorId WHERE serie_id = :serieId ';
 
             $stmt = $connection->prepare($query);
             $stmt->execute([
                 'serieId' => $data->getSerieId(),
                 'title' => $data->getTitle(),
+                'synopsis' => $data->getSynopsis(),
                 'platformId' => $data->getPlatformId(),
                 'directorId' => $data->getDirectorId(),
             ]);
@@ -214,6 +215,7 @@ class SeriesRepository extends BaseRepository
         return new Serie(
             $fila['serie_id'],
             $fila['title'],
+            $fila['synopsis'],
             $fila['platform_id'],
             $fila['director_id'],
             $audioLanguageIds,

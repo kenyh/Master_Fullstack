@@ -34,6 +34,7 @@ CREATE TABLE actors (
 CREATE TABLE series (
     serie_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
+    synopsis VARCHAR(500) NOT NULL,
     platform_id INT NOT NULL,
     director_id INT NOT NULL,
     CONSTRAINT series_platform_id_fk

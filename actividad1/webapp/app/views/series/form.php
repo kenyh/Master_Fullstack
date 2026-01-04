@@ -6,6 +6,13 @@
                 <input type="text" class="form-control" name="title" placeholder="Introduce el título" required minlength="2" value="<?php echo $serie?->getTitle() ?? '' ?>" />
             </div>
         </div>
+
+        <div class="row">
+            <div class="col mb-3">
+                <label for="synopsis" class="form-label">Sinopsis</label>
+                <textarea class="form-control" name="synopsis" placeholder="Introduce la sinopsis" required minlength="20"><?php echo $serie?->getSynopsis() ?? '' ?></textarea>
+            </div>
+        </div>
         <div class="row">
             <div class="col mb-3">
                 <label for="platformId" class="form-label">Plataforma</label>
