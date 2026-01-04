@@ -1,0 +1,31 @@
+services:
+  web:
+    image: miphp
+    build: .
+    container_name: php
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DRIVER: mysql
+    volumes:
+      - ./webapp:/var/www/html
+    restart: unless-stopped
+  db:
+    image:  
+    container_name: mysql
+    command: --port=${DB_PORT}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      DB_DRIVER: mysql
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - ./db/mysql:/docker-entrypoint-initdb.d

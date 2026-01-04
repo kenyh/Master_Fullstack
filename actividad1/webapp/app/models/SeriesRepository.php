@@ -9,8 +9,6 @@ class SeriesRepository extends BaseRepository
     protected string $baseQuery = '
         WITH myseries AS (
             SELECT S.*, P.name as platform, PE.surname as director,
-            
-            -- Audios
             (
                 SELECT JSON_ARRAYAGG(L.iso_code) 
                 FROM series_audio_languages SAL 
@@ -22,26 +20,24 @@ class SeriesRepository extends BaseRepository
                 FROM series_audio_languages SAL 
                 WHERE SAL.serie_id = S.serie_id
             ) AS audio_language_ids,
-            -- Subtítulos
             (
                 SELECT JSON_ARRAYAGG(L.iso_code) 
-                FROM series_subtitle_languages SSL 
-                JOIN languages L ON L.language_id = SSL.language_id 
-                WHERE SSL.serie_id = S.serie_id
+                FROM series_subtitle_languages SL 
+                JOIN languages L ON L.language_id = SL.language_id 
+                WHERE SL.serie_id = S.serie_id
             ) AS subtitle_language_names,
             (
-                SELECT JSON_ARRAYAGG(SSL.language_id) 
-                FROM series_subtitle_languages SSL 
-                WHERE SSL.serie_id = S.serie_id
+                SELECT JSON_ARRAYAGG(SL.language_id) 
+                FROM series_subtitle_languages SL 
+                WHERE SL.serie_id = S.serie_id
             ) AS subtitle_language_ids
             FROM series S 
             LEFT JOIN platforms P ON S.platform_id = P.platform_id
             LEFT JOIN directors D ON S.director_id = D.director_id
             JOIN people PE ON D.director_id = PE.person_id
-            ORDER BY S.title 
         )
         SELECT * FROM myseries
-        WHERE TRUE
+        WHERE 1=1
     ';
 
     public function getAll(): array

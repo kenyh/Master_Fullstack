@@ -1,16 +1,16 @@
 CREATE TABLE platforms (
     platform_id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
+    name VARCHAR(100) NOT NULL,
     CONSTRAINT platforms_name_uk UNIQUE (name),
     CONSTRAINT platforms_name_chk CHECK (CHAR_LENGTH(name) >= 2)
 );
 
 CREATE TABLE people (
     person_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name TEXT NOT NULL,
-    surname TEXT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    surname VARCHAR(100) NOT NULL,
     birthday DATE,
-    nationality TEXT
+    nationality VARCHAR(100)
 );
 
 CREATE TABLE directors (
@@ -33,7 +33,7 @@ CREATE TABLE actors (
 
 CREATE TABLE series (
     serie_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    title TEXT NOT NULL,
+    title VARCHAR(100) NOT NULL,
     platform_id INTEGER NOT NULL,
     director_id INTEGER NOT NULL,
     CONSTRAINT series_platform_id_fk FOREIGN KEY (platform_id) REFERENCES platforms(platform_id),
@@ -57,8 +57,8 @@ CREATE TABLE serie_actors (
 -- 
 CREATE TABLE languages (
     language_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name TEXT NOT NULL,
-    iso_code TEXT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    iso_code CHAR(2) NOT NULL,
     CONSTRAINT languages_name_uk UNIQUE (name),
     CONSTRAINT languages_iso_code_uk UNIQUE (iso_code)
 );

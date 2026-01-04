@@ -38,7 +38,7 @@ require_once __DIR__ . '/../top.php';
             </tbody>
         </table>
     <?php } else { ?>
-        <div class="alert alert-warning">Aún no hay plataformas</div>
+        <div class="alert alert-warning">Aún no hay series</div>
     <?php } ?>
 </div>
 
