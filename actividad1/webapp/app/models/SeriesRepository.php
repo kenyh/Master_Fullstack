@@ -136,13 +136,20 @@ class SeriesRepository extends BaseRepository
         $connection = Database::getConnection();
         try {
             $connection->beginTransaction();
-            $query = '
-            WITH borrar_audio AS (
-                DELETE FROM series_audio_languages WHERE serie_id = :serieId
-            ), borrar_subtitulos AS (
-                DELETE FROM series_subtitle_languages WHERE serie_id = :serieId
-            )
-            UPDATE series SET "title" = :title, platform_id=:platformId, director_id=:directorId WHERE serie_id = :serieId ';
+            $query = 'DELETE FROM series_audio_languages WHERE serie_id = :serieId';
+            $stmt = $connection->prepare($query);
+            $stmt->execute([
+                'serieId' => $data->getSerieId()
+            ]);
+
+
+            $query = 'DELETE FROM series_subtitle_languages WHERE serie_id = :serieId';
+            $stmt = $connection->prepare($query);
+            $stmt->execute([
+                'serieId' => $data->getSerieId()
+            ]);
+
+            $query = 'UPDATE series SET title = :title, platform_id=:platformId, director_id=:directorId WHERE serie_id = :serieId ';
 
             $stmt = $connection->prepare($query);
             $stmt->execute([
@@ -162,6 +169,7 @@ class SeriesRepository extends BaseRepository
             }
             $params['serieId'] = $data->getSerieId();
             $sql = 'INSERT INTO series_audio_languages (serie_id, language_id) VALUES ' . implode(', ', $values);
+
             $stmt = $connection->prepare($sql);
             $stmt->execute($params);
 
@@ -174,6 +182,7 @@ class SeriesRepository extends BaseRepository
             }
             $params['serieId'] = $data->getSerieId();
             $sql = 'INSERT INTO series_subtitle_languages (serie_id, language_id) VALUES ' . implode(', ', $values);
+
             $stmt = $connection->prepare($sql);
             $stmt->execute($params);
             $connection->commit();

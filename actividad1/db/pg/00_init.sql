@@ -50,7 +50,7 @@ CREATE TABLE serie_actors (
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     CONSTRAINT serie_actors_actor_fk FOREIGN KEY (actor_id) REFERENCES actors(actor_id)
-        ON DELETE CASCADE
+        ON DELETE RESTRICT
         ON UPDATE CASCADE
 );
 

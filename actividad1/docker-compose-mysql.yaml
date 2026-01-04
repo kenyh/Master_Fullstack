@@ -16,7 +16,7 @@ services:
       - ./webapp:/var/www/html
     restart: unless-stopped
   db:
-    image:  
+    image: mysql:8.0.44-debian 
     container_name: mysql
     command: --port=${DB_PORT}
     environment:
@@ -29,3 +29,4 @@ services:
       - ${DB_PORT}:${DB_PORT}
     volumes:
       - ./db/mysql:/docker-entrypoint-initdb.d
+      

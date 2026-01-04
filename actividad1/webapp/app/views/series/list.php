@@ -12,8 +12,8 @@ require_once __DIR__ . '/../top.php';
                     <th scope="col">Nombre</th>
                     <th scope="col">Plataforma</th>
                     <th scope="col">Director</th>
-                    <th scope="col">Subtitulos</th>
                     <th scope="col">Audios</th>
+                    <th scope="col">Subtitulos</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -24,8 +24,8 @@ require_once __DIR__ . '/../top.php';
                         <td><?php echo $fila->getTitle() ?></td>
                         <td><?php echo $fila->getPlatform() ?></td>
                         <td><?php echo $fila->getDirector() ?></td>
-                        <td><?php echo implode(', ', $fila->getSubtitleLanguageNames()) ?></td>
                         <td><?php echo implode(', ', $fila->getAudioLanguageNames()) ?></td>
+                        <td><?php echo implode(', ', $fila->getSubtitleLanguageNames()) ?></td>
                         <td>
                             <form action="/series/delete" method="POST" class="btn-group" role="group" onsubmit="return confirm('¿Estás seguro que deseas borrar la serie <?php echo $fila->getTitle() ?> ?')">
                                 <a href="update?serieId=<?php echo $fila->getSerieId() ?>" class="btn btn-success">Editar</a>

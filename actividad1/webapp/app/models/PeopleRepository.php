@@ -9,8 +9,8 @@ class PeopleRepository extends BaseRepository
     protected string $baseQuery = '
         WITH mypersons as (
             SELECT P.*, D.*,A.*
-            , D.director_id IS NOT NULL as is_director
-            , A.actor_id IS NOT NULL as  is_actor
+            , D.director_id IS NOT NULL AS is_director
+            , A.actor_id IS NOT NULL AS  is_actor
             FROM people P 
             LEFT JOIN directors D ON P.person_id = D.director_id 
             LEFT JOIN actors A ON P.person_id = A.actor_id 
@@ -50,7 +50,7 @@ class PeopleRepository extends BaseRepository
                 continue;
             }
 
-            $query .= " AND \"$key\" = :$key";
+            $query .= " AND $key = :$key";
             $params[$key] = $value;
         }
 

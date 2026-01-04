@@ -24,9 +24,9 @@ class Database
                 $dbUser,
                 $dbPassword,
                 [
-                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES   => false,
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,        //Para que lance PDOException en casos de error.
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,   //Opción por defecto para los ->fetch si no se especifica otra.
+                    PDO::ATTR_EMULATE_PREPARES => true,                 //Necesaria para que mysql soporte repetir el mismo parámetro en la consulta.
                 ]
             );
         }
