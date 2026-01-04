@@ -9,6 +9,20 @@
 
         <div class="row">
             <div class="col mb-3">
+                <label for="actorIds[]" class="form-label">Actores</label>
+                <select class="form-select" name="actorIds[]" multiple>
+                    <?php foreach ($actors as $actor): ?>
+                        <option value="<?php echo $actor->getPersonId() ?>"
+                            <?php if (isset($serie) && in_array($actor->getPersonId(), $serie->getActorIds())) echo 'selected' ?>>
+                            <?php echo $actor->getSurname() . ", " . $actor->getName()  ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col mb-3">
                 <label for="synopsis" class="form-label">Sinopsis</label>
                 <textarea class="form-control" name="synopsis" placeholder="Introduce la sinopsis" required minlength="20"><?php echo $serie?->getSynopsis() ?? '' ?></textarea>
             </div>

@@ -9,7 +9,8 @@ require_once __DIR__ . '/../top.php';
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Actores</th>
                     <th scope="col">Sinopsis</th>
                     <th scope="col">Plataforma</th>
                     <th scope="col">Director</th>
@@ -23,6 +24,7 @@ require_once __DIR__ . '/../top.php';
                     <tr>
                         <th class="align-middle" scope="row"><?php echo $fila->getSerieId() ?></th>
                         <td class="align-middle"><?php echo $fila->getTitle() ?></td>
+                        <td class="align-middle"><?php echo implode(', ', $fila->getActorNames()) ?></td>
                         <td class="align-middle"><?php echo $fila->getSynopsis() ?></td>
                         <td class="align-middle"><?php echo $fila->getPlatform() ?></td>
                         <td class="align-middle"><?php echo $fila->getDirector() ?></td>

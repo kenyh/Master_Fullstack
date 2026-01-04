@@ -61,6 +61,11 @@ class Person
         return $this->isDirector;
     }
 
+    public function setPersonId(int $personId): void
+    {
+        $this->personId = $personId;
+    }
+
     public function setName(string $name): void
     {
         $this->name = $name;

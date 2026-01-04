@@ -3,6 +3,7 @@ require_once __DIR__ . '/../models/SeriesRepository.php';
 require_once __DIR__ . '/../models/DirectorsRepository.php';
 require_once __DIR__ . '/../models/PlatformsRepository.php';
 require_once __DIR__ . '/../models/LanguageRepository.php';
+require_once __DIR__ . '/../models/ActorsRepository.php';
 
 require_once 'AbstractController.php';
 
@@ -26,14 +27,16 @@ class SeriesController extends AbstractController
             $directorsRepo = new DirectorsRepository();
             $platfomsRepo = new PlatformsRepository();
             $languagesRepo = new LanguageRepository();
+            $actorsRepo = new ActorsRepository();
             $directors = $directorsRepo->getAll();
             $platforms = $platfomsRepo->getAll();
             $languages = $languagesRepo->getAll();
+            $actors = $actorsRepo->getAll();
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $form = $this->validateForm();
-                $serie = new Serie(null, $form["title"], $form["synopsis"], $form["platformId"], $form["directorId"], $form["audioLanguageIds"], $form["subtitleLanguageIds"]);
+                $serie = new Serie(null, $form["title"], $form["synopsis"], $form["platformId"], $form["directorId"], $form["audioLanguageIds"], $form["subtitleLanguageIds"], $form["actorIds"]);
 
                 $this->repository->create($serie);
 
@@ -63,9 +66,11 @@ class SeriesController extends AbstractController
             $directorsRepo = new DirectorsRepository();
             $platfomsRepo = new PlatformsRepository();
             $languagesRepo = new LanguageRepository();
+            $actorsRepo = new ActorsRepository();
             $directors = $directorsRepo->getAll();
             $platforms = $platfomsRepo->getAll();
             $languages = $languagesRepo->getAll();
+            $actors = $actorsRepo->getAll();
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $form = $this->validateForm();
@@ -76,6 +81,7 @@ class SeriesController extends AbstractController
                 $serie->setDirectorId($form["directorId"]);
                 $serie->setAudioLanguageIds($form["audioLanguageIds"]);
                 $serie->setSubtitleLanguageIds($form["subtitleLanguageIds"]);
+                $serie->setActorIds($form["actorIds"]);
 
                 $this->repository->update($serie);
                 $_SESSION['message'] = ["type" => "success", "text" => "Serie " . $serie->getTitle() . " modificada con éxito."];
@@ -127,6 +133,7 @@ class SeriesController extends AbstractController
         if (empty($_POST["directorId"])) throw new Exception("No se recibió el director de la serie en el formulario.");
         if (empty($_POST["audioLanguageIds"])) throw new Exception("No se recibieron los idiomas de audio de la serie en el formulario.");
         if (empty($_POST["subtitleLanguageIds"])) throw new Exception("No se recibieron los idiomas de subtítulos de la serie en el formulario.");
+        if (empty($_POST["actorIds"])) throw new Exception("No se recibieron los actores de la serie en el formulario.");
 
         return [
             "title" => $_POST["title"],
@@ -134,7 +141,8 @@ class SeriesController extends AbstractController
             "platformId" => $_POST["platformId"],
             "directorId" => $_POST["directorId"],
             "audioLanguageIds" => array_values($_POST["audioLanguageIds"]),
-            "subtitleLanguageIds" => array_values($_POST["subtitleLanguageIds"])
+            "subtitleLanguageIds" => array_values($_POST["subtitleLanguageIds"]),
+            "actorIds" => array_values($_POST["actorIds"])
         ];
     }
 }

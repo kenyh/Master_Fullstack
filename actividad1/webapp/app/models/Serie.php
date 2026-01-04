@@ -14,6 +14,9 @@ class Serie
     private array $audioLanguageIds = [];
     private array $subtitleLanguageIds = [];
 
+    private array $actorIds = [];
+    private array $actorNames = [];
+
     public function __construct(
         ?int $serieId,
         string $title,
@@ -22,8 +25,10 @@ class Serie
         int $directorId,
         array $audioLanguageIds,
         array $subtitleLanguageIds,
+        array $actorIds = [],
         array $audioLanguageNames = [],
         array $subtitleLanguageNames = [],
+        array $actorNames = [],
         ?string $platform = null,
         ?string $director = null
     ) {
@@ -37,8 +42,10 @@ class Serie
 
         $this->audioLanguageIds = $audioLanguageIds;
         $this->subtitleLanguageIds = $subtitleLanguageIds;
+        $this->actorIds = $actorIds;
         $this->audioLanguageNames = $audioLanguageNames;
         $this->subtitleLanguageNames = $subtitleLanguageNames;
+        $this->actorNames = $actorNames;
     }
 
     public function getSerieId(): ?int
@@ -142,5 +149,25 @@ class Serie
     public function setSubtitleLanguageNames(array $subtitleLanguageNames)
     {
         $this->subtitleLanguageNames = $subtitleLanguageNames;
+    }
+
+    public function getActorIds(): array
+    {
+        return $this->actorIds;
+    }
+
+    public function setActorIds(array $actorIds)
+    {
+        $this->actorIds = $actorIds;
+    }
+
+    public function getActorNames(): array
+    {
+        return $this->actorNames;
+    }
+
+    public function setActorNames(array $actorNames)
+    {
+        $this->actorNames = $actorNames;
     }
 }
