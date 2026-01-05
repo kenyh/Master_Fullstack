@@ -27,9 +27,9 @@
                 <?php echo $_SESSION['message']["text"] ?>
             </div>
         </div>
-    <?php } else { ?>
-        no hay mensajes
-    <?php } ?>
+    <?php } else {
+        // echo "NO HAY MENSAJES";
+    } ?>
     <header>
         <H1>Biblioteca de Series</H1>
     </header>
