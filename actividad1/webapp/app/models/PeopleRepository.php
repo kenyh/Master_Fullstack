@@ -57,7 +57,7 @@ class PeopleRepository extends BaseRepository
     {
 
 
-        $filas = $this->getBy(["is_actor" => true]);
+        $filas = $this->getBy(["is_director" => true]);
 
         $directors = [];
 

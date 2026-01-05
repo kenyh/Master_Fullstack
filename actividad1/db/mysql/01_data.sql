@@ -1,3 +1,6 @@
+SET NAMES 'utf8mb4';
+SET CHARACTER SET utf8mb4;
+
 INSERT INTO platforms (name) VALUES
 ('Netflix'),
 ('HBO Max'),

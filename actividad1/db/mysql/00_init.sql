@@ -15,18 +15,14 @@ CREATE TABLE people (
 
 CREATE TABLE directors (
     director_id INT PRIMARY KEY,
-    CONSTRAINT directors_person_id_fk
-        FOREIGN KEY (director_id)
-        REFERENCES people (person_id)
+    CONSTRAINT directors_person_id_fk FOREIGN KEY (director_id) REFERENCES people (person_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE actors (
     actor_id INT PRIMARY KEY,
-    CONSTRAINT actors_person_id_fk
-        FOREIGN KEY (actor_id)
-        REFERENCES people (person_id)
+    CONSTRAINT actors_person_id_fk FOREIGN KEY (actor_id) REFERENCES people (person_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 ) ENGINE=InnoDB;
@@ -37,26 +33,19 @@ CREATE TABLE series (
     synopsis VARCHAR(500) NOT NULL,
     platform_id INT NOT NULL,
     director_id INT NOT NULL,
-    CONSTRAINT series_platform_id_fk
-        FOREIGN KEY (platform_id)
-        REFERENCES platforms (platform_id),
-    CONSTRAINT series_director_id_fk
-        FOREIGN KEY (director_id)
-        REFERENCES directors (director_id)
+    CONSTRAINT series_platform_id_fk FOREIGN KEY (platform_id) REFERENCES platforms (platform_id),
+    CONSTRAINT series_director_id_fk FOREIGN KEY (director_id) REFERENCES directors (director_id),
+    CONSTRAINT series_synopsis_chk CHECK (CHAR_LENGTH(synopsis) >= 20)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE serie_actors (
     serie_id INT NOT NULL,
     actor_id INT NOT NULL,
     CONSTRAINT serie_actors_pk PRIMARY KEY (serie_id, actor_id),
-    CONSTRAINT serie_actors_series_fk
-        FOREIGN KEY (serie_id)
-        REFERENCES series (serie_id)
+    CONSTRAINT serie_actors_series_fk FOREIGN KEY (serie_id) REFERENCES series (serie_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    CONSTRAINT serie_actors_actor_fk
-        FOREIGN KEY (actor_id)
-        REFERENCES actors (actor_id)
+    CONSTRAINT serie_actors_actor_fk FOREIGN KEY (actor_id) REFERENCES actors (actor_id)
         ON DELETE RESTRICT
         ON UPDATE CASCADE
 ) ENGINE=InnoDB;
@@ -73,14 +62,10 @@ CREATE TABLE series_audio_languages (
     serie_id INT NOT NULL,
     language_id INT NOT NULL,
     CONSTRAINT series_audio_languages_pk PRIMARY KEY (serie_id, language_id),
-    CONSTRAINT series_audio_languages_series_fk
-        FOREIGN KEY (serie_id)
-        REFERENCES series (serie_id)
+    CONSTRAINT series_audio_languages_series_fk FOREIGN KEY (serie_id) REFERENCES series (serie_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    CONSTRAINT series_audio_languages_language_fk
-        FOREIGN KEY (language_id)
-        REFERENCES languages (language_id)
+    CONSTRAINT series_audio_languages_language_fk FOREIGN KEY (language_id) REFERENCES languages (language_id)
         ON DELETE RESTRICT
         ON UPDATE CASCADE
 ) ENGINE=InnoDB;
@@ -89,14 +74,10 @@ CREATE TABLE series_subtitle_languages (
     serie_id INT NOT NULL,
     language_id INT NOT NULL,
     CONSTRAINT series_subtitle_languages_pk PRIMARY KEY (serie_id, language_id),
-    CONSTRAINT series_subtitle_languages_serie_id_fk
-        FOREIGN KEY (serie_id)
-        REFERENCES series (serie_id)
+    CONSTRAINT series_subtitle_languages_serie_id_fk FOREIGN KEY (serie_id) REFERENCES series (serie_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    CONSTRAINT series_subtitle_languages_language_id_fk
-        FOREIGN KEY (language_id)
-        REFERENCES languages (language_id)
+    CONSTRAINT series_subtitle_languages_language_id_fk FOREIGN KEY (language_id) REFERENCES languages (language_id)
         ON DELETE RESTRICT
         ON UPDATE CASCADE
 ) ENGINE=InnoDB;

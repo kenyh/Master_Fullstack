@@ -15,18 +15,14 @@ CREATE TABLE people (
 
 CREATE TABLE directors (
     director_id INTEGER PRIMARY KEY,
-    CONSTRAINT directors_person_id_fk
-        FOREIGN KEY (director_id)
-        REFERENCES people (person_id)
+    CONSTRAINT directors_person_id_fk FOREIGN KEY (director_id) REFERENCES people (person_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
 CREATE TABLE actors (
     actor_id INTEGER PRIMARY KEY,
-    CONSTRAINT actors_person_id_fk
-        FOREIGN KEY (actor_id) 
-        REFERENCES people (person_id) 
+    CONSTRAINT actors_person_id_fk FOREIGN KEY (actor_id)  REFERENCES people (person_id) 
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -38,7 +34,8 @@ CREATE TABLE series (
     platform_id INTEGER NOT NULL,
     director_id INTEGER NOT NULL,
     CONSTRAINT series_platform_id_fk FOREIGN KEY (platform_id) REFERENCES platforms(platform_id),
-    CONSTRAINT series_director_id_fk FOREIGN KEY (director_id) REFERENCES directors(director_id)
+    CONSTRAINT series_director_id_fk FOREIGN KEY (director_id) REFERENCES directors(director_id),
+    CONSTRAINT series_synopsis_chk CHECK (CHAR_LENGTH(synopsis) >= 20)
 );
 
 CREATE TABLE serie_actors (
@@ -55,7 +52,6 @@ CREATE TABLE serie_actors (
         ON UPDATE CASCADE
 );
 
--- 
 CREATE TABLE languages (
     language_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -73,7 +69,7 @@ CREATE TABLE series_audio_languages (
     CONSTRAINT series_audio_languages_series_fk FOREIGN KEY (serie_id) REFERENCES series(serie_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-
+        
     CONSTRAINT series_audio_languages_language_fk FOREIGN KEY (language_id) REFERENCES languages(language_id)
         ON DELETE RESTRICT
         ON UPDATE CASCADE
