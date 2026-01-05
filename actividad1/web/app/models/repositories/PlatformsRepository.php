@@ -1,8 +1,8 @@
 <?php
 
 require_once __DIR__ . '/BaseRepository.php';
-require_once __DIR__ . '/Database.php';
-require_once __DIR__ . '/Platform.php';
+require_once __DIR__ . '/../Database.php';
+require_once __DIR__ . '/../entities/Platform.php';
 class PlatformsRepository extends BaseRepository
 {
     protected string $baseQuery = '

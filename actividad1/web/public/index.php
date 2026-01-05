@@ -2,9 +2,7 @@
 require_once __DIR__ . '/../app/controllers/Router.php';
 
 //Iniciamos la sesión para pasar el message después de cambiarnos de página.
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+if (session_status() === PHP_SESSION_NONE) session_start();
 
 Router::route();
 

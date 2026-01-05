@@ -32,6 +32,10 @@ class Serie
         ?string $platform = null,
         ?string $director = null
     ) {
+
+        if (strlen($synopsis) < 20) throw new ValidationException("El largo de la sinopsis debe tener como mínimo veinte caracteres.");
+        if (strlen($title) < 1) throw new ValidationException("El largo del título debe tener como mínimo un carácter.");
+
         $this->serieId = $serieId;
         $this->title = $title;
         $this->synopsis = $synopsis;

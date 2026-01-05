@@ -1,8 +1,8 @@
 <?php
 
 require_once __DIR__ . '/BaseRepository.php';
-require_once __DIR__ . '/Database.php';
-require_once __DIR__ . '/Serie.php';
+require_once __DIR__ . '/../Database.php';
+require_once __DIR__ . '/../entities/Serie.php';
 class SeriesRepository extends BaseRepository
 {
 

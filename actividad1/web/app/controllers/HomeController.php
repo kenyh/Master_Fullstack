@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/PlatformsRepository.php';
+require_once __DIR__ . '/../models/repositories/PlatformsRepository.php';
 
 class HomeController
 {

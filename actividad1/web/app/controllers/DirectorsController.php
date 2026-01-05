@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/DirectorsRepository.php';
+require_once __DIR__ . '/../models/repositories/DirectorsRepository.php';
 require_once 'AbstractController.php';
 
 class DirectorsController extends AbstractController

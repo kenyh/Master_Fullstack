@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/LanguageRepository.php';
+require_once __DIR__ . '/../models/repositories/LanguageRepository.php';
 require_once 'AbstractController.php';
 
 class LanguagesController extends AbstractController

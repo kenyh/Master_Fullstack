@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/BaseRepository.php';
 require_once __DIR__ . '/PeopleRepository.php';
-require_once __DIR__ . '/Database.php';
-require_once __DIR__ . '/Actor.php';
-class ActorsRepository extends BaseRepository
+require_once __DIR__ . '/../Database.php';
+require_once __DIR__ . '/../entities/Director.php';
+class DirectorsRepository extends PeopleRepository
 {
     private PeopleRepository $peopleRepository;
 
@@ -15,7 +15,7 @@ class ActorsRepository extends BaseRepository
 
     public function getAll(): array
     {
-        return $this->peopleRepository->getActors();   //Delego al repositorio de persona
+        return $this->peopleRepository->getDirectors();   //Delego al repositorio de persona
     }
 
     public function getById(int $personId): Person
@@ -33,8 +33,8 @@ class ActorsRepository extends BaseRepository
         return $this->peopleRepository->update($data);   //Delego al repositorio de persona.
     }
 
-    public function delete(int $actorId): void
+    public function delete(int $directorId): void
     {
-        $this->peopleRepository->delete($actorId);
+        $this->peopleRepository->delete($directorId);
     }
 }

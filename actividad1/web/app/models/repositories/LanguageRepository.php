@@ -1,8 +1,8 @@
 <?php
 
 require_once __DIR__ . '/BaseRepository.php';
-require_once __DIR__ . '/Database.php';
-require_once __DIR__ . '/Language.php';
+require_once __DIR__ . '/../Database.php';
+require_once __DIR__ . '/../entities/Language.php';
 class LanguageRepository extends BaseRepository
 {
 

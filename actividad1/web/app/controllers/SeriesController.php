@@ -1,9 +1,9 @@
 <?php
-require_once __DIR__ . '/../models/SeriesRepository.php';
-require_once __DIR__ . '/../models/DirectorsRepository.php';
-require_once __DIR__ . '/../models/PlatformsRepository.php';
-require_once __DIR__ . '/../models/LanguageRepository.php';
-require_once __DIR__ . '/../models/ActorsRepository.php';
+require_once __DIR__ . '/../models/repositories/SeriesRepository.php';
+require_once __DIR__ . '/../models/repositories/DirectorsRepository.php';
+require_once __DIR__ . '/../models/repositories/PlatformsRepository.php';
+require_once __DIR__ . '/../models/repositories/LanguageRepository.php';
+require_once __DIR__ . '/../models/repositories/ActorsRepository.php';
 
 require_once 'AbstractController.php';
 

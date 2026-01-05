@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/errors/ValidationException.php";
+require_once __DIR__ . "/../errors/ValidationException.php";
 
 class Platform
 {

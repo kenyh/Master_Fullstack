@@ -35,7 +35,8 @@ CREATE TABLE series (
     director_id INTEGER NOT NULL,
     CONSTRAINT series_platform_id_fk FOREIGN KEY (platform_id) REFERENCES platforms(platform_id),
     CONSTRAINT series_director_id_fk FOREIGN KEY (director_id) REFERENCES directors(director_id),
-    CONSTRAINT series_synopsis_chk CHECK (CHAR_LENGTH(synopsis) >= 20)
+    CONSTRAINT series_synopsis_chk CHECK (CHAR_LENGTH(synopsis) >= 20),
+    CONSTRAINT series_title_chk CHECK (CHAR_LENGTH(title) >= 1)
 );
 
 CREATE TABLE serie_actors (
