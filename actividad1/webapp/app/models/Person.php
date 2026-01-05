@@ -2,13 +2,13 @@
 
 class Person
 {
-    private ?int $personId;
-    private string $name;
-    private string $surname;
-    private string $birthday;   //FIXME: debería ser Date??
-    private string $nationality;
-    private bool $isActor;
-    private bool $isDirector;
+    protected ?int $personId;
+    protected string $name;
+    protected string $surname;
+    protected string $birthday;   //FIXME: debería ser Date??
+    protected string $nationality;
+    protected bool $isActor;
+    protected bool $isDirector;
 
     public function __construct(
         ?int $personId,

@@ -3,6 +3,7 @@
 require_once __DIR__ . '/BaseRepository.php';
 require_once __DIR__ . '/Database.php';
 require_once __DIR__ . '/Director.php';
+require_once __DIR__ . '/Actor.php';
 class PeopleRepository extends BaseRepository
 {
 
@@ -22,13 +23,9 @@ class PeopleRepository extends BaseRepository
 
     public function getAll(): array
     {
-        $query = $this->baseQuery;
 
-        $connection = Database::getConnection();
-        $stmt = $connection->prepare($query);
-        $stmt->execute();
 
-        $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $filas = $this->getBy([]);
 
         $people = [];
 
@@ -40,7 +37,39 @@ class PeopleRepository extends BaseRepository
         return $people;
     }
 
-    public function getBy(array $filter): array
+    public function getActors(): array
+    {
+
+
+        $filas = $this->getBy(["is_actor" => true]);
+
+        $actors = [];
+
+        foreach ($filas as $fila) {
+            $person = new Actor($fila['person_id'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['is_actor'], $fila['is_director']);
+            array_push($actors, $person);
+        }
+
+        return $actors;
+    }
+
+    public function getDirectors(): array
+    {
+
+
+        $filas = $this->getBy(["is_actor" => true]);
+
+        $directors = [];
+
+        foreach ($filas as $fila) {
+            $person = new Director($fila['person_id'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['is_actor'], $fila['is_director']);
+            array_push($directors, $person);
+        }
+
+        return $directors;
+    }
+
+    private function getBy(array $filter): array
     {
         $query = $this->baseQuery;
         $params = [];
@@ -59,15 +88,8 @@ class PeopleRepository extends BaseRepository
         $stmt->execute($params);
 
         $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+        return $filas;
         $people = [];
-
-        foreach ($filas as $fila) {
-            $person = new Person($fila['person_id'], $fila['name'], $fila['surname'], $fila['birthday'], $fila['nationality'], $fila['is_actor'], $fila['is_director']);
-            array_push($people, $person);
-        }
-
-        return $people;
     }
 
     public function getById(int $personId): Person
