@@ -31,6 +31,7 @@ h2#marcadores{
 div#mesa{
 	text-align: center;
 	margin:20px;
+	border: 2px solid blue;
 }
 
 /* Todos los tapetes con position relative para que
@@ -40,6 +41,7 @@ div.tapete{
 	display: inline-block;
 	position: relative;
 	margin: 10px;
+	border: 3px solid black;
 }
 
 /* Dimensiones y color de fondo para el tapete inicial */
@@ -58,6 +60,7 @@ div.tapete:not(#inicial){
 /* Color de fondo para el tapete de las cartas sobrantes */
 div.tapete#sobrantes{
 	background-color: lightblue;
+	vertical-align: bottom;		/* para que se mantenga abajo */
 }
 
 /* Color de fondo de los tapetes receptores */
@@ -65,6 +68,42 @@ div.tapete.receptor{
 	background-color: lightgreen;
 }
 
+/* CAMBIOS AL ARCHIVO A PARTIR DE ACÁ */
+
+.cartas {
+	padding: 20px;
+	text-align: left;
+	overflow-x: auto;
+	white-space: nowrap;	
+}
+.carta {
+	width: 75px;
+	height: 100px;
+	cursor: pointer;
+	border: 2px solid black;
+	border-radius: 8px;
+	position: relative;
+}
+
+.carta + .carta {
+    margin-left: -60px;
+}
+
+.carta:hover {
+    transform: translateY(15px); /* La bajamos 20px */
+}
+
+.carta:active {
+    transform: translateY(0px);
+}
+
+.carta:last-of-type:hover {
+    border: 2px solid green;
+}
+.carta:last-of-type:active {
+    transform: translateY(0px);
+	border : 3px solid green;
+}
 
 /* TODO: PARA BORRAR */
 body {

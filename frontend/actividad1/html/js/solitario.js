@@ -3,7 +3,7 @@
 // Array de palos
 let palos = ["viu", "cua", "hex", "cir"];
 // Array de número de cartas
-//let numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+// let numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 // En las pruebas iniciales solo se trabajará con cuatro cartas por palo:
 let numeros = [9, 10, 11, 12];
 
@@ -40,6 +40,9 @@ let contTiempo  = document.getElementById("contador_tiempo"); // span cuenta tie
 let segundos 	 = 0;    // cuenta de segundos
 let temporizador = null; // manejador del temporizador
 
+//Codio propio hacia abajo.
+const cartasIniciales = document.getElementById("cartas-iniciales");
+
 /***** FIN DECLARACIÓN DE VARIABLES GLOBALES *****/
 
  
@@ -62,16 +65,28 @@ function comenzarJuego() {
 	*/
 
 	/*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/	
-    
+    const mazoInicial = [];
+	for (let palo of palos) {
+		for (let numero of numeros) {
+			let img = document.createElement("img");
+			img.src = `imagenes/baraja/${numero}-${palo}.png`;
+			img.alt = `${numero} de ${palo}`;
+			img.classList.add("carta");
+			mazoInicial.push(img);
+		}
+	}
 	
 	// Barajar y dejar mazoInicial en tapete inicial
 	/*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
+	barajar(mazoInicial);
+	cargarTapeteInicial(mazoInicial);
 
 	// Puesta a cero de contadores de mazos
 	/*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
 	
 	// Arrancar el conteo de tiempo
 	/*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
+	arrancarTiempo();
 
 } // comenzarJuego
 
@@ -128,6 +143,10 @@ function arrancarTiempo(){
 */
 function barajar(mazo) {
 	/*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/	
+	//FIXME: Optimizar el desordenamiento.
+	mazo.sort(() => Math.random() - Math.random());
+	mazo.sort(() => Math.random() - Math.random());
+	mazo.sort(() => Math.random() - Math.random());
 } // barajar
 
 
@@ -140,7 +159,17 @@ function barajar(mazo) {
 	Al final se debe ajustar el contador de cartas a la cantidad oportuna
 */
 function cargarTapeteInicial(mazo) {
-	/*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/	
+	/*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
+	const cartasIniciales = document.getElementById('cartas-iniciales');
+	//Borramos las cartas iniciales si las hay.
+	cartasIniciales.innerHTML = "";
+	for (let i = mazo.length - 1; i >= 0; i--) {
+		cartasIniciales.prepend(mazo[i]);	//Insertamos antes del contador inicial.
+	}
+	// for (let carta of mazo) {
+	// 	cartasIniciales.appendChild(carta);	//Insertamos antes del contador inicial.
+	// }
+	setContador(contInicial, mazo.length);
 } // cargarTapeteInicial
 
 
