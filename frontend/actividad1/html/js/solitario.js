@@ -81,6 +81,13 @@ function comenzarJuego() {
 
   // Puesta a cero de contadores de mazos
   /*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
+  setContador(contInicial, mazo.length);
+  setContador(contSobrantes, 0);
+  setContador(contReceptor1, 0);
+  setContador(contReceptor2, 0);
+  setContador(contReceptor3, 0);
+  setContador(contReceptor4, 0);
+  setContador(contMovimientos, 0);
 
   // Arrancar el conteo de tiempo
   /*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
@@ -161,13 +168,6 @@ function cargarTapeteInicial(mazo) {
   for (let i = mazo.length - 1; i >= 0; i--) {
     cartasIniciales.prepend(mazo[i]); //Insertamos antes del contador inicial.
   }
-  setContador(contInicial, mazo.length);
-  setContador(contSobrantes, 0);
-  setContador(contReceptor1, 0);
-  setContador(contReceptor2, 0);
-  setContador(contReceptor3, 0);
-  setContador(contReceptor4, 0);
-  setContador(contMovimientos, 0);
 } // cargarTapeteInicial
 
 /**
