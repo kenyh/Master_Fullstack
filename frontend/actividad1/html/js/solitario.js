@@ -3,9 +3,9 @@
 // Array de palos
 let palos = ["viu", "cua", "hex", "cir"];
 // Array de número de cartas
-// let numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+let numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 // En las pruebas iniciales solo se trabajará con cuatro cartas por palo:
-let numeros = [9, 10, 11, 12];
+// let numeros = [9, 10, 11, 12];
 
 // paso (top y left) en pixeles de una carta a la siguiente en un mazo
 let paso = 5;
@@ -70,6 +70,11 @@ function comenzarJuego() {
       img.src = `imagenes/baraja/${numero}-${palo}.png`;
       img.alt = `${numero} de ${palo}`;
       img.classList.add("carta");
+      img.id = `carta-${numero}-${palo}`; //Por si lo necesitamos.
+      img.draggable = true; //Hacemos las cartas dragables.
+      img.dataset.numero = numero; //Guardamos el número en un data-attribute.
+      img.dataset.palo = palo; //Guardamos el palo en un data-attribute.
+      img.addEventListener("dragstart", dragStart);
       mazoInicial.push(img);
     }
   }
@@ -81,7 +86,7 @@ function comenzarJuego() {
 
   // Puesta a cero de contadores de mazos
   /*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
-  setContador(contInicial, mazo.length);
+  setContador(contInicial, mazoInicial.length);
   setContador(contSobrantes, 0);
   setContador(contReceptor1, 0);
   setContador(contReceptor2, 0);
@@ -151,6 +156,8 @@ function barajar(mazo) {
   mazo.sort(() => Math.random() - Math.random());
   mazo.sort(() => Math.random() - Math.random());
   mazo.sort(() => Math.random() - Math.random());
+
+  //TODO: Luego de barajar, a la última ponerle dragable true y a todas las otras false?.
 } // barajar
 
 /**
@@ -197,3 +204,35 @@ function setContador(contador, valor) {
   /*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
   contador.textContent = valor;
 } // setContador
+
+function dropSobrante(event) {
+  event.preventDefault();
+  const destino = event.target.closest(".cartas");
+  console.log("Drop en: ", destino);
+  const idCarta = event.dataTransfer.getData("id");
+  console.log("Drop carta id: ", idCarta);
+  if (!idCarta) {
+    console.error("No se ha obtenido id de carta.");
+    return;
+  }
+  const cartaArrastrada = document.getElementById(idCarta);
+  if (!cartaArrastrada) {
+    console.error("No se ha obtenido elemento carta.");
+    return;
+  }
+  console.log("Carta arrastrada: ", cartaArrastrada);
+  //Añadimos la carta al tapete de sobrantes.
+  destino.appendChild(cartaArrastrada);
+}
+
+function dragStart(event) {
+  //Lo unico que se puede arrastrar son las cartas.
+  const carta = event.target;
+  console.log("Drag start de: ", carta);
+  //Guardamos el id de la carta que se está arrastrando.
+  event.dataTransfer.setData("id", carta.id);
+}
+
+function permitirDrop(event) {
+  event.preventDefault();
+}
