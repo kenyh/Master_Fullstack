@@ -42,6 +42,11 @@ let temporizador = null; // manejador del temporizador
 
 //Codio propio hacia abajo.
 const cartasIniciales = document.getElementById("cartas-iniciales");
+const cartasSobrantes = document.getElementById("cartas-sobrantes");
+const cartasReceptor1 = document.getElementById("cartas-receptor1");
+const cartasReceptor2 = document.getElementById("cartas-receptor2");
+const cartasReceptor3 = document.getElementById("cartas-receptor3");
+const cartasReceptor4 = document.getElementById("cartas-receptor4");
 
 /***** FIN DECLARACIÓN DE VARIABLES GLOBALES *****/
 
@@ -53,6 +58,12 @@ const cartasIniciales = document.getElementById("cartas-iniciales");
 
 // Desarrollo del comienzo de juego
 function comenzarJuego() {
+  eliminarCartas(cartasIniciales);
+  eliminarCartas(cartasSobrantes);
+  eliminarCartas(cartasReceptor1);
+  eliminarCartas(cartasReceptor2);
+  eliminarCartas(cartasReceptor3);
+  eliminarCartas(cartasReceptor4);
   console.log("Comenzando juego...");
   /* Crear baraja, es decir crear el mazoInicial. Este será un array cuyos 
 	elementos serán elementos HTML <img>, siendo cada uno de ellos una carta.
@@ -169,9 +180,7 @@ function barajar(mazo) {
 */
 function cargarTapeteInicial(mazo) {
   /*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
-  const cartasIniciales = document.getElementById("cartas-iniciales");
   //Borramos las cartas iniciales si las hay.
-  cartasIniciales.innerHTML = "";
   for (let i = mazo.length - 1; i >= 0; i--) {
     cartasIniciales.prepend(mazo[i]); //Insertamos antes del contador inicial.
   }
@@ -205,32 +214,40 @@ function setContador(contador, valor) {
   contador.textContent = valor;
 } // setContador
 
+function eliminarCartas(cartasElement) {
+  cartasElement.innerHTML = "";
+}
+
 function cartaSoltada(event) {
   event.preventDefault();
-  const destino = event.target.closest(".cartas");
-  console.log("Drop en: ", destino);
   const idCarta = event.dataTransfer.getData("id");
-  console.log("Drop carta id: ", idCarta);
-  if (!idCarta) {
-    console.error("No se ha obtenido id de carta.");
+  const idOrigen = event.dataTransfer.getData("idOrigen");
+  if (!idCarta || !idOrigen) {
+    console.error("No se ha obtenido id de carta o idOrigen.");
     return;
   }
+  const destino = event.target.closest(".cartas");
   const cartaArrastrada = document.getElementById(idCarta);
+  const cartasOrigen = document.getElementById(idOrigen); //El tapete donde estaba la carta.
   if (!cartaArrastrada) {
     console.error("No se ha obtenido elemento carta.");
     return;
   }
-  console.log("Carta arrastrada: ", cartaArrastrada);
+
   //Añadimos la carta al tapete de sobrantes.
   destino.appendChild(cartaArrastrada);
+  const contador = destino.parentElement.querySelector(".contador");
+  setContador(contador, destino.children.length);
+  const contadorOrigen = cartasOrigen.parentElement.querySelector(".contador");
+  setContador(contadorOrigen, cartasOrigen.children.length);
 }
 
 function iniciaDrag(event) {
   //Lo unico que se puede arrastrar son las cartas.
   const carta = event.target;
-  console.log("Drag start de: ", carta);
   //Guardamos el id de la carta que se está arrastrando.
   event.dataTransfer.setData("id", carta.id);
+  event.dataTransfer.setData("idOrigen", carta.parentElement.id);
 }
 
 function permitirDrop(event) {
