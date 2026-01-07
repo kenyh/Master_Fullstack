@@ -73,17 +73,17 @@ div.tapete.receptor {
 
 /* CAMBIOS AL ARCHIVO A PARTIR DE ACÁ */
 
-.cartas {
+.mazo {
   text-align: left;
   overflow-x: auto;
   white-space: nowrap;
   height: 125px;
 }
 
-.cartas #cartas-iniciales {
+.mazo #mazo-inicial {
   width: auto;
 }
-.tapete:has(#cartas-iniciales:empty) {
+.tapete:has(#mazo-inicial:empty) {
   border: 2px dashed black;
 }
 
@@ -94,11 +94,11 @@ div.tapete.receptor {
   border-radius: 8px;
 }
 
-#cartas-iniciales > .carta + .carta {
+#mazo-inicial > .carta + .carta {
   margin-left: -60px;
 }
 
-.cartas:not(#cartas-iniciales) .carta + .carta {
+.mazo:not(#mazo-inicial) .carta + .carta {
   margin-left: -75px;
 }
 
