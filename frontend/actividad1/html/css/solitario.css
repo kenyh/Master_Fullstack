@@ -42,23 +42,23 @@ div.tapete {
   position: relative;
   margin: 10px;
   padding: 5px;
-  border: 2px solid black;
+  border: 3px solid black;
   border-radius: 8px;
   height: 125px;
+  min-width: 90px;
 }
 
 /* Dimensiones y color de fondo para el tapete inicial */
 div.tapete#inicial {
-  min-width: 100px;
   max-width: 80vw;
   /* height: 340px; */
-  background-color: lightgrey;
+  /* background-color: lightgrey; */
+  border: none;
 }
 
 /* Dimensiones para todos los tapetes salvo el inicial */
 div.tapete:not(#inicial) {
   /* height: 125px; */
-  width: 100px;
 }
 
 /* Color de fondo para el tapete de las cartas sobrantes */
@@ -78,28 +78,28 @@ div.tapete.receptor {
   overflow-x: auto;
   white-space: nowrap;
   height: 125px;
+}
+
+.cartas #cartas-iniciales {
   width: auto;
 }
 
 .carta {
   width: 75px;
-  height: 100px;
   cursor: pointer;
   border: 2px solid black;
   border-radius: 8px;
-  position: relative;
 }
 
-.carta + .carta {
+#cartas-iniciales .carta {
+}
+
+#cartas-iniciales > .carta + .carta {
   margin-left: -60px;
 }
 
-.carta:hover {
-  transform: translateY(15px); /* La bajamos 20px */
-}
-
-.carta:active {
-  transform: translateY(0px);
+.cartas:not(#cartas-iniciales) .carta + .carta {
+  margin-left: -75px;
 }
 
 .carta:last-of-type:hover {

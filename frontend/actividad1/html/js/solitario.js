@@ -74,7 +74,7 @@ function comenzarJuego() {
       img.draggable = true; //Hacemos las cartas dragables.
       img.dataset.numero = numero; //Guardamos el número en un data-attribute.
       img.dataset.palo = palo; //Guardamos el palo en un data-attribute.
-      img.addEventListener("dragstart", dragStart);
+      img.addEventListener("dragstart", iniciaDrag);
       mazoInicial.push(img);
     }
   }
@@ -205,7 +205,7 @@ function setContador(contador, valor) {
   contador.textContent = valor;
 } // setContador
 
-function dropSobrante(event) {
+function cartaSoltada(event) {
   event.preventDefault();
   const destino = event.target.closest(".cartas");
   console.log("Drop en: ", destino);
@@ -225,7 +225,7 @@ function dropSobrante(event) {
   destino.appendChild(cartaArrastrada);
 }
 
-function dragStart(event) {
+function iniciaDrag(event) {
   //Lo unico que se puede arrastrar son las cartas.
   const carta = event.target;
   console.log("Drag start de: ", carta);
