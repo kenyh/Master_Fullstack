@@ -83,15 +83,15 @@ div.tapete.receptor {
 .cartas #cartas-iniciales {
   width: auto;
 }
+.tapete:has(#cartas-iniciales:empty) {
+  border: 2px dashed black;
+}
 
 .carta {
   width: 75px;
   cursor: pointer;
   border: 2px solid black;
   border-radius: 8px;
-}
-
-#cartas-iniciales .carta {
 }
 
 #cartas-iniciales > .carta + .carta {
