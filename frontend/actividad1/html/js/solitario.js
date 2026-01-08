@@ -1,37 +1,37 @@
 /***** INICIO DECLARACIÓN DE VARIABLES GLOBALES *****/
 
-// Contadores de cartas
-let contInicial = document.getElementById("contador_inicial");
-let contMovimientos = document.getElementById("contador_movimientos");
+let contMovimientos = document.getElementById("contador_movimientos"); //Acceso global a contador movimientos
 
-// Tiempo
-let contTiempo = document.getElementById("contador_tiempo"); // span cuenta tiempo
-let segundos = 0; // cuenta de segundos
-let temporizador = null; // manejador del temporizador
+let temporizador = null; // Lo dejamo global para poderle hacer el clear.
 
 /***** FIN DECLARACIÓN DE VARIABLES GLOBALES *****/
+
 function vaciarMazos() {
   for (const mazo of document.getElementsByClassName("mazo"))
     mazo.innerHTML = "";
 }
-function reiniciarContadores() {
-  for (const contador of document.getElementsByClassName("contador"))
-    contador.innerHTML = "0";
+
+function calcularContadorDeMazos(mazos) {
+  if (!mazos) mazos = document.getElementsByClassName("mazo");
+  for (const mazo of mazos) {
+    //Busco el contador asociado a el mazo y le pongo el largo del mazo
+    setContador(
+      mazo.parentElement.querySelector(".contador"),
+      mazo.children.length
+    );
+  }
 }
-// Desarrollo del comienzo de juego
+
 function comenzarJuego() {
   console.log("Comenzando juego...");
-  vaciarMazos();
-  const mazoInicial = generarMazo();
-  barajar(mazoInicial);
-  cargarMazoInicial(mazoInicial); //Cargo todos los elementos img en mazoInicial
-  reiniciarContadores(); //Todos los contadores a cero.
-  setContador(contInicial, mazoInicial.length); //El contador inicial con el total de cartas.
-
-  // Arrancar el conteo de tiempo
-  /*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
-  arrancarTiempo();
-} // comenzarJuego
+  vaciarMazos(); //Vaciamos todo los elementos html que son un mazo
+  const mazo = generarMazo(); //Generamos el mazo
+  barajar(mazo); //Desordenamos el mazo
+  cargarMazoInicial(mazo); //Cargamos todos los elementos img en el dom
+  calcularContadorDeMazos(); //Calculamos el contador para TODOS los mazos.
+  setContador(contMovimientos, 0); //Contador de movimientos queda en cero.
+  arrancarTiempo(); //Arranca el conteo de tiempo
+}
 
 function generarMazo() {
   const mazo = [];
@@ -51,7 +51,10 @@ function generarMazo() {
   }
   return mazo;
 }
+
 function arrancarTiempo() {
+  let contTiempo = document.getElementById("contador_tiempo"); // span cuenta tiempo
+  let segundos = 0; // cuenta de segundos
   if (temporizador) clearInterval(temporizador);
   let hms = function () {
     let seg = Math.trunc(segundos % 60);
@@ -88,10 +91,6 @@ function cargarMazoInicial(mazo) {
 
 function setContador(contador, valor) {
   contador.textContent = valor;
-}
-
-function eliminarCartas(cartasElement) {
-  cartasElement.innerHTML = "";
 }
 
 function permitirDrop(event) {
@@ -133,12 +132,8 @@ function cartaSoltada(event) {
   mazoDestino.appendChild(cartaArrastrada); //Añadimos la carta al nuevo cartas. Automaticamente se borra del origen.
   if (mazoOrigen.children.length !== 0)
     mazoOrigen.lastElementChild.draggable = true; //Hago draggable la última carta del mazo origen
-  //Actualizamos contadores, origen, destino y movimientos.
-  //Se opta por recalcular siempre el largo de los mazos involucrados. Ya que nos parece más seguro.
-  const contador = mazoDestino.parentElement.querySelector(".contador");
-  setContador(contador, mazoDestino.children.length);
-  const contadorOrigen = mazoOrigen.parentElement.querySelector(".contador");
-  setContador(contadorOrigen, mazoOrigen.children.length);
-  const movimientosActuales = parseInt(contMovimientos.textContent || 0);
-  setContador(contMovimientos, movimientosActuales + 1);
+
+  //Actualizamos contadores, origen, destino y movimientos. Se opta por recalcular siempre el largo de los mazos involucrados. Ya que nos parece más seguro.
+  calcularContadorDeMazos([mazoDestino, mazoOrigen]);
+  setContador(contMovimientos, parseInt(contMovimientos.textContent || 0) + 1);
 }
