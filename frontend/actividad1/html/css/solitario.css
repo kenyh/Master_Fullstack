@@ -9,7 +9,7 @@
 /* Todos los contadores estarán ubicados en la parte inferior 
    derecha (position absolute) de los respectivos tapetes (position relative).
 */
-.contador {
+.contador:not(#contador_movimientos) {
   position: absolute;
   bottom: 0px;
   right: 3px;
