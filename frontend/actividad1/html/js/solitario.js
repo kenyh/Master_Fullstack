@@ -85,7 +85,7 @@ function comenzarJuego() {
       img.draggable = true; //Hacemos las cartas dragables.
       img.dataset.numero = numero; //Guardamos el número en un data-attribute.
       img.dataset.palo = palo; //Guardamos el palo en un data-attribute.
-      img.addEventListener("dragstart", iniciaDrag);
+      img.addEventListener("dragstart", iniciaDrag); // Por ahora es suficiente solo con dragstart en la imagen.
       mazoInicial.push(img);
     }
   }
@@ -255,6 +255,8 @@ function iniciaDrag(event) {
   const carta = event.target;
   //Guardamos el id de la carta que se está arrastrando.
   event.dataTransfer.setData("idCarta", carta.id);
+  event.dataTransfer.setData("palo", carta.dataset.palo);
+  event.dataTransfer.setData("numero", carta.dataset.numero);
   event.dataTransfer.setData("idMazoOrigen", carta.parentElement.id);
 }
 
