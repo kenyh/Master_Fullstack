@@ -218,6 +218,20 @@ function eliminarCartas(cartasElement) {
   cartasElement.innerHTML = "";
 }
 
+function permitirDrop(event) {
+  event.preventDefault();
+}
+
+function iniciaDrag(event) {
+  //Lo unico que se puede arrastrar son las cartas.
+  const carta = event.target;
+  //Guardamos el id de la carta que se está arrastrando.
+  event.dataTransfer.setData("idCarta", carta.id);
+  event.dataTransfer.setData("palo", carta.dataset.palo);
+  event.dataTransfer.setData("numero", carta.dataset.numero);
+  event.dataTransfer.setData("idMazoOrigen", carta.parentElement.id);
+}
+
 function cartaSoltada(event) {
   event.preventDefault();
   //Obtenemos los datos del drag.
@@ -248,18 +262,4 @@ function cartaSoltada(event) {
   setContador(contadorOrigen, cartasOrigen.children.length);
   const movimientosActuales = parseInt(contMovimientos.textContent || 0);
   setContador(contMovimientos, movimientosActuales + 1);
-}
-
-function iniciaDrag(event) {
-  //Lo unico que se puede arrastrar son las cartas.
-  const carta = event.target;
-  //Guardamos el id de la carta que se está arrastrando.
-  event.dataTransfer.setData("idCarta", carta.id);
-  event.dataTransfer.setData("palo", carta.dataset.palo);
-  event.dataTransfer.setData("numero", carta.dataset.numero);
-  event.dataTransfer.setData("idMazoOrigen", carta.parentElement.id);
-}
-
-function permitirDrop(event) {
-  event.preventDefault();
 }
