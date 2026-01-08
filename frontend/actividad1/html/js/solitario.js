@@ -9,8 +9,6 @@ let contTiempo = document.getElementById("contador_tiempo"); // span cuenta tiem
 let segundos = 0; // cuenta de segundos
 let temporizador = null; // manejador del temporizador
 
-const mazoInicial = document.getElementById("mazo-inicial");
-
 /***** FIN DECLARACIÓN DE VARIABLES GLOBALES *****/
 function vaciarMazos() {
   for (const mazo of document.getElementsByClassName("mazo"))
@@ -22,10 +20,21 @@ function reiniciarContadores() {
 }
 // Desarrollo del comienzo de juego
 function comenzarJuego() {
-  vaciarMazos();
   console.log("Comenzando juego...");
+  vaciarMazos();
+  const mazoInicial = generarMazo();
+  barajar(mazoInicial);
+  cargarMazoInicial(mazoInicial); //Cargo todos los elementos img en mazoInicial
+  reiniciarContadores(); //Todos los contadores a cero.
+  setContador(contInicial, mazoInicial.length); //El contador inicial con el total de cartas.
 
-  const mazoInicial = [];
+  // Arrancar el conteo de tiempo
+  /*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
+  arrancarTiempo();
+} // comenzarJuego
+
+function generarMazo() {
+  const mazo = [];
   for (let palo of ["viu", "cua", "hex", "cir"]) {
     for (let numero = 1; numero <= 12; numero++) {
       let img = document.createElement("img");
@@ -37,25 +46,11 @@ function comenzarJuego() {
       img.dataset.numero = numero; //Guardamos el número en un data-attribute.
       img.dataset.palo = palo; //Guardamos el palo en un data-attribute.
       img.addEventListener("dragstart", iniciaDrag); // Por ahora es suficiente solo con dragstart en la imagen.
-      mazoInicial.push(img);
+      mazo.push(img);
     }
   }
-
-  // Barajar y dejar mazoInicial en tapete inicial
-  /*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
-  barajar(mazoInicial);
-  cargarMazoInicial(mazoInicial);
-
-  // Puesta a cero de contadores de mazos
-  /*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
-  reiniciarContadores();
-  setContador(contInicial, mazoInicial.length);
-
-  // Arrancar el conteo de tiempo
-  /*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
-  arrancarTiempo();
-} // comenzarJuego
-
+  return mazo;
+}
 function arrancarTiempo() {
   if (temporizador) clearInterval(temporizador);
   let hms = function () {
@@ -85,6 +80,7 @@ function barajar(mazo) {
 } // barajar
 
 function cargarMazoInicial(mazo) {
+  const mazoInicial = document.getElementById("mazo-inicial");
   for (let i = mazo.length - 1; i >= 0; i--) {
     mazoInicial.prepend(mazo[i]);
   }
