@@ -242,9 +242,9 @@ function cartaSoltada(event) {
     return;
   }
   //Obtenemos el cartas destino
-  const destino = event.target.closest(".mazo");
+  const mazoDestino = event.target.closest(".mazo");
   //Obtenemos el cartas origen
-  const cartasOrigen = document.getElementById(idMazoOrigen); //El tapete donde estaba la carta.
+  const mazoOrigen = document.getElementById(idMazoOrigen); //El tapete donde estaba la carta.
   //Obtenemos la carta arrastrada
   const cartaArrastrada = document.getElementById(idCarta);
   if (!cartaArrastrada) {
@@ -252,14 +252,17 @@ function cartaSoltada(event) {
     return;
   }
 
-  //Añadimos la carta al nuevo cartas. Automaticamente se borra del origen.
-  destino.appendChild(cartaArrastrada);
+  if (mazoDestino.children.length !== 0)
+    mazoDestino.lastElementChild.draggable = false; //Hago no draggablela última carta del mazo destino
+  mazoDestino.appendChild(cartaArrastrada); //Añadimos la carta al nuevo cartas. Automaticamente se borra del origen.
+  if (mazoOrigen.children.length !== 0)
+    mazoOrigen.lastElementChild.draggable = true; //Hago draggable la última carta del mazo origen
   //Actualizamos contadores, origen, destino y movimientos.
   //Se opta por recalcular siempre el largo de los mazos involucrados. Ya que nos parece más seguro.
-  const contador = destino.parentElement.querySelector(".contador");
-  setContador(contador, destino.children.length);
-  const contadorOrigen = cartasOrigen.parentElement.querySelector(".contador");
-  setContador(contadorOrigen, cartasOrigen.children.length);
+  const contador = mazoDestino.parentElement.querySelector(".contador");
+  setContador(contador, mazoDestino.children.length);
+  const contadorOrigen = mazoOrigen.parentElement.querySelector(".contador");
+  setContador(contadorOrigen, mazoOrigen.children.length);
   const movimientosActuales = parseInt(contMovimientos.textContent || 0);
   setContador(contMovimientos, movimientosActuales + 1);
 }
