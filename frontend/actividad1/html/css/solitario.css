@@ -32,6 +32,7 @@ h2#marcadores {
 div#mesa {
   text-align: center;
   margin: 5px;
+  user-select: none;
 }
 
 /* Todos los tapetes con position relative para que

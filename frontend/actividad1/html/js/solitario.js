@@ -82,7 +82,7 @@ function comenzarJuego() {
       img.alt = `${numero} de ${palo}`;
       img.classList.add("carta");
       img.id = `carta-${numero}-${palo}`; //Por si lo necesitamos.
-      img.draggable = true; //Hacemos las cartas dragables.
+      img.draggable = false; //Solo la última será draggable.
       img.dataset.numero = numero; //Guardamos el número en un data-attribute.
       img.dataset.palo = palo; //Guardamos el palo en un data-attribute.
       img.addEventListener("dragstart", iniciaDrag); // Por ahora es suficiente solo con dragstart en la imagen.
@@ -167,7 +167,7 @@ function barajar(mazo) {
   mazo.sort(() => Math.random() - Math.random());
   mazo.sort(() => Math.random() - Math.random());
   mazo.sort(() => Math.random() - Math.random());
-
+  mazo[mazo.length - 1].draggable = true;
   //TODO: Luego de barajar, a la última ponerle dragable true y a todas las otras false?.
 } // barajar
 
