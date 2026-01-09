@@ -6,8 +6,8 @@ let temporizador = null; // Lo dejamo global para poderle hacer el clear.
 const COLOR = { color1: "orange", color2: "grey" };
 const PALO_COLOR = {
   viu: COLOR.color1,
-  hex: COLOR.color1,
-  cua: COLOR.color2,
+  cua: COLOR.color1,
+  hex: COLOR.color2,
   cir: COLOR.color2,
 }; //TODO: Hacer readonly?
 
@@ -43,7 +43,7 @@ function comenzarJuego() {
 function generarMazo() {
   const mazo = [];
   for (let palo of Object.keys(PALO_COLOR)) {
-    for (let numero = 1; numero <= 12; numero++) {
+    for (let numero = 10; numero <= 12; numero++) {
       let img = document.createElement("img");
       img.src = `imagenes/baraja/${numero}-${palo}.png`;
       img.alt = `${numero} de ${palo}`;
@@ -128,14 +128,14 @@ function cartaSoltada(event) {
   const mazoDestino = event.target.closest(".mazo");
   //Obtenemos el cartas origen
   const mazoOrigen = document.getElementById(idMazoOrigen); //El tapete donde estaba la carta.
+  if (mazoDestino === mazoOrigen) return; //Para que no cuente ni haga nada.
   //Obtenemos la carta arrastrada
   const cartaArrastrada = document.getElementById(idCarta);
   if (!cartaArrastrada) {
     console.error("No se ha obtenido elemento carta.");
     return;
   }
-  const { numero, palo, color } = cartaArrastrada.dataset;
-
+  if (!mazoAceptaCarta(mazoDestino, cartaArrastrada)) return;
   //En este punto ya sabemos que es válido mover la carta desde origen a destino.
   if (mazoDestino.children.length !== 0)
     mazoDestino.lastElementChild.draggable = false; //Hago no draggablela última carta del mazo destino
@@ -148,4 +148,27 @@ function cartaSoltada(event) {
   setContador(contMovimientos, parseInt(contMovimientos.textContent || 0) + 1);
 }
 
-function mazoAceptaCarta(mazoDiv, cartaImg) {}
+function mazoAceptaCarta(mazoDiv, cartaImg) {
+  //Precondiciones
+  if (!mazoDiv?.id) throw new Error("No hay mazoDestino.");
+  if (!cartaImg?.id) throw new Error("No hay carta moviéndose.");
+  const { numero, palo, color } = cartaImg?.dataset || {};
+  if (!numero || !palo || !color)
+    throw new Error("Falta número, palo y/o color de la carta.");
+  if (mazoDiv.id === "mazo-inicial")
+    throw new Error("Mazo inicial no permite recibir cartas.");
+
+  if (mazoDiv.id === "mazo-sobrantes") return true; //Acepta cualquier carta.
+  if (!mazoDiv.id.includes("receptor"))
+    throw new Error("No se reconoce el mazo.");
+
+  //En este punto tiene que ser un mazo receptor. Verificar si el mazo receptor acepta la carta.
+  if (mazoDiv.children.length === 0) return numero === "12"; //Si el mazo es vacío solo acepta un 12.
+
+  const ultimaCarta = mazoDiv.lastElementChild;
+  const valActual = parseInt(ultimaCarta.dataset.numero);
+  const valNuevo = parseInt(numero);
+
+  //Si el mazo no es vacío, acepta una carta de distinto color y un número menor unicamente.
+  return ultimaCarta.dataset.color !== color && valActual - 1 === valNuevo;
+}
