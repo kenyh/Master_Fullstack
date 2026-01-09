@@ -87,7 +87,7 @@ function barajar(mazo) {
   mazo.sort(() => Math.random() - Math.random());
   mazo.sort(() => Math.random() - Math.random());
   mazo.sort(() => Math.random() - Math.random());
-  mazo[mazo.length - 1].draggable = true;
+  mazo[mazo.length - 1].draggable = true; //a la de más "arriba" le ponemos draggable.
 } // barajar
 
 function cargarMazoInicial(mazo) {
@@ -98,6 +98,8 @@ function cargarMazoInicial(mazo) {
 }
 
 function setContador(contador, valor) {
+  if (!contador) throw new Error("No especificaste el contador.");
+  if (!valor) throw new Error("No especificaste el valor.");
   contador.textContent = valor;
 }
 
@@ -106,28 +108,22 @@ function permitirDrop(event) {
 }
 
 function iniciaDrag(event) {
-  //Lo unico que se puede arrastrar son las cartas.
-  const carta = event.target;
-  //Guardamos el id de la carta que se está arrastrando.
-  event.dataTransfer.setData("idCarta", carta.id);
-  event.dataTransfer.setData("palo", carta.dataset.palo);
-  event.dataTransfer.setData("numero", carta.dataset.numero);
-  event.dataTransfer.setData("idMazoOrigen", carta.parentElement.id);
+  const carta = event.target; //Lo unico que se puede arrastrar son las cartas.
+  event.dataTransfer.setData("idCarta", carta.id); //Guardamos el id de la carta que se está arrastrando.
+  event.dataTransfer.setData("idMazoOrigen", carta.parentElement.id); //También guardamos el mazo al que pertenece la carta. mazo es el padre de carta.
 }
 
 function cartaSoltada(event) {
   event.preventDefault();
-  //Obtenemos los datos del drag.
+  //Obtenemos los datos de la imágen arrastrada.
   const idCarta = event.dataTransfer.getData("idCarta");
   const idMazoOrigen = event.dataTransfer.getData("idMazoOrigen");
   if (!idCarta || !idMazoOrigen) {
-    console.error("No se ha obtenido id de carta o idMazoOrigen.");
-    return;
+    return console.error("No se ha obtenido id de carta o idMazoOrigen.");
   }
-  //Obtenemos el cartas destino
-  const mazoDestino = event.target.closest(".mazo");
-  //Obtenemos el cartas origen
-  const mazoOrigen = document.getElementById(idMazoOrigen); //El tapete donde estaba la carta.
+
+  const mazoDestino = event.target.closest(".mazo"); //Obtenemos el mazo destino
+  const mazoOrigen = document.getElementById(idMazoOrigen); //Obtenemos el mazo origen
   if (mazoDestino === mazoOrigen) return; //Para que no cuente ni haga nada.
   //Obtenemos la carta arrastrada
   const cartaArrastrada = document.getElementById(idCarta);
@@ -136,16 +132,16 @@ function cartaSoltada(event) {
     return;
   }
   if (!mazoAceptaCarta(mazoDestino, cartaArrastrada)) return;
+
   //En este punto ya sabemos que es válido mover la carta desde origen a destino.
   if (mazoDestino.children.length !== 0)
-    mazoDestino.lastElementChild.draggable = false; //Hago no draggablela última carta del mazo destino
-  mazoDestino.appendChild(cartaArrastrada); //Añadimos la carta al nuevo cartas. Automaticamente se borra del origen.
+    mazoDestino.lastElementChild.draggable = false; //Hago no draggable la última carta del mazo destino
+  mazoDestino.appendChild(cartaArrastrada); //Añadimos la carta al mazoDestino. Automaticamente se borra del origen.
   if (mazoOrigen.children.length !== 0)
     mazoOrigen.lastElementChild.draggable = true; //Hago draggable la última carta del mazo origen
 
-  //Actualizamos contadores, origen, destino y movimientos. Se opta por recalcular siempre el largo de los mazos involucrados. Ya que nos parece más seguro.
-  calcularContadorDeMazos([mazoDestino, mazoOrigen]);
-  setContador(contMovimientos, parseInt(contMovimientos.textContent || 0) + 1);
+  calcularContadorDeMazos([mazoDestino, mazoOrigen]); //Actualizamos contadores, origen, destino y movimientos. Se opta por recalcular siempre el largo de los mazos involucrados. Ya que nos parece más seguro.
+  setContador(contMovimientos, parseInt(contMovimientos.textContent || 0) + 1); //Incrementamos el contador de movimientos
 }
 
 function mazoAceptaCarta(mazoDiv, cartaImg) {
