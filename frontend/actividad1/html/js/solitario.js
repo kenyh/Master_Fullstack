@@ -42,7 +42,7 @@ function comenzarJuego() {
 function generarMazo() {
   const mazo = [];
   for (let palo of Object.keys(PALO_COLOR)) {
-    for (let numero = 10; numero <= 12; numero++) {
+    for (let numero = 9; numero <= 12; numero++) {
       let img = document.createElement("img");
       img.src = `imagenes/baraja/${numero}-${palo}.png`;
       img.alt = `${numero} de ${palo}`;
@@ -98,7 +98,6 @@ function cargarMazoInicial(mazo) {
 
 function setContador(contador, valor) {
   if (!contador) throw new Error("No especificaste el contador.");
-  if (!valor) throw new Error("No especificaste el valor.");
   contador.textContent = valor;
 }
 

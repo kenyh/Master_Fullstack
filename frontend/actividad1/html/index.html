@@ -15,19 +15,11 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
-    <!--/*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
-		Invocar a los ficheros de estilos y al JavaScript donde proceda
-        -->
     <link rel="stylesheet" type="text/css" href="css/solitario.css" />
   </head>
 
   <body>
     <header>
-      <!-- Título principal -->
-
-      <!--/*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! **/
-			Rellenar h1 e insertar el logo donde proceda
-        	-->
       <h1 id="titulo">
         Juego del Solitario
         <img
@@ -37,23 +29,21 @@
           height="50"
         />
       </h1>
-
-      <!-- Siguiente línea donde se indicará el tiempo transcurrido y la cantidad
-				de movimientos que se han hecho hasta el momento. Estos números se 
-				indicarán en los span internos -->
-      <h2 id="marcadores">
-        <span>Tiempo: <span id="contador_tiempo"></span></span>
-        <span style="display: inline-block; width: 200px"></span>
-        <span
-          >Movimientos: <span id="contador_movimientos" class="contador"></span
-        ></span>
-      </h2>
+      <div class="row">
+        <div class="col">
+          <h2 class="marcador">Tiempo: <span id="contador_tiempo"></span></h2>
+        </div>
+        <div class="col">
+          <h2 class="marcador">
+            <span
+              >Movimientos:
+              <span id="contador_movimientos" class="contador"></span
+            ></span>
+          </h2>
+        </div>
+      </div>
     </header>
     <main>
-      <!-- La "mesa" contendrá los 6 tapetes. En la parte superior dos de ellos 
-				y en la parte inferior los cuatro restantes. Los contadores de los
-				mazos de cartas de cada tapete están indicados oportunamente dentro
-				de elementos span -->
       <div id="mesa">
         <div class="tapetes_superiores">
           <div id="inicial" class="tapete">
@@ -64,8 +54,7 @@
             ></div>
             <span id="contador_inicial" class="contador"></span>
           </div>
-          <!--
-					-->
+
           <div id="sobrantes" class="tapete">
             <div
               class="mazo"
@@ -85,8 +74,7 @@
           ></div>
           <span id="contador_receptor1" class="contador"></span>
         </div>
-        <!--
-				-->
+
         <div id="receptor2" class="tapete receptor">
           <div
             class="mazo"
@@ -96,8 +84,7 @@
           ></div>
           <span id="contador_receptor2" class="contador"></span>
         </div>
-        <!--
-				-->
+
         <div id="receptor3" class="tapete receptor">
           <div
             class="mazo"
@@ -107,8 +94,7 @@
           ></div>
           <span id="contador_receptor3" class="contador"></span>
         </div>
-        <!--
-				-->
+
         <div id="receptor4" class="tapete receptor">
           <div
             class="mazo"
@@ -119,10 +105,8 @@
           <span id="contador_receptor4" class="contador"></span>
         </div>
       </div>
-      <!-- class="central" -->
     </main>
     <footer>
-      <!-- Botón de reset que reinicia todo: partida, contadores de tiempo, de movimientos, ... -->
       <button id="reset" class="btn btn-danger" onclick="comenzarJuego()">
         Reiniciar
       </button>

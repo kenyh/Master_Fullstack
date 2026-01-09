@@ -24,7 +24,7 @@ h1#titulo {
 }
 
 /* Centrado de los marcadores de tiempo y movimientos */
-h2#marcadores {
+h2.marcador {
   text-align: center;
 }
 
