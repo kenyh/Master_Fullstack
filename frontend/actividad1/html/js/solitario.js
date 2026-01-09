@@ -3,12 +3,11 @@
 const contMovimientos = document.getElementById("contador_movimientos"); //Acá porque se usa en 2 lugares.
 let temporizador = null; // Lo dejamo global para poderle hacer el clear.
 
-const COLOR = { color1: "orange", color2: "grey" };
 const PALO_COLOR = {
-  viu: COLOR.color1,
-  cua: COLOR.color1,
-  hex: COLOR.color2,
-  cir: COLOR.color2,
+  viu: "orange",
+  cua: "orange",
+  hex: "grey",
+  cir: "grey",
 }; //TODO: Hacer readonly?
 
 /***** FIN DECLARACIÓN DE VARIABLES GLOBALES *****/
