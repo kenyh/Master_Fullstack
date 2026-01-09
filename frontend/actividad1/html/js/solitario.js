@@ -1,8 +1,15 @@
 /***** INICIO DECLARACIÓN DE VARIABLES GLOBALES *****/
 
-let contMovimientos = document.getElementById("contador_movimientos"); //Acceso global a contador movimientos
-
+const contMovimientos = document.getElementById("contador_movimientos"); //Acá porque se usa en 2 lugares.
 let temporizador = null; // Lo dejamo global para poderle hacer el clear.
+
+const COLOR = { color1: "orange", color2: "grey" };
+const PALO_COLOR = {
+  viu: COLOR.color1,
+  hex: COLOR.color1,
+  cua: COLOR.color2,
+  cir: COLOR.color2,
+}; //TODO: Hacer readonly?
 
 /***** FIN DECLARACIÓN DE VARIABLES GLOBALES *****/
 
@@ -35,7 +42,7 @@ function comenzarJuego() {
 
 function generarMazo() {
   const mazo = [];
-  for (let palo of ["viu", "cua", "hex", "cir"]) {
+  for (let palo of Object.keys(PALO_COLOR)) {
     for (let numero = 1; numero <= 12; numero++) {
       let img = document.createElement("img");
       img.src = `imagenes/baraja/${numero}-${palo}.png`;
@@ -45,6 +52,7 @@ function generarMazo() {
       img.draggable = false; //Solo la última será draggable.
       img.dataset.numero = numero; //Guardamos el número en un data-attribute.
       img.dataset.palo = palo; //Guardamos el palo en un data-attribute.
+      img.dataset.color = PALO_COLOR[palo];
       img.addEventListener("dragstart", iniciaDrag); // Por ahora es suficiente solo con dragstart en la imagen.
       mazo.push(img);
     }
@@ -126,7 +134,9 @@ function cartaSoltada(event) {
     console.error("No se ha obtenido elemento carta.");
     return;
   }
+  const { numero, palo, color } = cartaArrastrada.dataset;
 
+  //En este punto ya sabemos que es válido mover la carta desde origen a destino.
   if (mazoDestino.children.length !== 0)
     mazoDestino.lastElementChild.draggable = false; //Hago no draggablela última carta del mazo destino
   mazoDestino.appendChild(cartaArrastrada); //Añadimos la carta al nuevo cartas. Automaticamente se borra del origen.
@@ -137,3 +147,5 @@ function cartaSoltada(event) {
   calcularContadorDeMazos([mazoDestino, mazoOrigen]);
   setContador(contMovimientos, parseInt(contMovimientos.textContent || 0) + 1);
 }
+
+function mazoAceptaCarta(mazoDiv, cartaImg) {}
