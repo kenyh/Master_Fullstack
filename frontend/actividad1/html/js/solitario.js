@@ -10,11 +10,12 @@ const PALO_COLOR = {
   cua: "orange",
   hex: "grey",
   cir: "grey",
-}; //TODO: Hacer readonly?
+}; //FIXME: Hacer readonly? Mover dentro del método?
 
 /***** FIN DECLARACIÓN DE VARIABLES GLOBALES *****/
 
 function vaciarMazos() {
+  //Vaciamos todo los elementos html que son un mazo (tienen clase mazo)
   for (const mazo of document.getElementsByClassName("mazo"))
     mazo.innerHTML = "";
 }
@@ -32,7 +33,7 @@ function calcularContadorDeMazos(mazos) {
 
 function comenzarJuego() {
   console.info("Comenzando juego...");
-  vaciarMazos(); //Vaciamos todo los elementos html que son un mazo
+  vaciarMazos();
   const mazo = generarMazo(); //Generamos el mazo
   barajar(mazo); //Desordenamos el mazo
   cargarMazoInicial(mazo); //Cargamos todos los elementos img en el dom
@@ -86,7 +87,7 @@ function arrancarTiempo() {
 function barajar(mazo) {
   if (!mazo || mazo.length === 0)
     throw new Error("El mazo está vacío. No se puede barajar.");
-  //FIXME: Optimizar el desordenamiento.
+  //FIXME: Optimizar el desordenamiento?.
   mazo.sort(() => Math.random() - Math.random());
   mazo.sort(() => Math.random() - Math.random());
   mazo.sort(() => Math.random() - Math.random());
@@ -137,26 +138,30 @@ function cartaSoltada(event) {
   //En este punto ya sabemos que es válido mover la carta desde origen a destino.
   if (mazoDestino.children.length !== 0)
     mazoDestino.lastElementChild.draggable = false; //Hago no draggable la última carta del mazo destino
+
   mazoDestino.appendChild(cartaArrastrada); //Añadimos la carta al mazoDestino. Automaticamente se borra del origen.
+
   if (mazoOrigen.childElementCount !== 0)
     mazoOrigen.lastElementChild.draggable = true; //Hago draggable la última carta del mazo origen
 
   //Si el mazoInicial quedó vacío y sobrantes tiene elementos.
-  if (mazoInicial.childElementCount === 0) {
-    if (mazoSobrantes.childElementCount === 0)
-      return alert("Juego terminado. Ganaste.");
+  if (
+    mazoInicial.childElementCount === 0 &&
+    mazoSobrantes.childElementCount !== 0
+  ) {
     const mazo = [...mazoSobrantes.children]; //barajar acepta un array normal.
     mazoSobrantes.innerHTML = "";
     barajar(mazo);
     cargarMazoInicial(mazo);
     calcularContadorDeMazos([mazoSobrantes]);
   }
+
   calcularContadorDeMazos([mazoDestino, mazoOrigen]); //Actualizamos contadores, origen, destino y movimientos. Se opta por recalcular siempre el largo de los mazos involucrados. Ya que nos parece más seguro.
   setContador(contMovimientos, parseInt(contMovimientos.textContent || 0) + 1); //Incrementamos el contador de movimientos
-  console.log("Sobrantes: ", mazoSobrantes.childElementCount);
-}
 
-function verificarMazoInicialVacio() {}
+  //Después que se actualizó todos los contadores y demás,
+  verificarJuegoTerminado();
+}
 
 function mazoAceptaCarta(mazoDiv, cartaImg) {
   //Precondiciones
@@ -181,4 +186,16 @@ function mazoAceptaCarta(mazoDiv, cartaImg) {
 
   //Si el mazo no es vacío, acepta una carta de distinto color y un número menor unicamente.
   return ultimaCarta.dataset.color !== color && valActual - 1 === valNuevo;
+}
+
+function verificarJuegoTerminado() {
+  //Si los mazos inicial y sobrantes están vacíos: Ganaste.
+  if (
+    mazoInicial.childElementCount === 0 &&
+    mazoSobrantes.childElementCount === 0
+  )
+    //Se usa timeout, para evitar que primero se muestre el alert y luego se mueva la última carta.
+    //Ya que alert bloquea el event loop y la carta no se llega a mover antes que aparezca el alert.
+    //FIXME: Poner algo más bonito con bootstrap?
+    setTimeout(() => alert("Juego terminado. Ganaste."), 200);
 }
