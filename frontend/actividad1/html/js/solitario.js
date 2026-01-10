@@ -1,5 +1,7 @@
 /***** INICIO DECLARACIÓN DE VARIABLES GLOBALES *****/
 
+const mazoInicial = document.getElementById("mazo-inicial"); //Mazo inicial se usa en varios lados.
+const mazoSobrantes = document.getElementById("mazo-sobrantes"); //Mazo sobrantes se usa en varios lados.
 const contMovimientos = document.getElementById("contador_movimientos"); //Acá porque se usa en 2 lugares.
 let temporizador = null; // Lo dejamo global para poderle hacer el clear.
 
@@ -29,7 +31,7 @@ function calcularContadorDeMazos(mazos) {
 }
 
 function comenzarJuego() {
-  console.log("Comenzando juego...");
+  console.info("Comenzando juego...");
   vaciarMazos(); //Vaciamos todo los elementos html que son un mazo
   const mazo = generarMazo(); //Generamos el mazo
   barajar(mazo); //Desordenamos el mazo
@@ -42,7 +44,7 @@ function comenzarJuego() {
 function generarMazo() {
   const mazo = [];
   for (let palo of Object.keys(PALO_COLOR)) {
-    for (let numero = 9; numero <= 12; numero++) {
+    for (let numero = 10; numero <= 12; numero++) {
       let img = document.createElement("img");
       img.src = `imagenes/baraja/${numero}-${palo}.png`;
       img.alt = `${numero} de ${palo}`;
@@ -82,6 +84,8 @@ function arrancarTiempo() {
 }
 
 function barajar(mazo) {
+  if (!mazo || mazo.length === 0)
+    throw new Error("El mazo está vacío. No se puede barajar.");
   //FIXME: Optimizar el desordenamiento.
   mazo.sort(() => Math.random() - Math.random());
   mazo.sort(() => Math.random() - Math.random());
@@ -90,7 +94,6 @@ function barajar(mazo) {
 } // barajar
 
 function cargarMazoInicial(mazo) {
-  const mazoInicial = document.getElementById("mazo-inicial");
   for (let i = mazo.length - 1; i >= 0; i--) {
     mazoInicial.prepend(mazo[i]);
   }
@@ -135,12 +138,25 @@ function cartaSoltada(event) {
   if (mazoDestino.children.length !== 0)
     mazoDestino.lastElementChild.draggable = false; //Hago no draggable la última carta del mazo destino
   mazoDestino.appendChild(cartaArrastrada); //Añadimos la carta al mazoDestino. Automaticamente se borra del origen.
-  if (mazoOrigen.children.length !== 0)
+  if (mazoOrigen.childElementCount !== 0)
     mazoOrigen.lastElementChild.draggable = true; //Hago draggable la última carta del mazo origen
 
+  //Si el mazoInicial quedó vacío y sobrantes tiene elementos.
+  if (mazoInicial.childElementCount === 0) {
+    if (mazoSobrantes.childElementCount === 0)
+      return alert("Juego terminado. Ganaste.");
+    const mazo = [...mazoSobrantes.children]; //barajar acepta un array normal.
+    mazoSobrantes.innerHTML = "";
+    barajar(mazo);
+    cargarMazoInicial(mazo);
+    calcularContadorDeMazos([mazoSobrantes]);
+  }
   calcularContadorDeMazos([mazoDestino, mazoOrigen]); //Actualizamos contadores, origen, destino y movimientos. Se opta por recalcular siempre el largo de los mazos involucrados. Ya que nos parece más seguro.
   setContador(contMovimientos, parseInt(contMovimientos.textContent || 0) + 1); //Incrementamos el contador de movimientos
+  console.log("Sobrantes: ", mazoSobrantes.childElementCount);
 }
+
+function verificarMazoInicialVacio() {}
 
 function mazoAceptaCarta(mazoDiv, cartaImg) {
   //Precondiciones
