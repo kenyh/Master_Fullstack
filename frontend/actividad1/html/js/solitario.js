@@ -196,17 +196,11 @@ function verificarJuegoTerminado() {
     mazoSobrantes.childElementCount === 0
   ) {
     if (temporizador) clearInterval(temporizador);
-    //Se usa timeout, para evitar que primero se muestre el alert y luego se mueva la última carta.
-    //Ya que alert bloquea el event loop y la carta no se llega a mover antes que aparezca el alert.
-    //FIXME: Poner algo más bonito con bootstrap?
     const tiempo = contTiempo.textContent;
     const movimientos = contMovimientos.textContent;
-    setTimeout(
-      () =>
-        alert(
-          `Juego terminado. Ganaste. Tiempo: ${tiempo}. Movimientos: ${movimientos}`
-        ),
-      200
-    );
+    const miModal = document.getElementById("miModal");
+    miModal.querySelector("span#tiempo-final").innerHTML = movimientos;
+    miModal.querySelector("span#movimientos-final").innerHTML = tiempo;
+    miModal.showModal();
   }
 }
