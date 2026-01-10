@@ -3,8 +3,9 @@
 const mazoInicial = document.getElementById("mazo-inicial"); //Mazo inicial se usa en varios lados.
 const mazoSobrantes = document.getElementById("mazo-sobrantes"); //Mazo sobrantes se usa en varios lados.
 const contMovimientos = document.getElementById("contador_movimientos"); //Acá porque se usa en 2 lugares.
+const contTiempo = document.getElementById("contador_tiempo"); // Aquí porque se usa en varios lados.
 let temporizador = null; // Lo dejamo global para poderle hacer el clear.
-const NUMERO_INICIAL = 8; //Numero entre 1 y 12 para variar la cantidad de cartas. Siempre termina en 12.
+const NUMERO_INICIAL = 10; //Numero entre 1 y 12 para variar la cantidad de cartas. Siempre termina en 12.
 
 const PALO_COLOR = {
   viu: "orange",
@@ -64,7 +65,6 @@ function generarMazo() {
 }
 
 function arrancarTiempo() {
-  let contTiempo = document.getElementById("contador_tiempo"); // span cuenta tiempo
   let segundos = 0; // cuenta de segundos
   if (temporizador) clearInterval(temporizador);
   let hms = function () {
@@ -194,9 +194,19 @@ function verificarJuegoTerminado() {
   if (
     mazoInicial.childElementCount === 0 &&
     mazoSobrantes.childElementCount === 0
-  )
+  ) {
+    if (temporizador) clearInterval(temporizador);
     //Se usa timeout, para evitar que primero se muestre el alert y luego se mueva la última carta.
     //Ya que alert bloquea el event loop y la carta no se llega a mover antes que aparezca el alert.
     //FIXME: Poner algo más bonito con bootstrap?
-    setTimeout(() => alert("Juego terminado. Ganaste."), 200);
+    const tiempo = contTiempo.textContent;
+    const movimientos = contMovimientos.textContent;
+    setTimeout(
+      () =>
+        alert(
+          `Juego terminado. Ganaste. Tiempo: ${tiempo}. Movimientos: ${movimientos}`
+        ),
+      200
+    );
+  }
 }

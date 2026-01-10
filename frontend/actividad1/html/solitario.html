@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Solitario VIU</title>
+    <meta charset="utf-8" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" type="text/css" href="css/solitario.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1 id="titulo">
+        Juego del Solitario
+        <img
+          src="imagenes/logoVIU.png"
+          alt="Logo VIU"
+          width="100"
+          height="50"
+        />
+      </h1>
+      <div class="row">
+        <div class="col">
+          <h2 class="marcador">
+            <i class="bi bi-stopwatch"></i>
+            Tiempo:
+            <span id="contador_tiempo"></span>
+          </h2>
+        </div>
+        <div class="col">
+          <h2 class="marcador">
+            <i class="bi bi-person-walking fs-4"></i>
+            Movimientos:
+            <span id="contador_movimientos" class="contador"></span
+          </h2>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div id="mesa">
+        <div class="tapetes_superiores">
+          <div id="inicial" class="tapete">
+            <div
+              class="mazo"
+              id="mazo-inicial"
+              ondragover="permitirDrop(event)"
+            ></div>
+            <span id="contador_inicial" class="contador"></span>
+          </div>
+
+          <div id="sobrantes" class="tapete">
+            <div
+              class="mazo"
+              id="mazo-sobrantes"
+              ondragover="permitirDrop(event)"
+              ondrop="cartaSoltada(event)"
+            ></div>
+            <span id="contador_sobrantes" class="contador"></span>
+          </div>
+        </div>
+        <div id="receptor1" class="tapete receptor">
+          <div
+            class="mazo"
+            id="mazo-receptor1"
+            ondragover="permitirDrop(event)"
+            ondrop="cartaSoltada(event)"
+          ></div>
+          <span id="contador_receptor1" class="contador"></span>
+        </div>
+
+        <div id="receptor2" class="tapete receptor">
+          <div
+            class="mazo"
+            id="mazo-receptor2"
+            ondragover="permitirDrop(event)"
+            ondrop="cartaSoltada(event)"
+          ></div>
+          <span id="contador_receptor2" class="contador"></span>
+        </div>
+
+        <div id="receptor3" class="tapete receptor">
+          <div
+            class="mazo"
+            id="mazo-receptor3"
+            ondragover="permitirDrop(event)"
+            ondrop="cartaSoltada(event)"
+          ></div>
+          <span id="contador_receptor3" class="contador"></span>
+        </div>
+
+        <div id="receptor4" class="tapete receptor">
+          <div
+            class="mazo"
+            id="mazo-receptor4"
+            ondragover="permitirDrop(event)"
+            ondrop="cartaSoltada(event)"
+          ></div>
+          <span id="contador_receptor4" class="contador"></span>
+        </div>
+      </div>
+    </main>
+    <footer class="container d-flex justify-content-center">
+      <button
+        id="reset"
+        class="btn btn-danger rounded-pill py-2 mb-1 shadow"
+        onclick="comenzarJuego()"
+        title="Iniciar nueva partida"
+      >
+        <i class="bi bi-arrow-clockwise"></i>
+      </button>
+    </footer>
+    <script src="js/solitario.js"></script>
+  </body>
+</html>
