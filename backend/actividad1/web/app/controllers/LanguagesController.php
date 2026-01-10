@@ -89,6 +89,18 @@ class LanguagesController extends AbstractController
             $_SESSION['message'] = ["type" => "danger", "text" => $e->getMessage()];
             header('Location: /languages/list');
             exit;   //Esto hace que no llegue a terminar de ejecutar index.php donde se borra el mensaje de la sesión.
+        } catch (PDOException $e) {
+            if ($e->getCode() === '23000') {
+                $_SESSION['message'] = [
+                    "type" => "danger",
+                    "text" => "No puedes eliminar este idioma porque está asociado a una serie."
+                ];
+            } else {
+                $_SESSION['message'] = [
+                    "type" => "danger",
+                    "text" => "Error de base de datos."
+                ];
+            }
         } catch (Exception $e) {
             $_SESSION['message'] = ["type" => "danger", "text" => "ERROR: " . $e->getMessage()];
         }

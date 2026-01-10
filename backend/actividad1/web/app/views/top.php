@@ -30,7 +30,8 @@
     <?php } else {
         // echo "NO HAY MENSAJES";
     } ?>
-    <header>
+    <header class="text-center">
         <H1>Biblioteca de Series</H1>
+        <hr>
     </header>
     <main class="container-fluid flex-fill">

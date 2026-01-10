@@ -1,4 +1,4 @@
-<form class="card" name="create_serie" action="" method="POST">
+<form class="card" name="create_serie" action="" style="width:80%;" method="POST">
     <div class="card-body">
         <div class="row">
             <div class="col mb-3">
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col mb-3">
+            <div class="col col-12 col-md-6 mb-3">
                 <label for="platformId" class="form-label">Plataforma</label>
                 <select class="form-select" name="platformId">
                     <option value="">Selecciona la plataforma</option>
@@ -39,9 +39,7 @@
                     <?php endforeach; ?>
                 </select>
             </div>
-        </div>
-        <div class="row">
-            <div class="col mb-3">
+            <div class="col col-12 col-md-6 mb-3">
                 <label for="directorId" class="form-label">Director</label>
                 <select class="form-select" name="directorId">
                     <option value="">Selecciona el director</option>
@@ -56,7 +54,7 @@
         </div>
 
         <div class="row">
-            <div class="col mb-3">
+            <div class="col col-12 col-md-6 mb-3">
                 <label for="audioLanguageIds[]" class="form-label">Idiomas de audio</label>
                 <select class="form-select" name="audioLanguageIds[]" multiple>
                     <?php foreach ($languages as $language): ?>
@@ -66,10 +64,8 @@
                     <?php endforeach; ?>
                 </select>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col mb-3">
+            
+            <div class="col col-12 col-md-6 mb-3">
                 <label for="subtitleLanguageIds[]" class="form-label">Idiomas de subtítulos</label>
                 <select class="form-select" name="subtitleLanguageIds[]" multiple>
                     <?php foreach ($languages as $language): ?>

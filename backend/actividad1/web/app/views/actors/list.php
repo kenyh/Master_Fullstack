@@ -25,7 +25,7 @@ require_once __DIR__ . '/../top.php';
                         <th scope="row"><?php echo $fila->getPersonId() ?></th>
                         <td><?php echo $fila->getName() ?></td>
                         <td><?php echo $fila->getSurname() ?></td>
-                        <td><?php echo $fila->getBirthday() ?></td>
+                        <td><?php echo date('d/m/Y', strtotime($fila->getBirthday())); ?></td>
                         <td><?php echo $fila->getNationality() ?></td>
                         <td><?php echo $fila->isDirector() ? "SI" : "NO" ?></td>
                         <td>
