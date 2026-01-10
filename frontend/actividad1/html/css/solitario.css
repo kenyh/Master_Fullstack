@@ -9,64 +9,116 @@
 /* Todos los contadores estarán ubicados en la parte inferior 
    derecha (position absolute) de los respectivos tapetes (position relative).
 */
-.contador {
-	position: absolute;
-	bottom: 0px;
-	right: 3px;
+.contador:not(#contador_movimientos) {
+  position: absolute;
+  bottom: 0px;
+  right: 3px;
+  font-weight: bold;
+  font-size: 10px;
 }
-
 
 /* Centrado del título y color */
 h1#titulo {
-	text-align: center;
-	color: #E65014;
+  text-align: center;
+  color: #e65014;
 }
 
 /* Centrado de los marcadores de tiempo y movimientos */
-h2#marcadores{ 
-	text-align: center; 
+h2.marcador {
+  text-align: center;
 }
 
 /* Mesa que contiene a los tapetes centrados */
-div#mesa{
-	text-align: center;
-	margin:20px;
+div#mesa {
+  text-align: center;
+  margin: 5px;
+  user-select: none;
 }
 
 /* Todos los tapetes con position relative para que
    los respectivos mazos (arrays de <img>) puedan
    posicionarse de manera absoluta respecto a ellos */
-div.tapete{
-	display: inline-block;
-	position: relative;
-	margin: 10px;
+div.tapete {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  padding: 5px;
+  border: 3px solid black;
+  border-radius: 8px;
+  height: 125px;
+  min-width: 90px;
 }
 
 /* Dimensiones y color de fondo para el tapete inicial */
-div.tapete#inicial{
-	width: 340px;
-	height: 340px;			
-	background-color: lightgrey;
+div.tapete#inicial {
+  max-width: 80vw;
+  /* height: 340px; */
+  /* background-color: lightgrey; */
+  border: none;
 }
 
 /* Dimensiones para todos los tapetes salvo el inicial */
-div.tapete:not(#inicial){				
-	height: 125px;
-	width: 100px;
+div.tapete:not(#inicial) {
+  /* height: 125px; */
 }
 
 /* Color de fondo para el tapete de las cartas sobrantes */
-div.tapete#sobrantes{
-	background-color: lightblue;
+div.tapete#sobrantes {
+  background-color: lightblue;
 }
 
 /* Color de fondo de los tapetes receptores */
-div.tapete.receptor{
-	background-color: lightgreen;
+div.tapete.receptor {
+  background-color: lightgreen;
 }
 
+/* CAMBIOS AL ARCHIVO A PARTIR DE ACÁ */
+
+.mazo {
+  text-align: left;
+  overflow-x: auto;
+  white-space: nowrap;
+  height: 125px;
+}
+
+.mazo #mazo-inicial {
+  width: auto;
+}
+.tapete:has(#mazo-inicial:empty) {
+  border: 2px dashed black;
+}
+
+.carta {
+  width: 75px;
+  cursor: pointer;
+  border: 2px solid black;
+  border-radius: 8px;
+}
+
+#mazo-inicial > .carta + .carta {
+  margin-left: -60px;
+}
+
+.mazo:not(#mazo-inicial) .carta + .carta {
+  margin-left: -75px;
+}
+
+.carta:last-of-type:hover {
+  border: 2px solid green;
+}
+.carta:last-of-type:active {
+  transform: translateY(0px);
+  border: 3px solid green;
+}
+
+main {
+  background-color: #076324;
+}
 
 /* TODO: PARA BORRAR */
 body {
-	border: 5px solid black;
+  border: 5px solid black;
+}
+row {
+  border: 3px solid blue;
 }
