@@ -4,6 +4,7 @@ const mazoInicial = document.getElementById("mazo-inicial"); //Mazo inicial se u
 const mazoSobrantes = document.getElementById("mazo-sobrantes"); //Mazo sobrantes se usa en varios lados.
 const contMovimientos = document.getElementById("contador_movimientos"); //Acá porque se usa en 2 lugares.
 let temporizador = null; // Lo dejamo global para poderle hacer el clear.
+const NUMERO_INICIAL = 8; //Numero entre 1 y 12 para variar la cantidad de cartas. Siempre termina en 12.
 
 const PALO_COLOR = {
   viu: "orange",
@@ -45,7 +46,7 @@ function comenzarJuego() {
 function generarMazo() {
   const mazo = [];
   for (let palo of Object.keys(PALO_COLOR)) {
-    for (let numero = 10; numero <= 12; numero++) {
+    for (let numero = NUMERO_INICIAL; numero <= 12; numero++) {
       let img = document.createElement("img");
       img.src = `imagenes/baraja/${numero}-${palo}.png`;
       img.alt = `${numero} de ${palo}`;
