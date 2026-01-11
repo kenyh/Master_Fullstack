@@ -1,14 +1,3 @@
-/**
-	Especificaciones CSS para el juego del solitario 
-*/
-
-/* /*** !!!!!!!!!!!!!!!!!!! CODIGO !!!!!!!!!!!!!!!!!!!! 
-	Completar los estilos que faltan y modificar al gusto del alumno
-**/
-
-/* Todos los contadores estarán ubicados en la parte inferior 
-   derecha (position absolute) de los respectivos tapetes (position relative).
-*/
 .contador:not(#contador_movimientos) {
   position: absolute;
   bottom: 0px;
@@ -57,11 +46,6 @@ div.tapete#inicial {
   border: none;
 }
 
-/* Dimensiones para todos los tapetes salvo el inicial */
-div.tapete:not(#inicial) {
-  /* height: 125px; */
-}
-
 /* Color de fondo para el tapete de las cartas sobrantes */
 div.tapete#sobrantes {
   background-color: lightblue;
@@ -71,8 +55,6 @@ div.tapete#sobrantes {
 div.tapete.receptor {
   background-color: lightgreen;
 }
-
-/* CAMBIOS AL ARCHIVO A PARTIR DE ACÁ */
 
 .mazo {
   text-align: left;
@@ -114,41 +96,4 @@ div.tapete.receptor {
 
 main {
   background-color: #80af8f;
-}
-
-/* ===== RESPONSIVE - SELECTOR DE DIFICULTAD ===== */
-
-.btn-dificultad.active {
-  animation: cambio-dificultad 0.3s ease;
-}
-
-/* ===== MEJORA VISUAL PARA DIFICULTAD ===== */
-@media (min-width: 768px) {
-  .d-flex.flex-column.gap-1 {
-    gap: 0.5rem !important;
-  }
-
-  .d-flex.flex-column.gap-1 .btn-dificultad {
-    width: 100%;
-  }
-}
-
-/* ===== INDICADOR DE NÚMERO DE CARTAS ===== */
-.btn-dificultad::after {
-  content: attr(data-cartas);
-  display: inline-block;
-  margin-left: 5px;
-  font-size: 0.7em;
-  opacity: 0.8;
-}
-
-/* ===== ACCESIBILIDAD ===== */
-.btn-dificultad:focus {
-  outline: 3px solid rgba(255, 255, 255, 0.5);
-  outline-offset: 2px;
-}
-
-#select-dificultad:focus {
-  outline: 3px solid rgba(230, 80, 20, 0.5);
-  outline-offset: 2px;
 }
