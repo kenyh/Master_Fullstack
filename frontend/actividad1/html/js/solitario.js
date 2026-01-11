@@ -28,7 +28,6 @@ const PALO_COLOR = {
 Cambia la dificultad del juego
  */
 function cambiarDificultad(botonActual, dificultad) {
-  console.log({ botonActual });
   if (!DIFICULTADES[dificultad]) {
     return;
   }
@@ -145,11 +144,9 @@ function permitirDrop(event) {
 }
 
 function iniciaDrag(event) {
-  console.log("Inicia dRag: ", { event });
   const carta = event.target; //Lo unico que se puede arrastrar son las cartas.
   event.dataTransfer.setData("idCarta", carta.id); //Guardamos el id de la carta que se está arrastrando.
   event.dataTransfer.setData("idMazoOrigen", carta.parentElement.id); //También guardamos el mazo al que pertenece la carta. mazo es el padre de carta.
-  console.log("Drag: ", carta.dataset);
 }
 
 function cartaSoltada(cartaArrastrada, mazoOrigen, mazoDestino) {
@@ -190,7 +187,6 @@ function cartaSoltada(cartaArrastrada, mazoOrigen, mazoDestino) {
 function onDrop(event) {
   event.preventDefault();
   //Obtenemos los datos de la imágen arrastrada.
-  console.log({ event });
   const idCarta = event.dataTransfer?.getData("idCarta");
   const idMazoOrigen = event.dataTransfer?.getData("idMazoOrigen");
   if (!idCarta || !idMazoOrigen) {
@@ -218,12 +214,10 @@ function mazoAceptaCarta(mazoDiv, cartaImg) {
   const { numero, palo, color } = cartaImg?.dataset || {};
   if (!numero || !palo || !color)
     throw new Error("Falta número, palo y/o color de la carta.");
-  if (mazoDiv.id === "mazo-inicial")
-    throw new Error("Mazo inicial no permite recibir cartas.");
+  if (mazoDiv.id === "mazo-inicial") return; // "Mazo inicial no permite recibir cartas
 
   if (mazoDiv.id === "mazo-sobrantes") return true; //Acepta cualquier carta.
-  if (!mazoDiv.id.includes("receptor"))
-    throw new Error("No se reconoce el mazo.");
+  if (!mazoDiv.id.includes("receptor")) return; //throw new Error("No se reconoce el mazo.");
 
   //En este punto tiene que ser un mazo receptor. Verificar si el mazo receptor acepta la carta.
   if (mazoDiv.children.length === 0) return numero === "12"; //Si el mazo es vacío solo acepta un 12.
@@ -271,7 +265,7 @@ function touchEnd(event) {
 
   let mazoDestino = document.elementFromPoint(touch.clientX, touch.clientY);
   this.style.display = displayAnterior;
-  console.log({ mazoDestino });
+
   if (mazoDestino?.classList?.contains("carta"))
     mazoDestino = mazoDestino.parentElement; //Si solté sobre otra carta, tomo el mazo de esa carta como destino.
   if (mazoDestino?.classList.contains("tapete"))
