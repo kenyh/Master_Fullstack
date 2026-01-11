@@ -67,6 +67,8 @@
               class="mazo"
               id="mazo-inicial"
               ondragover="permitirDrop(event)"
+              ondragenter="permitirDrop(event)"
+              ondragleave="permitirDrop(event)"
             ></div>
             <span id="contador_inicial" class="contador"></span>
           </div>
@@ -76,7 +78,9 @@
               class="mazo"
               id="mazo-sobrantes"
               ondragover="permitirDrop(event)"
-              ondrop="cartaSoltada(event)"
+              ondragenter="permitirDrop(event)"
+              ondragleave="permitirDrop(event)"
+              ondrop="onDrop(event)"
             ></div>
             <span id="contador_sobrantes" class="contador"></span>
           </div>
@@ -87,7 +91,9 @@
             class="mazo"
             id="mazo-receptor1"
             ondragover="permitirDrop(event)"
-            ondrop="cartaSoltada(event)"
+            ondragenter="permitirDrop(event)"
+            ondragleave="permitirDrop(event)"
+            ondrop="onDrop(event)"
           ></div>
           <span id="contador_receptor1" class="contador"></span>
         </div>
@@ -97,7 +103,9 @@
             class="mazo"
             id="mazo-receptor2"
             ondragover="permitirDrop(event)"
-            ondrop="cartaSoltada(event)"
+            ondragenter="permitirDrop(event)"
+            ondragleave="permitirDrop(event)"
+            ondrop="onDrop(event)"
           ></div>
           <span id="contador_receptor2" class="contador"></span>
         </div>
@@ -107,7 +115,9 @@
             class="mazo"
             id="mazo-receptor3"
             ondragover="permitirDrop(event)"
-            ondrop="cartaSoltada(event)"
+            ondragenter="permitirDrop(event)"
+            ondragleave="permitirDrop(event)"
+            ondrop="onDrop(event)"
           ></div>
           <span id="contador_receptor3" class="contador"></span>
         </div>
@@ -117,7 +127,9 @@
             class="mazo"
             id="mazo-receptor4"
             ondragover="permitirDrop(event)"
-            ondrop="cartaSoltada(event)"
+            ondragenter="permitirDrop(event)"
+            ondragleave="permitirDrop(event)"
+            ondrop="onDrop(event)"
           ></div>
           <span id="contador_receptor4" class="contador"></span>
         </div>

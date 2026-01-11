@@ -89,6 +89,9 @@ function generarMazo() {
       img.dataset.palo = palo; //Guardamos el palo en un data-attribute.
       img.dataset.color = PALO_COLOR[palo];
       img.addEventListener("dragstart", iniciaDrag); // Por ahora es suficiente solo con dragstart en la imagen.
+      img.addEventListener("touchstart", touchStart);
+      img.addEventListener("touchmove", touchMove);
+      img.addEventListener("touchend", touchEnd);
       mazo.push(img);
     }
   }
@@ -142,29 +145,14 @@ function permitirDrop(event) {
 }
 
 function iniciaDrag(event) {
+  console.log("Inicia dRag: ", { event });
   const carta = event.target; //Lo unico que se puede arrastrar son las cartas.
   event.dataTransfer.setData("idCarta", carta.id); //Guardamos el id de la carta que se está arrastrando.
   event.dataTransfer.setData("idMazoOrigen", carta.parentElement.id); //También guardamos el mazo al que pertenece la carta. mazo es el padre de carta.
+  console.log("Drag: ", carta.dataset);
 }
 
-function cartaSoltada(event) {
-  event.preventDefault();
-  //Obtenemos los datos de la imágen arrastrada.
-  const idCarta = event.dataTransfer.getData("idCarta");
-  const idMazoOrigen = event.dataTransfer.getData("idMazoOrigen");
-  if (!idCarta || !idMazoOrigen) {
-    return console.error("No se ha obtenido id de carta o idMazoOrigen.");
-  }
-
-  const mazoDestino = event.target.closest(".mazo"); //Obtenemos el mazo destino
-  const mazoOrigen = document.getElementById(idMazoOrigen); //Obtenemos el mazo origen
-  if (mazoDestino === mazoOrigen) return; //Para que no cuente ni haga nada.
-  //Obtenemos la carta arrastrada
-  const cartaArrastrada = document.getElementById(idCarta);
-  if (!cartaArrastrada) {
-    console.error("No se ha obtenido elemento carta.");
-    return;
-  }
+function cartaSoltada(cartaArrastrada, mazoOrigen, mazoDestino) {
   if (!mazoAceptaCarta(mazoDestino, cartaArrastrada)) return;
 
   //En este punto ya sabemos que es válido mover la carta desde origen a destino.
@@ -193,6 +181,30 @@ function cartaSoltada(event) {
 
   //Después que se actualizó todos los contadores y demás,
   verificarJuegoTerminado();
+}
+
+function onDrop(event) {
+  event.preventDefault();
+  //Obtenemos los datos de la imágen arrastrada.
+  console.log({ event });
+  const idCarta = event.dataTransfer?.getData("idCarta");
+  const idMazoOrigen = event.dataTransfer?.getData("idMazoOrigen");
+  if (!idCarta || !idMazoOrigen) {
+    return console.error("No se ha obtenido id de carta o idMazoOrigen.");
+  }
+
+  const mazoDestino = event.target.closest(".mazo"); //Obtenemos el mazo destino
+  const mazoOrigen = document.getElementById(idMazoOrigen); //Obtenemos el mazo origen
+  if (mazoDestino === mazoOrigen)
+    return console.info("Mazo origen y destino son el mismo."); //Para que no cuente ni haga nada.
+  //Obtenemos la carta arrastrada
+  const cartaArrastrada = document.getElementById(idCarta);
+  if (!cartaArrastrada) {
+    console.error("No se ha obtenido elemento carta.");
+    return;
+  }
+
+  cartaSoltada(cartaArrastrada, mazoOrigen, mazoDestino);
 }
 
 function mazoAceptaCarta(mazoDiv, cartaImg) {
@@ -234,4 +246,22 @@ function verificarJuegoTerminado() {
     miModal.querySelector("span#movimientos-final").innerHTML = tiempo;
     miModal.showModal();
   }
+}
+
+function touchStart(event) {
+  event.preventDefault();
+  console.log("Touch start");
+  const fakeDrag = new Event("dragstart", { bubbles: false });
+  event.target.dispatchEvent(fakeDrag);
+}
+
+function touchMove(event) {
+  event.preventDefault();
+  console.log("Touch Move");
+}
+
+function touchEnd(event) {
+  event.preventDefault();
+  console.log("Touch End");
+  onDrop(event, true);
 }

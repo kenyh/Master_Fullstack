@@ -93,6 +93,7 @@ div.tapete.receptor {
   cursor: pointer;
   border: 2px solid black;
   border-radius: 8px;
+  touch-action: none; /*Para que no arrastre la pantalla en mobile*/
 }
 
 #mazo-inicial > .carta + .carta {
