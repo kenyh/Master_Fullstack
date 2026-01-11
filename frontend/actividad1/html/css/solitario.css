@@ -51,7 +51,7 @@ div.tapete {
 
 /* Dimensiones y color de fondo para el tapete inicial */
 div.tapete#inicial {
-  max-width: 80vw;
+  max-width: 70vw;
   /* height: 340px; */
   /* background-color: lightgrey; */
   border: none;
@@ -93,7 +93,7 @@ div.tapete.receptor {
   cursor: pointer;
   border: 2px solid black;
   border-radius: 8px;
-  touch-action: none; /*Para que no arrastre la pantalla en mobile*/
+  touch-action: auto; /*Esta en el js la cambiamos a none para que no permita arrastrar*/
 }
 
 #mazo-inicial > .carta + .carta {

@@ -89,7 +89,6 @@ function generarMazo() {
       img.dataset.palo = palo; //Guardamos el palo en un data-attribute.
       img.dataset.color = PALO_COLOR[palo];
       img.addEventListener("dragstart", iniciaDrag); // Por ahora es suficiente solo con dragstart en la imagen.
-      img.addEventListener("touchstart", touchStart);
       img.addEventListener("touchmove", touchMove);
       img.addEventListener("touchend", touchEnd);
       mazo.push(img);
@@ -127,6 +126,7 @@ function barajar(mazo) {
   mazo.sort(() => Math.random() - Math.random());
   mazo.sort(() => Math.random() - Math.random());
   mazo[mazo.length - 1].draggable = true; //a la de más "arriba" le ponemos draggable.
+  mazo[mazo.length - 1]["touch-action"] = "none"; //a la de más "arriba" le ponemos que no arrastre la pantalla en mobile.
 } // barajar
 
 function cargarMazoInicial(mazo) {
@@ -156,13 +156,17 @@ function cartaSoltada(cartaArrastrada, mazoOrigen, mazoDestino) {
   if (!mazoAceptaCarta(mazoDestino, cartaArrastrada)) return;
 
   //En este punto ya sabemos que es válido mover la carta desde origen a destino.
-  if (mazoDestino.children.length !== 0)
+  if (mazoDestino.children.length !== 0) {
+    mazoDestino.style["touch-action"] = "auto"; //Permite arrastre sobre la carta.
     mazoDestino.lastElementChild.draggable = false; //Hago no draggable la última carta del mazo destino
+  }
 
   mazoDestino.appendChild(cartaArrastrada); //Añadimos la carta al mazoDestino. Automaticamente se borra del origen.
 
-  if (mazoOrigen.childElementCount !== 0)
+  if (mazoOrigen.childElementCount !== 0) {
+    mazoDestino.style["touch-action"] = "none"; //No permite arrastre sobre la carta.
     mazoOrigen.lastElementChild.draggable = true; //Hago draggable la última carta del mazo origen
+  }
 
   //Si el mazoInicial quedó vacío y sobrantes tiene elementos.
   if (
@@ -248,20 +252,32 @@ function verificarJuegoTerminado() {
   }
 }
 
-function touchStart(event) {
-  event.preventDefault();
-  console.log("Touch start");
-  const fakeDrag = new Event("dragstart", { bubbles: false });
-  event.target.dispatchEvent(fakeDrag);
-}
-
 function touchMove(event) {
-  event.preventDefault();
-  console.log("Touch Move");
+  //Solo sii es una carta draggable, prevengo el desplazamiento por defecto.
+  if (event?.target?.draggable) event.preventDefault();
 }
 
 function touchEnd(event) {
-  event.preventDefault();
-  console.log("Touch End");
-  onDrop(event, true);
+  //Solo sii es una carta draggable, prevengo el desplazamiento por defecto.
+  if (event?.target?.draggable) event.preventDefault();
+  else return; //Si la carta no es draggable no hago nada.
+
+  const carta = event.target;
+  const mazoOrigen = carta.parentElement;
+
+  const touch = event.changedTouches[0]; //Primer punto de contacto
+  const displayAnterior = carta.style.display;
+  this.style.display = "none";
+
+  let mazoDestino = document.elementFromPoint(touch.clientX, touch.clientY);
+  this.style.display = displayAnterior;
+  console.log({ mazoDestino });
+  if (mazoDestino?.classList?.contains("carta"))
+    mazoDestino = mazoDestino.parentElement; //Si solté sobre otra carta, tomo el mazo de esa carta como destino.
+  if (mazoDestino?.classList.contains("tapete"))
+    mazoDestino = mazoDestino.querySelector(".mazo"); //Si solté sobre un tapete, agarro el mazo hijo.
+  if (!mazoDestino?.classList.contains("mazo")) {
+    return; //Solté sobre algo que no es una carta, ni mazo, ni tapete.
+  }
+  cartaSoltada(carta, mazoOrigen, mazoDestino);
 }
