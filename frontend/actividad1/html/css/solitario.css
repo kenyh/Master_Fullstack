@@ -51,7 +51,7 @@ div.tapete {
 
 /* Dimensiones y color de fondo para el tapete inicial */
 div.tapete#inicial {
-  max-width: 70vw;
+  max-width: 80vw;
   /* height: 340px; */
   /* background-color: lightgrey; */
   border: none;
