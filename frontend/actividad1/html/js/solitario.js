@@ -5,7 +5,15 @@ const mazoSobrantes = document.getElementById("mazo-sobrantes"); //Mazo sobrante
 const contMovimientos = document.getElementById("contador_movimientos"); //Acá porque se usa en 2 lugares.
 const contTiempo = document.getElementById("contador_tiempo"); // Aquí porque se usa en varios lados.
 let temporizador = null; // Lo dejamo global para poderle hacer el clear.
-const NUMERO_INICIAL = 10; //Numero entre 1 y 12 para variar la cantidad de cartas. Siempre termina en 12.
+//const NUMERO_INICIAL = 10; //Numero entre 1 y 12 para variar la cantidad de cartas. Siempre termina en 12.
+
+let numeroInicial = 9; // Por defecto: Fácil (9-12)
+
+const DIFICULTADES = {
+  facil: { nombre: "Fácil", inicio: 9, cartas: "16 cartas" },
+  medio: { nombre: "Medio", inicio: 4, cartas: "36 cartas" },
+  dificil: { nombre: "Difícil", inicio: 1, cartas: "48 cartas" }
+};
 
 const PALO_COLOR = {
   viu: "orange",
@@ -15,6 +23,33 @@ const PALO_COLOR = {
 }; //FIXME: Hacer readonly? Mover dentro del método?
 
 /***** FIN DECLARACIÓN DE VARIABLES GLOBALES *****/
+
+
+/**
+Cambia la dificultad del juego
+ */
+function cambiarDificultad(dificultad) {
+  if (!DIFICULTADES[dificultad]) {
+    return;
+  }
+  numeroInicial = DIFICULTADES[dificultad].inicio;  
+  document.querySelectorAll('.btn-dificultad').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  document.getElementById(`btn-${dificultad}`)?.classList.add('active');
+  comenzarJuego();// Reiniciar juego con nueva dificultad
+}
+
+/**
+ Inicializa el selector de dificultad
+ */
+function inicializarSelectorDificultad() {
+  // Marcar el botón por defecto como activo
+  const btnDefecto = document.getElementById('btn-facil');
+  if (btnDefecto) {
+    btnDefecto.classList.add('active');
+  }
+}
 
 function vaciarMazos() {
   //Vaciamos todo los elementos html que son un mazo (tienen clase mazo)
@@ -47,7 +82,7 @@ function comenzarJuego() {
 function generarMazo() {
   const mazo = [];
   for (let palo of Object.keys(PALO_COLOR)) {
-    for (let numero = NUMERO_INICIAL; numero <= 12; numero++) {
+    for (let numero = numeroInicial; numero <= 12; numero++) {
       let img = document.createElement("img");
       img.src = `imagenes/baraja/${numero}-${palo}.png`;
       img.alt = `${numero} de ${palo}`;

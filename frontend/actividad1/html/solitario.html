@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="es">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta charset="utf-8" />
@@ -34,23 +33,60 @@
           height="50"
         />
       </h1>
+      
       <div class="row">
-        <div class="col">
-          <h2 class="marcador">
-            <i class="bi bi-stopwatch"></i>
-            Tiempo:
-            <span id="contador_tiempo"></span>
-          </h2>
+        <div class="col-md-3 col-12 mb-2 mb-md-0">
+          <!-- NUEVO: Selector de dificultad-->
+          <div class="d-flex flex-column gap-1">
+            <small class="text-white text-center"><i class="bi bi-gear-fill"></i> Dificultad:</small>
+            <button 
+              type="button" 
+              class="btn btn-success btn-sm btn-dificultad" 
+              id="btn-facil"
+              onclick="cambiarDificultad('facil')"
+            >
+              Fácil
+            </button>
+            <button 
+              type="button" 
+              class="btn btn-warning btn-sm btn-dificultad" 
+              id="btn-medio"
+              onclick="cambiarDificultad('medio')"
+            >
+              Medio
+            </button>
+            <button 
+              type="button" 
+              class="btn btn-danger btn-sm btn-dificultad" 
+              id="btn-dificil"
+              onclick="cambiarDificultad('dificil')"
+            >
+              Difícil
+            </button>
+          </div>
         </div>
-        <div class="col">
-          <h2 class="marcador">
-            <i class="bi bi-person-walking fs-4"></i>
-            Movimientos:
-            <span id="contador_movimientos" class="contador"></span
-          </h2>
+        
+        <div class="col-md-9 col-12">
+          <div class="row">
+            <div class="col-6">
+              <h2 class="marcador">
+                <i class="bi bi-stopwatch"></i>
+                <span class="d-none d-sm-inline">Tiempo:</span>
+                <span id="contador_tiempo"></span>
+              </h2>
+            </div>
+            <div class="col-6">
+              <h2 class="marcador">
+                <i class="bi bi-person-walking fs-4"></i>
+                <span class="d-none d-sm-inline">Movimientos:</span>
+                <span id="contador_movimientos" class="contador"></span>
+              </h2>
+            </div>
+          </div>
         </div>
       </div>
     </header>
+    
     <main>
       <div id="mesa">
         <div class="tapetes_superiores">
@@ -73,6 +109,7 @@
             <span id="contador_sobrantes" class="contador"></span>
           </div>
         </div>
+        
         <div id="receptor1" class="tapete receptor">
           <div
             class="mazo"
@@ -114,6 +151,7 @@
         </div>
       </div>
     </main>
+    
     <footer class="container d-flex justify-content-center">
       <button
         id="reset"
@@ -124,12 +162,14 @@
         <i class="bi bi-arrow-clockwise"></i>
       </button>
     </footer>
+    
     <dialog id="miModal">
       <h2>Juego Terminado. ¡Ganaste!</h2>
       <h3>Tiempo: <span id="tiempo-final"></span></h3>
       <h3>Movimientos: <span id="movimientos-final"></span></h3>
       <button onclick="window.miModal.close()">Cerrar</button>
     </dialog>
+    
     <script src="js/solitario.js"></script>
   </body>
 </html>

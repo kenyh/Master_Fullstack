@@ -171,6 +171,15 @@ proyecto/
    - Comprueba si mazos inicial y sobrantes están vacíos
    - Muestra modal con estadísticas
 
+9. `cambiarDificultad()`: Permite recargar la pagina al cambiar la dificultad
+  - Captura el parametro capturado desde el HTML
+  - Muestra el mazo correspondiente a la dificultad 
+  - Inicia el juego
+
+10. `inicializarSelectorDificultad()`: Define la dificutlad Inicial
+  - Inicia el juego en dificultad facil
+
+
 #### 2.3.3 Interacción del Usuario
 
 **Sistema Dual de Movimiento**
@@ -537,9 +546,3 @@ const PALO_COLOR = {
 3. En el móvil abrir: `http://[IP-DEL-PC]:5500`
 
 ---
-
-**Autor**: [Tu Nombre]  
-**Asignatura**: Frontend Development  
-**Institución**: VIU - Universidad Internacional de Valencia  
-**Fecha**: Enero 2026  
-**Versión**: 1.0
