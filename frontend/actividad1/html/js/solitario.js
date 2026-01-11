@@ -44,7 +44,6 @@ function cambiarDificultad(botonActual, dificultad) {
   const icono = document.createElement("i");
   icono.classList.add("bi", "bi-check-lg", "active");
   botonActual.appendChild(icono);
-  comenzarJuego(); // Reiniciar juego con nueva dificultad
 }
 
 function vaciarMazos() {
@@ -64,8 +63,9 @@ function calcularContadorDeMazos(mazos) {
   }
 }
 
-function comenzarJuego() {
-  console.info("Comenzando juego...");
+function comenzarJuego(botonActual, dificultad) {
+  cambiarDificultad(botonActual, dificultad);
+  console.info("Comenzando juego en dificultad", dificultad, "...");
   vaciarMazos();
   const mazo = generarMazo(); //Generamos el mazo
   barajar(mazo); //Desordenamos el mazo
