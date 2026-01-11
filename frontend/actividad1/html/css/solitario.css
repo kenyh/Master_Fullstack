@@ -115,113 +115,7 @@ main {
   background-color: #80af8f;
 }
 
-/* ===== ESTILOS PARA SELECTOR DE DIFICULTAD ===== */
-
-/* Botones de dificultad */
-.btn-dificultad {
-  font-weight: 600;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-/* Efecto hover */
-.btn-dificultad:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Estado activo (botón seleccionado) */
-.btn-dificultad.active {
-  border: 2px solid #fff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  font-weight: 700;
-}
-
-/* Específicos por dificultad */
-.btn-dificultad.btn-success.active {
-  background-color: #28a745;
-  border-color: #fff;
-}
-
-.btn-dificultad.btn-warning.active {
-  background-color: #ffc107;
-  border-color: #fff;
-  color: #000;
-}
-
-.btn-dificultad.btn-danger.active {
-  background-color: #dc3545;
-  border-color: #fff;
-}
-
-/* Select de dificultad (Opción 2) */
-#select-dificultad {
-  min-width: 180px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-#select-dificultad:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-#select-dificultad:focus {
-  border-color: #e65014;
-  box-shadow: 0 0 0 0.2rem rgba(230, 80, 20, 0.25);
-}
-
-/* Label para el select */
-label[for="select-dificultad"] {
-  font-weight: 600;
-  font-size: 1rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
 /* ===== RESPONSIVE - SELECTOR DE DIFICULTAD ===== */
-
-/* Móviles pequeños */
-@media (max-width: 576px) {
-  /* Opción 1: Botones más compactos */
-  .btn-dificultad {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-  }
-  
-  /* Opción 2: Select más pequeño */
-  #select-dificultad {
-    font-size: 0.85rem;
-    min-width: 150px;
-  }
-  
-  label[for="select-dificultad"] {
-    font-size: 0.85rem;
-  }
-}
-
-/* Tablets */
-@media (min-width: 577px) and (max-width: 768px) {
-  .btn-dificultad {
-    font-size: 0.85rem;
-  }
-  
-  #select-dificultad {
-    min-width: 170px;
-  }
-}
-
-/* Desktop grande */
-@media (min-width: 769px) {
-  .btn-dificultad {
-    font-size: 0.95rem;
-    padding: 0.4rem 1rem;
-  }
-  
-  #select-dificultad {
-    min-width: 200px;
-  }
-}
-
 
 .btn-dificultad.active {
   animation: cambio-dificultad 0.3s ease;
@@ -232,7 +126,7 @@ label[for="select-dificultad"] {
   .d-flex.flex-column.gap-1 {
     gap: 0.5rem !important;
   }
-  
+
   .d-flex.flex-column.gap-1 .btn-dificultad {
     width: 100%;
   }

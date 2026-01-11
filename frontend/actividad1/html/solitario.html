@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <meta charset="utf-8" />
     <title>Solitario VIU</title>
     <link
@@ -33,39 +36,8 @@
           height="50"
         />
       </h1>
-      
+
       <div class="row">
-        <div class="col-md-3 col-12 mb-2 mb-md-0">
-          <!-- NUEVO: Selector de dificultad-->
-          <div class="d-flex flex-column gap-1">
-            <small class="text-white text-center"><i class="bi bi-gear-fill"></i> Dificultad:</small>
-            <button 
-              type="button" 
-              class="btn btn-success btn-sm btn-dificultad" 
-              id="btn-facil"
-              onclick="cambiarDificultad('facil')"
-            >
-              Fácil
-            </button>
-            <button 
-              type="button" 
-              class="btn btn-warning btn-sm btn-dificultad" 
-              id="btn-medio"
-              onclick="cambiarDificultad('medio')"
-            >
-              Medio
-            </button>
-            <button 
-              type="button" 
-              class="btn btn-danger btn-sm btn-dificultad" 
-              id="btn-dificil"
-              onclick="cambiarDificultad('dificil')"
-            >
-              Difícil
-            </button>
-          </div>
-        </div>
-        
         <div class="col-md-9 col-12">
           <div class="row">
             <div class="col-6">
@@ -86,7 +58,7 @@
         </div>
       </div>
     </header>
-    
+
     <main>
       <div id="mesa">
         <div class="tapetes_superiores">
@@ -109,7 +81,7 @@
             <span id="contador_sobrantes" class="contador"></span>
           </div>
         </div>
-        
+
         <div id="receptor1" class="tapete receptor">
           <div
             class="mazo"
@@ -151,25 +123,65 @@
         </div>
       </div>
     </main>
-    
-    <footer class="container d-flex justify-content-center">
-      <button
-        id="reset"
-        class="btn btn-danger rounded-pill py-2 mb-1 shadow"
-        onclick="comenzarJuego()"
-        title="Iniciar nueva partida"
-      >
-        <i class="bi bi-arrow-clockwise"></i>
-      </button>
+
+    <footer class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <button
+            type="button"
+            class="btn btn-success btn-sm btn-dificultad w-100 text-nowrap d-flex justify-content-between"
+            onclick="cambiarDificultad(this,'facil')"
+            title="Nueva partida fácil"
+          >
+            <i class="bi bi-arrow-clockwise"></i>
+            <span class="flex-grow-1 text-center">Fácil</span>
+          </button>
+        </div>
+        <div class="col">
+          <button
+            type="button"
+            class="btn btn-warning btn-sm btn-dificultad w-100 text-nowrap d-flex justify-content-between"
+            onclick="cambiarDificultad(this,'medio')"
+            title="Nueva partida media"
+          >
+            <i class="bi bi-arrow-clockwise"></i
+            ><span class="flex-grow-1 text-center">Medio</span>
+          </button>
+        </div>
+        <div class="col">
+          <button
+            type="button"
+            class="btn btn-danger btn-sm btn-dificultad w-100 text-nowrap d-flex justify-content-between"
+            id="btn-dificil"
+            onclick="cambiarDificultad(this,'dificil')"
+            title="Nueva partida dificil"
+          >
+            <i class="bi bi-arrow-clockwise"></i
+            ><span class="flex-grow-1 text-center">Difícil</span>
+          </button>
+        </div>
+        <!-- 
+          Los botones de cambiar dificultad ya inician el juego.
+          <div class="col">
+          <button
+            id="reset"
+            class="btn btn-danger rounded-pill py-2 mb-1 shadow"
+            onclick="comenzarJuego()"
+            title="Iniciar nueva partida"
+          >
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+        </div> -->
+      </div>
     </footer>
-    
+
     <dialog id="miModal">
       <h2>Juego Terminado. ¡Ganaste!</h2>
       <h3>Tiempo: <span id="tiempo-final"></span></h3>
       <h3>Movimientos: <span id="movimientos-final"></span></h3>
       <button onclick="window.miModal.close()">Cerrar</button>
     </dialog>
-    
+
     <script src="js/solitario.js"></script>
   </body>
 </html>

@@ -12,7 +12,7 @@ let numeroInicial = 9; // Por defecto: Fácil (9-12)
 const DIFICULTADES = {
   facil: { nombre: "Fácil", inicio: 9, cartas: "16 cartas" },
   medio: { nombre: "Medio", inicio: 4, cartas: "36 cartas" },
-  dificil: { nombre: "Difícil", inicio: 1, cartas: "48 cartas" }
+  dificil: { nombre: "Difícil", inicio: 1, cartas: "48 cartas" },
 };
 
 const PALO_COLOR = {
@@ -24,31 +24,27 @@ const PALO_COLOR = {
 
 /***** FIN DECLARACIÓN DE VARIABLES GLOBALES *****/
 
-
 /**
 Cambia la dificultad del juego
  */
-function cambiarDificultad(dificultad) {
+function cambiarDificultad(botonActual, dificultad) {
+  console.log({ botonActual });
   if (!DIFICULTADES[dificultad]) {
     return;
   }
-  numeroInicial = DIFICULTADES[dificultad].inicio;  
-  document.querySelectorAll('.btn-dificultad').forEach(btn => {
-    btn.classList.remove('active');
+  numeroInicial = DIFICULTADES[dificultad].inicio;
+  document.querySelectorAll(".btn-dificultad.active").forEach((btn) => {
+    btn.classList.remove("active");
+    const icono = btn.querySelector("i.active");
+    if (icono) icono.remove();
   });
-  document.getElementById(`btn-${dificultad}`)?.classList.add('active');
-  comenzarJuego();// Reiniciar juego con nueva dificultad
-}
 
-/**
- Inicializa el selector de dificultad
- */
-function inicializarSelectorDificultad() {
-  // Marcar el botón por defecto como activo
-  const btnDefecto = document.getElementById('btn-facil');
-  if (btnDefecto) {
-    btnDefecto.classList.add('active');
-  }
+  if (!botonActual) throw new Error("Se perdión el botón.");
+  botonActual.classList.add("active");
+  const icono = document.createElement("i");
+  icono.classList.add("bi", "bi-check-lg", "active");
+  botonActual.appendChild(icono);
+  comenzarJuego(); // Reiniciar juego con nueva dificultad
 }
 
 function vaciarMazos() {
