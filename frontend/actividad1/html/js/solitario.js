@@ -5,7 +5,10 @@ const mazoSobrantes = document.getElementById("mazo-sobrantes"); //Mazo sobrante
 const contMovimientos = document.getElementById("contador_movimientos"); //Acá porque se usa en 2 lugares.
 const contTiempo = document.getElementById("contador_tiempo"); // Aquí porque se usa en varios lados.
 let temporizador = null; // Lo dejamo global para poderle hacer el clear.
-//const NUMERO_INICIAL = 10; //Numero entre 1 y 12 para variar la cantidad de cartas. Siempre termina en 12.
+
+let ultimaCartaMovida = null;
+let mazoOrigenUltimaCartaMovida = null;
+const btnReset = document.getElementById("btn-reset");
 
 let numeroInicial = 9; // Por defecto: Fácil (9-12)
 
@@ -126,6 +129,7 @@ function barajar(mazo) {
   mazo.sort(() => Math.random() - Math.random());
   mazo[mazo.length - 1].draggable = true; //a la de más "arriba" le ponemos draggable.
   mazo[mazo.length - 1]["touch-action"] = "none"; //a la de más "arriba" le ponemos que no arrastre la pantalla en mobile.
+  guardarUltimoMovimiento(null, null); //No se puede deshacer despues de barajar
 } // barajar
 
 function cargarMazoInicial(mazo) {
@@ -151,6 +155,8 @@ function iniciaDrag(event) {
 
 function cartaSoltada(cartaArrastrada, mazoOrigen, mazoDestino) {
   if (!mazoAceptaCarta(mazoDestino, cartaArrastrada)) return;
+
+  guardarUltimoMovimiento(cartaArrastrada, mazoOrigen); //Guardo el movimiento. Eventualmente si es un deshacer, se vuelve a guardar con null luego de esta función.
 
   //En este punto ya sabemos que es válido mover la carta desde origen a destino.
   if (mazoDestino.children.length !== 0) {
@@ -182,6 +188,7 @@ function cartaSoltada(cartaArrastrada, mazoOrigen, mazoDestino) {
 
   //Después que se actualizó todos los contadores y demás,
   verificarJuegoTerminado();
+  //Guardamos el último movimiento. Si viene del deshacer, el propio deshacer las va a setear en null.
 }
 
 function onDrop(event) {
@@ -214,6 +221,10 @@ function mazoAceptaCarta(mazoDiv, cartaImg) {
   const { numero, palo, color } = cartaImg?.dataset || {};
   if (!numero || !palo || !color)
     throw new Error("Falta número, palo y/o color de la carta.");
+
+  if (mazoDiv === mazoOrigenUltimaCartaMovida && ultimaCartaMovida === cartaImg)
+    //Si es un deshacer al maso inicial.
+    return true;
   if (mazoDiv.id === "mazo-inicial") return; // "Mazo inicial no permite recibir cartas
 
   if (mazoDiv.id === "mazo-sobrantes") return true; //Acepta cualquier carta.
@@ -243,6 +254,7 @@ function verificarJuegoTerminado() {
     miModal.querySelector("span#tiempo-final").innerHTML = movimientos;
     miModal.querySelector("span#movimientos-final").innerHTML = tiempo;
     miModal.showModal();
+    guardarUltimoMovimiento(null, null); //Si terminó tampoco permitimos deshacer
   }
 }
 
@@ -274,4 +286,27 @@ function touchEnd(event) {
     return; //Solté sobre algo que no es una carta, ni mazo, ni tapete.
   }
   cartaSoltada(carta, mazoOrigen, mazoDestino);
+}
+
+function guardarUltimoMovimiento(cartaArrastrada, mazoOrigen) {
+  ultimaCartaMovida = cartaArrastrada;
+  mazoOrigenUltimaCartaMovida = mazoOrigen;
+  if (cartaArrastrada && mazoOrigen) {
+    btnReset.disabled = false;
+  } else {
+    btnReset.disabled = true;
+  }
+}
+
+function deshacer() {
+  if (!(ultimaCartaMovida && mazoOrigenUltimaCartaMovida))
+    //No se debería dar por el uso de disabled, pero por las dudas.
+    return guardarUltimoMovimiento(null, null);
+  const mazoDestinoUltimaCartaMovida = ultimaCartaMovida.parentElement;
+  cartaSoltada(
+    ultimaCartaMovida,
+    mazoDestinoUltimaCartaMovida,
+    mazoOrigenUltimaCartaMovida
+  ); //Acá usamos la misma función que ya teníamos, haciendo algún pequeño ajuste.
+  guardarUltimoMovimiento(null, null); //Ya deshicimos, ahora hay que mover antes de volve a habilitar el deshacer.
 }
