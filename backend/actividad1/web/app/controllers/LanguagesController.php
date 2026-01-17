@@ -90,17 +90,14 @@ class LanguagesController extends AbstractController
             header('Location: /languages/list');
             exit;   //Esto hace que no llegue a terminar de ejecutar index.php donde se borra el mensaje de la sesión.
         } catch (PDOException $e) {
-            if ($e->getCode() === '23000') {
-                $_SESSION['message'] = [
-                    "type" => "danger",
-                    "text" => "No puedes eliminar este idioma porque está asociado a una serie."
-                ];
-            } else {
-                $_SESSION['message'] = [
-                    "type" => "danger",
-                    "text" => "Error de base de datos."
-                ];
-            }
+            $text = "Error de base de datos.";
+            $text = $e->getMessage();
+            if ( str_contains($e->getMessage(),"series_audio_languages_language_fk")) {
+                $text = "No puedes eliminar este idioma porque está asociado a una serie (audio).";
+            } else if ( str_contains($e->getMessage(),"series_subtitle_languages_language_fk")) {
+                $text = "No puedes eliminar este idioma porque está asociado a una serie (subtitulo).";
+            } 
+            $_SESSION['message'] = ["type" => "danger","text" => $text];
         } catch (Exception $e) {
             $_SESSION['message'] = ["type" => "danger", "text" => "ERROR: " . $e->getMessage()];
         }

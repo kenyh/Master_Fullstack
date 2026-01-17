@@ -93,17 +93,11 @@ class DirectorsController extends AbstractController
             header('Location: /directors/list');
             exit;   //Esto hace que no llegue a terminar de ejecutar index.php donde se borra el mensaje de la sesión.
         } catch (PDOException $e) {
-            if ($e->getCode() === '23000') {
-                $_SESSION['message'] = [
-                    "type" => "danger",
-                    "text" => "No puedes eliminar este director porque está asociado a una serie."
-                ];
-            } else {
-                $_SESSION['message'] = [
-                    "type" => "danger",
-                    "text" => "Error de base de datos."
-                ];
-            }
+            $text = "Error de base de datos.";
+            if ( str_contains($e->getMessage(),"series_director_fk")) {
+                $text = "No puedes eliminar este director porque está asociado a una serie.";
+            } 
+            $_SESSION['message'] = ["type" => "danger", "text" => $text ];
         } catch (Exception $e) {
             $_SESSION['message'] = ["type" => "danger", "text" => "ERROR: " . $e->getMessage()];
         }

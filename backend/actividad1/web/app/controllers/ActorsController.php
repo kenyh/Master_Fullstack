@@ -21,7 +21,7 @@ class ActorsController extends AbstractController
 
                 $form = $this->validateForm();
 
-                $actor = new Actor(null, $form["name"], $form["surname"], $form["birthday"], $form["nationality"], $form["isActor"], $form["isActor"]);
+                $actor = new Actor(null, $form["name"], $form["surname"], $form["birthday"], $form["nationality"], $form["isActor"], $form["isDirector"]);
                 $this->repository->create($actor);
                 $_SESSION['message'] = ["type" => "success", "text" => "Actor " . $actor->getName() . " creada con éxito."];
                 header('Location: /actors/list');
@@ -93,17 +93,11 @@ class ActorsController extends AbstractController
             header('Location: /actors/list');
             exit;   //Esto hace que no llegue a terminar de ejecutar index.php donde se borra el mensaje de la sesión.
         } catch (PDOException $e) {
-            if ($e->getCode() === '23000') {
-                $_SESSION['message'] = [
-                    "type" => "danger",
-                    "text" => "No puedes eliminar este actor porque está asociado a una serie."
-                ];
-            } else {
-                $_SESSION['message'] = [
-                    "type" => "danger",
-                    "text" => "Error de base de datos."
-                ];
-            }
+            $text = "Error de base de datos.";
+            if ( str_contains($e->getMessage(),"serie_actors_actor_fk")) {
+                $text = "No puedes eliminar este actor porque está asociado a una serie.";
+            } 
+            $_SESSION['message'] = ["type" => "danger","text" => $text];
         } catch (Exception $e) {
             $_SESSION['message'] = ["type" => "danger", "text" => "ERROR: " . $e->getMessage()];
         }

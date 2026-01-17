@@ -46,6 +46,20 @@ class SeriesController extends AbstractController
             }
         } catch (ValidationException $e) {
             $_SESSION['message'] = ["type" => "warning", "text" => $e->getMessage()];
+        } catch (PDOException $e) {
+            $text = "Error de base de datos.";
+            if ( str_contains($e->getMessage(),"series_director_fk")) {
+                $text = "El director seleccionado ya no existe.";
+            }else if ( str_contains($e->getMessage(),"serie_actors_actor_fk")) {
+                $text = "Un actor seleccionado ya no existe.";
+            } else if ( str_contains($e->getMessage(),"series_platform_fk")) {
+                $text = "La plataforma seleccionada ya no existe.";
+            } else if ( str_contains($e->getMessage(),"series_audio_languages_language_fk")) {
+                $text = "Un lenguaje seleccionado ya no existe (audio).";
+            } else if ( str_contains($e->getMessage(),"series_subtitle_languages_language_fk")) {
+                $text = "Un lenguaje seleccionado ya no existe (subtitulo).";
+            }
+            $_SESSION['message'] = ["type" => "danger", "text" => $text];
         } catch (Exception $e) {
             $_SESSION['message'] = ["type" => "danger", "text" => "ERROR: " . $e->getMessage()];
         }
@@ -94,6 +108,20 @@ class SeriesController extends AbstractController
             $_SESSION['message'] = ["type" => "danger", "text" => $e->getMessage()];
             header('Location: /series/list');
             exit;   //Esto hace que no llegue a terminar de ejecutar index.php donde se borra el mensaje de la sesión.
+        } catch (PDOException $e) {
+            $text = "Error de base de datos.";
+            if ( str_contains($e->getMessage(),"series_director_fk")) {
+                $text = "El director seleccionado ya no existe.";
+            }else if ( str_contains($e->getMessage(),"serie_actors_actor_fk")) {
+                $text = "Un actor seleccionado ya no existe.";
+            } else if ( str_contains($e->getMessage(),"series_platform_fk")) {
+                $text = "La plataforma seleccionada ya no existe.";
+            } else if ( str_contains($e->getMessage(),"series_audio_languages_language_fk")) {
+                $text = "Un lenguaje seleccionado ya no existe (audio).";
+            } else if ( str_contains($e->getMessage(),"series_subtitle_languages_language_fk")) {
+                $text = "Un lenguaje seleccionado ya no existe (subtitulo).";
+            }
+            $_SESSION['message'] = ["type" => "danger", "text" => $text];
         } catch (Exception $e) {
             $_SESSION['message'] = ["type" => "danger", "text" => "ERROR: " . $e->getMessage()];
         }
