@@ -5,18 +5,19 @@ const mazoSobrantes = document.getElementById("mazo-sobrantes"); //Mazo sobrante
 const contMovimientos = document.getElementById("contador_movimientos"); //Acá porque se usa en 2 lugares.
 const contTiempo = document.getElementById("contador_tiempo"); // Aquí porque se usa en varios lados.
 let temporizador = null; // Lo dejamo global para poderle hacer el clear.
+let segundos = 0; // cuenta de segundos. Lo necesitamos global para calcular los puntos.
 
 let ultimaCartaMovida = null;
 let mazoOrigenUltimaCartaMovida = null;
-const btnReset = document.getElementById("btn-reset");
-
-let numeroInicial = 9; // Por defecto: Fácil (9-12)
+const btnReset = document.getElementById("btn-deshacer");
 
 const DIFICULTADES = {
-  facil: { nombre: "Fácil", inicio: 9, cartas: "16 cartas" },
+  facil: { nombre: "Fácil", inicio: 11, cartas: "16 cartas" },
   medio: { nombre: "Medio", inicio: 4, cartas: "36 cartas" },
   dificil: { nombre: "Difícil", inicio: 1, cartas: "48 cartas" },
 };
+
+let dificultadActual = DIFICULTADES.facil;
 
 const PALO_COLOR = {
   viu: "orange",
@@ -34,7 +35,7 @@ function cambiarDificultad(botonActual, dificultad) {
   if (!DIFICULTADES[dificultad]) {
     return;
   }
-  numeroInicial = DIFICULTADES[dificultad].inicio;
+  dificultadActual = DIFICULTADES[dificultad];
   document.querySelectorAll(".btn-dificultad.active").forEach((btn) => {
     btn.classList.remove("active");
     const icono = btn.querySelector("i.active");
@@ -60,7 +61,7 @@ function calcularContadorDeMazos(mazos) {
     //Busco el contador asociado a el mazo y le pongo el largo del mazo
     setContador(
       mazo.parentElement.querySelector(".contador"),
-      mazo.children.length
+      mazo.children.length,
     );
   }
 }
@@ -80,7 +81,7 @@ function comenzarJuego(botonActual, dificultad) {
 function generarMazo() {
   const mazo = [];
   for (let palo of Object.keys(PALO_COLOR)) {
-    for (let numero = numeroInicial; numero <= 12; numero++) {
+    for (let numero = dificultadActual.inicio; numero <= 12; numero++) {
       let img = document.createElement("img");
       img.src = `imagenes/baraja/${numero}-${palo}.png`;
       img.alt = `${numero} de ${palo}`;
@@ -100,7 +101,6 @@ function generarMazo() {
 }
 
 function arrancarTiempo() {
-  let segundos = 0; // cuenta de segundos
   if (temporizador) clearInterval(temporizador);
   let hms = function () {
     let seg = Math.trunc(segundos % 60);
@@ -250,11 +250,8 @@ function verificarJuegoTerminado() {
     if (temporizador) clearInterval(temporizador);
     const tiempo = contTiempo.textContent;
     const movimientos = contMovimientos.textContent;
-    const miModal = document.getElementById("miModal");
-    miModal.querySelector("span#tiempo-final").innerHTML = movimientos;
-    miModal.querySelector("span#movimientos-final").innerHTML = tiempo;
-    miModal.showModal();
     guardarUltimoMovimiento(null, null); //Si terminó tampoco permitimos deshacer
+    guardarEnRanking(tiempo, movimientos);
   }
 }
 
@@ -306,7 +303,65 @@ function deshacer() {
   cartaSoltada(
     ultimaCartaMovida,
     mazoDestinoUltimaCartaMovida,
-    mazoOrigenUltimaCartaMovida
+    mazoOrigenUltimaCartaMovida,
   ); //Acá usamos la misma función que ya teníamos, haciendo algún pequeño ajuste.
   guardarUltimoMovimiento(null, null); //Ya deshicimos, ahora hay que mover antes de volve a habilitar el deshacer.
+}
+
+function guardarEnRanking(tiempo, movimientos) {
+  const rankingActual = JSON.parse(
+    localStorage.getItem(dificultadActual.nombre) || "[]",
+  );
+  const puntos = Math.round(
+    1000000 /
+      (segundos + parseInt(movimientos) * 2 + dificultadActual.inicio * 2),
+  );
+  let person = null;
+  while (!person) {
+    person = prompt("Por favor, ingresa tu nombre.");
+  }
+  const entradaActual = {
+    nombre: person,
+    movimientos,
+    tiempo: tiempo,
+    puntos,
+  };
+  rankingActual.push(entradaActual);
+  rankingActual.sort((a, b) => b.puntos - a.puntos);
+  mostrarRanking(rankingActual, entradaActual); //Acá para que muestre el actual, aunque no entre al ranking.
+  localStorage.setItem(
+    dificultadActual.nombre,
+    JSON.stringify(rankingActual.slice(0, 10)),
+  );
+}
+
+function verRankingGuardado() {
+  const rankingActual = JSON.parse(
+    localStorage.getItem(dificultadActual.nombre) || "[]",
+  );
+  mostrarRanking(rankingActual);
+}
+//Separar el mostrar eventualmente nos permitirá mostrar el ranking sin terminar el juego
+function mostrarRanking(rankingActual, entradaActual = null) {
+  const tbody = document.getElementById("body-tabla");
+  tbody.innerHTML = "";
+  const template = rankingActual
+    .map((r, indice) => {
+      return `
+      <tr ${r === entradaActual ? 'class="table-info fs-5"' : ""}>
+        <td>${indice + 1}</td>
+        <td>${r.nombre}</td>
+        <td class="text-center">${r.tiempo}</td>
+        <td class="text-center">${r.movimientos}</td>
+        <td class="text-center">${r.puntos}</td>
+      </tr>
+    `;
+    })
+    .join("");
+  tbody.innerHTML = template;
+  const miModal = document.getElementById("miModal");
+  const modalBS = new bootstrap.Modal(miModal, {
+    keyboard: false,
+  });
+  modalBS.show();
 }
