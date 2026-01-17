@@ -9,7 +9,8 @@ let segundos = 0; // cuenta de segundos. Lo necesitamos global para calcular los
 
 let ultimaCartaMovida = null;
 let mazoOrigenUltimaCartaMovida = null;
-const btnReset = document.getElementById("btn-deshacer");
+const btnDeshacer = document.getElementById("btn-deshacer");
+const tituloModal = document.getElementById("titulo-modal");
 
 const DIFICULTADES = {
   facil: { nombre: "Fácil", inicio: 11, cartas: "16 cartas" },
@@ -289,9 +290,9 @@ function guardarUltimoMovimiento(cartaArrastrada, mazoOrigen) {
   ultimaCartaMovida = cartaArrastrada;
   mazoOrigenUltimaCartaMovida = mazoOrigen;
   if (cartaArrastrada && mazoOrigen) {
-    btnReset.disabled = false;
+    btnDeshacer.disabled = false;
   } else {
-    btnReset.disabled = true;
+    btnDeshacer.disabled = true;
   }
 }
 
@@ -328,6 +329,8 @@ function guardarEnRanking(tiempo, movimientos) {
   };
   rankingActual.push(entradaActual);
   rankingActual.sort((a, b) => b.puntos - a.puntos);
+
+  tituloModal.textContent = "¡Juego " + dificultadActual.nombre + " terminado!";
   mostrarRanking(rankingActual, entradaActual); //Acá para que muestre el actual, aunque no entre al ranking.
   localStorage.setItem(
     dificultadActual.nombre,
@@ -339,6 +342,8 @@ function verRankingGuardado() {
   const rankingActual = JSON.parse(
     localStorage.getItem(dificultadActual.nombre) || "[]",
   );
+
+  tituloModal.textContent = "Ranking " + dificultadActual.nombre;
   mostrarRanking(rankingActual);
 }
 //Separar el mostrar eventualmente nos permitirá mostrar el ranking sin terminar el juego
