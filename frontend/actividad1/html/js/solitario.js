@@ -12,8 +12,9 @@ let mazoOrigenUltimaCartaMovida = null;
 const btnDeshacer = document.getElementById("btn-deshacer");
 const tituloModal = document.getElementById("titulo-modal");
 
+//Se puede cambiar el valor de "inicio" de cualquiera de las dificultades. En dicho caso se recomienda borrar los datos de navegación para el sitio para reiniciar los rankings.
 const DIFICULTADES = {
-  facil: { nombre: "Fácil", inicio: 11, cartas: "16 cartas" },
+  facil: { nombre: "Fácil", inicio: 9, cartas: "16 cartas" },
   medio: { nombre: "Medio", inicio: 4, cartas: "36 cartas" },
   dificil: { nombre: "Difícil", inicio: 1, cartas: "48 cartas" },
 };
@@ -50,12 +51,13 @@ function cambiarDificultad(botonActual, dificultad) {
   botonActual.appendChild(icono);
 }
 
+//Vaciamos todo los elementos html que son un mazo (tienen clase mazo)
 function vaciarMazos() {
-  //Vaciamos todo los elementos html que son un mazo (tienen clase mazo)
   for (const mazo of document.getElementsByClassName("mazo"))
     mazo.innerHTML = "";
 }
 
+//Calcula el contador para los mazos especificados, en base a la cantidad de hijos (cartas)
 function calcularContadorDeMazos(mazos) {
   if (!mazos) mazos = document.getElementsByClassName("mazo");
   for (const mazo of mazos) {
@@ -67,6 +69,7 @@ function calcularContadorDeMazos(mazos) {
   }
 }
 
+//Funcion que agrupa todas las llamadas para configurar e iniciar el juego. Recibimos el botón presionado para personalizar su estilo.
 function comenzarJuego(botonActual, dificultad) {
   cambiarDificultad(botonActual, dificultad);
   console.info("Comenzando juego en dificultad", dificultad, "...");
@@ -79,6 +82,7 @@ function comenzarJuego(botonActual, dificultad) {
   arrancarTiempo(); //Arranca el conteo de tiempo
 }
 
+//Función para generar un mazo con todas las cartas (array de img)
 function generarMazo() {
   const mazo = [];
   for (let palo of Object.keys(PALO_COLOR)) {
@@ -101,6 +105,7 @@ function generarMazo() {
   return mazo;
 }
 
+//Inicializa el contador de tiempo.
 function arrancarTiempo() {
   if (temporizador) clearInterval(temporizador);
   let hms = function () {
@@ -121,6 +126,7 @@ function arrancarTiempo() {
   temporizador = setInterval(hms, 1000);
 }
 
+//Desordena el array recibido.
 function barajar(mazo) {
   if (!mazo || mazo.length === 0)
     throw new Error("El mazo está vacío. No se puede barajar.");
@@ -133,12 +139,14 @@ function barajar(mazo) {
   guardarUltimoMovimiento(null, null); //No se puede deshacer despues de barajar
 } // barajar
 
+//carga el mazo (array de img) en el mazo inicial. Se usa al iniciar juego, o si se queda vacío el mazo inicial y hay que barajar el mazo de sobrantes.
 function cargarMazoInicial(mazo) {
   for (let i = mazo.length - 1; i >= 0; i--) {
     mazoInicial.prepend(mazo[i]);
   }
 }
 
+//Función para asignar un valor a un contador (provista). Esta se mantuvo, incrementar y decrementar se borraron en favor de calcularContadorDeMazos
 function setContador(contador, valor) {
   if (!contador) throw new Error("No especificaste el contador.");
   contador.textContent = valor;
@@ -257,10 +265,11 @@ function verificarJuegoTerminado() {
 }
 
 function touchMove(event) {
-  //Solo sii es una carta draggable, prevengo el desplazamiento por defecto.
+  //Solo sii es una carta draggable, prevengo el desplazamiento por defecto. No nos queremos quedar sin desplazar las cartas del mazo incial cuando no entran en la pantalla.
   if (event?.target?.draggable) event.preventDefault();
 }
 
+//touchEnd debería hacer "lo mismo" que onDrop. Hay que "encontrar" el mazo bajo la posición del dedo para reusar cartaSoltada
 function touchEnd(event) {
   //Solo sii es una carta draggable, prevengo el desplazamiento por defecto.
   if (event?.target?.draggable) event.preventDefault();
@@ -286,6 +295,7 @@ function touchEnd(event) {
   cartaSoltada(carta, mazoOrigen, mazoDestino);
 }
 
+//Guarda el último movimiento para que funcione el deshacer cuando corresponde.
 function guardarUltimoMovimiento(cartaArrastrada, mazoOrigen) {
   ultimaCartaMovida = cartaArrastrada;
   mazoOrigenUltimaCartaMovida = mazoOrigen;
@@ -296,6 +306,7 @@ function guardarUltimoMovimiento(cartaArrastrada, mazoOrigen) {
   }
 }
 
+//Función encargada de deshacer el último movimiento cuando corresponde
 function deshacer() {
   if (!(ultimaCartaMovida && mazoOrigenUltimaCartaMovida))
     //No se debería dar por el uso de disabled, pero por las dudas.
@@ -309,6 +320,7 @@ function deshacer() {
   guardarUltimoMovimiento(null, null); //Ya deshicimos, ahora hay que mover antes de volve a habilitar el deshacer.
 }
 
+//Guardar el resultado del final del juego en el ranking (top 10) si corresponde, para la dificultad actual.
 function guardarEnRanking(tiempo, movimientos) {
   const rankingActual = JSON.parse(
     localStorage.getItem(dificultadActual.nombre) || "[]",
