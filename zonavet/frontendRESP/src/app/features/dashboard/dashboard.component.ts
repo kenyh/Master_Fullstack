@@ -1,7 +1,7 @@
 // src/app/features/dashboard/dashboard.component.ts
 
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterModule } from '@angular/router';
 
 // PrimeNG
@@ -19,16 +19,15 @@ import { FormatCurrencyPipe } from '../../shared/pipes/format-currency.pipe';
 @Component({
     selector: 'app-dashboard',
     imports: [
-        CommonModule,
-        RouterModule,
-        CardModule,
-        ButtonModule,
-        ChipModule,
-        TableModule,
-        TagModule,
-        SkeletonModule,
-        FormatCurrencyPipe
-    ],
+    RouterModule,
+    CardModule,
+    ButtonModule,
+    ChipModule,
+    TableModule,
+    TagModule,
+    SkeletonModule,
+    FormatCurrencyPipe
+],
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })
@@ -102,10 +101,10 @@ export class DashboardComponent implements OnInit {
     this.router.navigate([route]);
   }
   
-  getSeverity(stock: number, stockMinimo: number): 'danger' | 'warning' | 'success' {
+  getSeverity(stock: number, stockMinimo: number): "success" | "info" | "warn" | "secondary" | "contrast" | "danger" {
     if (stock === 0) return 'danger';
     if (stock < stockMinimo / 2) return 'danger';
-    if (stock < stockMinimo) return 'warning';
+    if (stock < stockMinimo) return 'warn';
     return 'success';
   }
 }

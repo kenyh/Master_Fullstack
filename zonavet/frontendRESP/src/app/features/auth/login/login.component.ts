@@ -1,7 +1,7 @@
 // src/app/features/auth/login/login.component.ts
 
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
@@ -18,16 +18,15 @@ import { AuthService } from '../../../core/services/auth.service';
 @Component({
     selector: 'app-login',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        RouterModule,
-        CardModule,
-        InputTextModule,
-        PasswordModule,
-        ButtonModule,
-        CheckboxModule,
-        MessageModule
-    ],
+    ReactiveFormsModule,
+    RouterModule,
+    CardModule,
+    InputTextModule,
+    PasswordModule,
+    ButtonModule,
+    CheckboxModule,
+    MessageModule
+],
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
