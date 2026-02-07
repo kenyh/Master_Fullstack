@@ -17,21 +17,20 @@ import { DashboardStats } from '../../core/models';
 import { FormatCurrencyPipe } from '../../shared/pipes/format-currency.pipe';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    CardModule,
-    ButtonModule,
-    ChipModule,
-    TableModule,
-    TagModule,
-    SkeletonModule,
-    FormatCurrencyPipe
-  ],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+    selector: 'app-dashboard',
+    imports: [
+        CommonModule,
+        RouterModule,
+        CardModule,
+        ButtonModule,
+        ChipModule,
+        TableModule,
+        TagModule,
+        SkeletonModule,
+        FormatCurrencyPipe
+    ],
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
   authService = inject(AuthService);

@@ -17,21 +17,20 @@ import { AuthService } from '../../core/services/auth.service';
 import { MenuItem } from 'primeng/api';
 
 @Component({
-  selector: 'app-main-layout',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    SidebarModule,
-    ButtonModule,
-    MenuModule,
-    AvatarModule,
-    BadgeModule,
-    RippleModule,
-    TooltipModule
-  ],
-  templateUrl: './main-layout.component.html',
-  styleUrls: ['./main-layout.component.scss']
+    selector: 'app-main-layout',
+    imports: [
+        CommonModule,
+        RouterModule,
+        SidebarModule,
+        ButtonModule,
+        MenuModule,
+        AvatarModule,
+        BadgeModule,
+        RippleModule,
+        TooltipModule
+    ],
+    templateUrl: './main-layout.component.html',
+    styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent implements OnInit {
   authService = inject(AuthService);
