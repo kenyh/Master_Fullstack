@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
     user:  node
     working_dir : "/frontend"
-    command: "npm i && npm start"
+    # command: "npm i && npm start"
     tty : true
     volumes : 
       - ./frontend:/frontend
