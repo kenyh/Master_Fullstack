@@ -10,6 +10,6 @@ import { RouterOutlet } from '@angular/router';
   `,
   styles: []
 })
-export class AppComponent {
+export class App {
   protected readonly title = signal('zonavet');
 }

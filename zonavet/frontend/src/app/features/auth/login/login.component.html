@@ -1,0 +1,131 @@
+<!-- src/app/features/auth/login/login.component.html -->
+
+<div class="login-container">
+  <div class="login-wrapper">
+    <!-- Card Principal -->
+    <p-card styleClass="login-card">
+      <ng-template pTemplate="header">
+        <div class="login-header">
+          <div class="logo-container">
+            <i class="pi pi-heart-fill" style="font-size: 3rem; color: var(--primary-color);"></i>
+          </div>
+          <h1 class="login-title">ZonaVet</h1>
+          <p class="login-subtitle">Sistema de Gestión Veterinaria</p>
+        </div>
+      </ng-template>
+      
+      <!-- Formulario de Login -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        
+        <!-- Mensaje de Error -->
+        @if (errorMessage()) {
+          <p-message 
+            severity="error" 
+            [text]="errorMessage()!" 
+            styleClass="w-full mb-3"
+          />
+        }
+        
+        <!-- Campo Email -->
+        <div class="field">
+          <label for="email" class="block mb-2">Correo Electrónico</label>
+          <span class="p-input-icon-left w-full">
+            <i class="pi pi-envelope"></i>
+            <input 
+              pInputText 
+              id="email"
+              formControlName="email"
+              placeholder="ejemplo@correo.com"
+              class="w-full"
+              [class.ng-invalid]="email?.invalid && email?.touched"
+            />
+          </span>
+          @if (email?.invalid && email?.touched) {
+            <small class="text-red-500">
+              @if (email?.errors?.['required']) {
+                El correo es requerido
+              } @else if (email?.errors?.['email']) {
+                Ingrese un correo válido
+              }
+            </small>
+          }
+        </div>
+        
+        <!-- Campo Password -->
+        <div class="field">
+          <label for="password" class="block mb-2">Contraseña</label>
+          <span class="p-input-icon-left w-full">
+            <i class="pi pi-lock"></i>
+            <p-password 
+              formControlName="password"
+              [toggleMask]="true"
+              [feedback]="false"
+              placeholder="Ingrese su contraseña"
+              styleClass="w-full"
+              [inputStyleClass]="'w-full'"
+              [class.ng-invalid]="password?.invalid && password?.touched"
+            />
+          </span>
+          @if (password?.invalid && password?.touched) {
+            <small class="text-red-500">
+              @if (password?.errors?.['required']) {
+                La contraseña es requerida
+              } @else if (password?.errors?.['minlength']) {
+                Mínimo 3 caracteres
+              }
+            </small>
+          }
+        </div>
+        
+        <!-- Recordarme -->
+        <div class="field-checkbox mb-4">
+          <p-checkbox 
+            formControlName="rememberMe" 
+            [binary]="true" 
+            inputId="rememberMe"
+          />
+          <label for="rememberMe" class="ml-2">Recordarme</label>
+        </div>
+        
+        <!-- Botón Login -->
+        <button 
+          pButton 
+          type="submit" 
+          label="Iniciar Sesión"
+          icon="pi pi-sign-in"
+          class="w-full"
+          [loading]="loading()"
+          [disabled]="loginForm.invalid || loading()"
+        ></button>
+      </form>
+      
+      <ng-template pTemplate="footer">
+        <!-- Usuarios de Prueba -->
+        <div class="usuarios-prueba mt-4">
+          <p class="text-center text-sm text-gray-600 mb-3">
+            <i class="pi pi-info-circle mr-1"></i>
+            Usuarios de Prueba
+          </p>
+          <div class="grid">
+            @for (usuario of usuariosEjemplo; track usuario.tipo) {
+              <div class="col-12 md:col-4">
+                <button 
+                  pButton 
+                  [label]="usuario.tipo"
+                  type="button"
+                  class="p-button-outlined p-button-sm w-full"
+                  (click)="llenarCredenciales(usuario.tipo)"
+                  [disabled]="loading()"
+                >
+                </button>
+              </div>
+            }
+          </div>
+          <p class="text-center text-xs text-gray-500 mt-2">
+            Haz clic en cualquier rol para autocompletar las credenciales
+          </p>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
