@@ -44,8 +44,8 @@ services:
       - ./backend:/var/www/html
       - zonavetvendor:/var/www/html/vendor
     restart: unless-stopped
-    ports:
-      - 8000:8000
+    # ports:
+    #   - 8000:8000
     networks: 
       - front
       - back
@@ -63,6 +63,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    volumes:
+      - zonavet_db_data:/var/lib/postgresql/data
 
 networks: 
   front:
@@ -79,3 +81,4 @@ volumes:
   zonavetnode_modules: # Definir el volumen aquí lo hace persistente
   zonavet.angular:     # Lo mismo para la caché de Angular
   zonavetvendor:       # Lo mismo para vendor del backend.
+  zonavet_db_data:     # Lo mismo para los datos de la base.
