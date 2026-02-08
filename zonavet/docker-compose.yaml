@@ -21,11 +21,12 @@ services:
     restart: unless-stopped
     user:  node
     working_dir : "/frontend"
-    command: "npm i && npm start"
+    command: sh -c "npm i && npm start"
     tty : true
     volumes : 
       - ./frontend:/frontend
-      - /frontend/node_modules
+      - zonavetnode_modules:/frontend/node_modules 
+      - zonavet.angular:/frontend/.angular          
     networks:
       - front
   backend:
@@ -41,7 +42,7 @@ services:
         condition: service_healthy
     volumes:
       - ./backend:/var/www/html
-      - /var/www/html/vendor
+      - zonavetvendor:/var/www/html/vendor
     restart: unless-stopped
     ports:
       - 8000:8000
@@ -50,6 +51,7 @@ services:
       - back
   db:
     image: postgres:17-alpine
+    container_name: zonavetdb
     env_file:
       - ./backend/.env
     ports:
@@ -67,3 +69,13 @@ networks:
     driver: bridge
   back:
     driver: bridge
+
+# Hacemos volumenes nombrados para que las dependencias no se almacenen en local
+# No se creen nuevos volumenes cada vez que levantamos los contenedoresPero que los podemos 
+# Pero que los podamos borrar con docker volume prune (borra todos los volumenes que haya)
+# Esta forma es más eficiente que tener node_modules en el host, sobre todo si es una carpeta
+# en el sistema de archivos de windows.
+volumes:
+  zonavetnode_modules: # Definir el volumen aquí lo hace persistente
+  zonavet.angular:     # Lo mismo para la caché de Angular
+  zonavetvendor:       # Lo mismo para vendor del backend.
