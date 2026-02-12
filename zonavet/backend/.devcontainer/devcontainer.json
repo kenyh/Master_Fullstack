@@ -16,6 +16,10 @@
                 "shufo.vscode-blade-formatter"
             ],
             "settings": {
+                "git.openRepositoryInParentFolders": "always",
+                "git.config": {
+                    "safe.directory": "/var/www/html"
+                },
                 "laravel-pint.enable": true,
                 "laravel-pint.executablePath": "./vendor/bin/pint",
                 "[json]": {
