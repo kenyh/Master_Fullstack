@@ -1,10 +1,12 @@
 # Usemos base alpine para que sea agil.
-FROM php:8.5-fpm-alpine AS base 
+FROM php:8.5-fpm-alpine AS base
 # Extensiones de php
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-# Zona horaria y extensiones necesarias para Laravel + Postgres
+# Zona horaria
 ENV TZ=America/Montevideo
+
+#extensiones necesarias para Laravel + Postgres
 RUN install-php-extensions pdo_pgsql intl pcntl zip bcmath opcache
 
 # Instalamos Composer
@@ -12,8 +14,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Stage Development
 FROM base AS development
-# Solo para desa instalamos git
-RUN apk add --no-cache git bash
+# Solo para desa instalamos git y bash y dependencias necesarias para que VS Code funcione dentro de un contenedor Alpine
+RUN apk add --no-cache git bash libstdc++ gcompat icu-libs
 
 # Creamos usuario laravel para laravel. XD
 RUN addgroup -g 1000 laravel && adduser -G laravel -u 1000 -D laravel
