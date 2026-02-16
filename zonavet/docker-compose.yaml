@@ -20,13 +20,13 @@ services:
       target: development
     restart: unless-stopped
     user:  node
-    working_dir : "/frontend"
     command: sh -c "npm i && npm start"
     tty : true
     volumes : 
-      - ./frontend:/frontend
-      - zonavetnode_modules:/frontend/node_modules 
-      - zonavet.angular:/frontend/.angular          
+    # todo el proyecto al volumen para poder usar git dentro del contenedor.
+      - ./:/zonavet
+      - zonavetnode_modules:/zonavet/frontend/node_modules 
+      - zonavet.angular:/zonavet/frontend/.angular          
     networks:
       - front
   backend:
@@ -41,8 +41,9 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - ./backend:/var/www/html
-      - zonavetvendor:/var/www/html/vendor
+      # todo el proyecto al volumen para poder usar git dentro del contenedor.
+      - ./:/zonavet
+      - zonavetvendor:/zonavet/backend/vendor
     restart: unless-stopped
     # ports:
     #   - 8000:8000
