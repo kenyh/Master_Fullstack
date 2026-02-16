@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-//Arranca en /api
+// Arranca en /api
 
 // Route::get('/', function (Request $request) {
 //     return $request->user();

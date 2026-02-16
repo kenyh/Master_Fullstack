@@ -5,10 +5,8 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  template: `
-    <router-outlet></router-outlet>
-  `,
-  styles: []
+  template: ` <router-outlet></router-outlet> `,
+  styles: [],
 })
 export class App {
   protected readonly title = signal('zonavet');
