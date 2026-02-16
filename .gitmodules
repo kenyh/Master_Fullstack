@@ -1,0 +1,3 @@
+[submodule "Zonavet"]
+	path = Zonavet
+	url = https://github.com/jorge-melnik/zonavet.git
