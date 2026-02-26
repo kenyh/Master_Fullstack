@@ -1,6 +1,4 @@
-[submodule "Zonavet"]
-	path = Zonavet
-	url = https://github.com/jorge-melnik/zonavet.git
 [submodule "zonavet"]
 	path = zonavet
 	url = https://github.com/jorge-melnik/zonavet.git
+	branch = main
